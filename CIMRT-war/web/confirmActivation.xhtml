@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Activate Staff</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Activate Staff</h1></div>
+
+                    <h:form>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="staffId" value="Staff ID: " />
+                            <h:outputText id="staffId" value="#{attendanceManagedBean.selectedStaff.staffId}" />
+                            <p:message for="staffId"/>
+
+                            <p:outputLabel for="name" value="Name: " />
+                            <h:outputText id="name" value="#{attendanceManagedBean.selectedStaff.firstName} #{attendanceManagedBean.selectedStaff.lastName}" />
+                            <p:message for="name"/>
+
+                            <p:outputLabel for="title" value="Title: " />
+                            <p:inputTextarea id="title" rows="2" cols="50" required="true" value="#{attendanceManagedBean.title}"/>
+                            <p:message for="title"/>
+
+                            <p:outputLabel for="description" value="Description: " />
+                            <p:inputTextarea id="description" rows="4" cols="50" required="true" value="#{attendanceManagedBean.description}"/> 
+                            <p:message for="description"/>
+
+                            <p:outputLabel for="location" value="Reporting Venue: " />
+                            <p:selectOneMenu id="location" required="true" value="#{attendanceManagedBean.nodeString}" requiredMessage="Reporting Venue: Please select a node">
+                                <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                <f:selectItems value="#{attendanceManagedBean.nodes}" />
+                            </p:selectOneMenu>
+                            <p:message for="location"/>
+
+                            <p:outputLabel for="inTime" value="Expected Report Time: " />
+                            <p:calendar id="inTime" value="#{attendanceManagedBean.inTime}" mindate="#{attendanceManagedBean.today}" required="true" requiredMessage="Report Time: Value is required" readonlyInput="true" pattern="dd/MM/yyyy HH:mm">
+                            </p:calendar>
+                            <p:message for="inTime"/>
+
+                            <p:outputLabel for="outTime" value="Expected End Time: " />
+                            <p:calendar id="outTime" value="#{attendanceManagedBean.outTime}" required="true" requiredMessage="End Time: Value is required." readonlyInput="true" mindate="#{attendanceManagedBean.today}" pattern="dd/MM/yyyy HH:mm">
+                            </p:calendar>
+                            <p:message for="outTime"/>
+                            <p:spacer/>
+                            <p:commandButton value="Confirm Activation" ajax="false" action="#{attendanceManagedBean.confirmStaffActivation}" />
+                        </h:panelGrid>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

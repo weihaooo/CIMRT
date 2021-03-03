@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true" gutter="0">
+                    <div align="center">
+                        <h:graphicImage value="resources/image/CIMRTBG.png" style="width: 16%"/>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="25" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="0">
+                    @Copyright CIMRT
+                    <h:outputText value="#{sessionScope['staffId']}" /> 
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="CIMRT Internal Staff" collapsible="true" gutter="0">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+
+                    <h:form id="form" rendered="#{operationsManagedBean.tempAssetType eq 'TrainCarEntity'}">
+                        <div id="list"><h1>Submit Maintenance Report</h1></div>
+
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="mainReqId" value="Maintenance Request Id: " />        
+                            <h:outputText id="mainReqId" value="#{operationsManagedBean.mainReqId}" style="width:300px" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="remark" value="Remarks for request:" />        
+                            <h:outputText id="remark" value="#{operationsManagedBean.remark}" style="width:800px; height:120px" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="assetDetails" value="Faulty Asset:" />        
+                            <h:outputText id="assetDetails" value="#{operationsManagedBean.assetDetails}" style="width:800px; height:120px" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="rptTitle" value="Report Title:" />        
+                            <p:inputText id="rptTitle" required="true" value="#{maintenanceManagedBean.rptTitle}" style="width:300px;" requiredMessage="Please input title for this report"/>                              
+                            <p:message for="rptTitle" />
+
+                            <p:outputLabel for="reportDescription" value="Description:" />        
+                            <p:inputTextarea id="reportDescription" required="true" value="#{maintenanceManagedBean.reportDescription}" style="width:300px; height:600px;" requiredMessage="Please input maintenance description for report"/>                              
+                            <p:message for="reportDescription" />
+
+                            <p:outputLabel for="maintenanceStatus" value="Maintenance Outcome:" />        
+                            <p:selectOneMenu id="maintenanceStatus" value="#{maintenanceManagedBean.maintenanceStatus}" style="width:200px" requiredMessage="Please input outcome">                              
+                                <f:selectItem itemLabel="Select Outcome" itemValue="" />
+                                <f:selectItem itemLabel="Spoilt" itemValue="Spoilt" />
+                                <f:selectItem itemLabel="Processing" itemValue="Processing" />
+                                <f:selectItem itemLabel="Repaired" itemValue="Repaired" />
+                            </p:selectOneMenu>
+                            <p:message for="maintenanceStatus" /><p:spacer/>
+
+                            <h:commandButton value="Submit Report" actionListener="#{maintenanceManagedBean.createMaintenanceReportTrainCar(operationsManagedBean.mainReqId,
+                                                                                     maintenanceManagedBean.maintenanceStatus,operationsManagedBean.assetDetails)}" />
+
+                        </h:panelGrid>
+                    </h:form>
+
+                    <h:form id="form2" rendered="#{operationsManagedBean.tempAssetType eq 'NodeAssetEntity'}">
+                        <div id="list"><h1>Submit Maintenance Report</h1></div>
+                        
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="mainReqId" value="Maintenance Request Id: " />        
+                            <h:outputText id="mainReqId" value="#{operationsManagedBean.mainReqId}" style="width:300px" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="remark" value="Remarks for request:" />        
+                            <h:outputText id="remark" value="#{operationsManagedBean.remark}" style="width:800px; height:120px" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="assetDetails" value="Faulty Asset:" />        
+                            <h:outputText id="assetDetails" value="#{operationsManagedBean.assetDetails}" style="width:800px; height:120px" />
+                            <p:spacer/>
+
+
+                            <p:outputLabel for="rptTitle" value="Report Title:" />        
+                            <p:inputText id="rptTitle" required="true" value="#{maintenanceManagedBean.rptTitle}" style="width:300px;" requiredMessage="Please input title for this report"/>                              
+                            <p:message for="rptTitle" />
+
+
+                            <p:outputLabel for="reportDescription" value="Description:" />        
+                            <p:inputTextarea id="reportDescription" required="true" value="#{maintenanceManagedBean.reportDescription}" style="width:300px; height:600px;" requiredMessage="Please input maintenance description for report"/>                              
+                            <p:message for="reportDescription" />
+
+
+                            <p:outputLabel for="maintenanceStatus" value="Maintenance Outcome:" />        
+                            <p:selectOneMenu id="maintenanceStatus" required="true" value="#{maintenanceManagedBean.maintenanceStatus}" style="width:200px" requiredMessage="Please input outcome!">                              
+                                <f:selectItem itemLabel="Select Outcome" itemValue="" />
+                                <f:selectItem itemLabel="Spoilt" itemValue="Spoilt" />
+                                <f:selectItem itemLabel="Processing" itemValue="Processing" />
+                                <f:selectItem itemLabel="Repaired" itemValue="Repaired" />
+                              <p:ajax listener="#{maintenanceManagedBean.onSelectionChange}" update="qtySpoilt" />
+                            </p:selectOneMenu>
+                            <p:message for="maintenanceStatus" />
+                          
+                            
+                            <p:outputLabel for="qtySpoilt" value="Quantity Spoilt:" /> 
+                            <p:selectOneMenu id="qtySpoilt" value="#{maintenanceManagedBean.qtySpoilt}" style="width:100px" required="true" requiredMessage="Please input spoilt quantity"  effect="fold" editable="true" disabled="#{maintenanceManagedBean.appear}">                              
+                                <f:selectItem itemLabel="Select Quantity" itemValue="" />
+                              
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                                <f:selectItem itemLabel="3" itemValue="3" />
+                                <f:selectItem itemLabel="4" itemValue="4" />
+                                <f:selectItem itemLabel="5" itemValue="5" />
+                                <f:selectItem itemLabel="6" itemValue="6" />
+                                <f:selectItem itemLabel="7" itemValue="7" />
+                                <f:selectItem itemLabel="8" itemValue="8" />
+                                <f:selectItem itemLabel="9" itemValue="9" />
+                                <f:selectItem itemLabel="10" itemValue="10" />
+                            </p:selectOneMenu>
+                            <p:message for="qtySpoilt"/><p:spacer/>
+
+
+                            <h:commandButton value="Submit Report" actionListener="#{maintenanceManagedBean.createMaintenanceReport(operationsManagedBean.mainReqId, operationsManagedBean.assetDetails)}" />
+
+                       </h:panelGrid>
+                    </h:form>
+
+                    <h:form id="form3" rendered="#{operationsManagedBean.tempAssetType eq 'RollingStockAssetEntity'}">
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <h:panelGrid columns="6" cellpadding="5" border="1">
+
+                            <p:outputLabel for="mainReqId" value="Maintenance Request Id: " />        
+                            <h:outputText id="mainReqId" value="#{operationsManagedBean.mainReqId}" style="width:300px" />
+                            <p:spacer/><p:spacer/><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="remark" value="Remarks for request:" />        
+                            <h:outputText id="remark" value="#{operationsManagedBean.remark}" style="width:800px; height:120px" />
+                            <p:spacer/><p:spacer/><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="assetDetails" value="Faulty Asset:" />        
+                            <h:outputText id="assetDetails" value="#{operationsManagedBean.assetDetails}" style="width:800px; height:120px" />
+                            <p:spacer/><p:spacer/><p:spacer/><p:spacer/>
+
+
+                            <p:outputLabel for="rptTitle" value="Report Title:" />        
+                            <p:inputText id="rptTitle" required="true" value="#{maintenanceManagedBean.rptTitle}" style="width:300px;" requiredMessage="Please input title for this report"/>                              
+                            <p:message for="rptTitle" />
+                            <p:spacer/><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="reportDescription" value="Description:" />        
+                            <p:inputTextarea id="reportDescription" required="true" value="#{maintenanceManagedBean.reportDescription}" style="width:300px; height:600px;" requiredMessage="Please input maintenance description for report"/>                              
+                            <p:message for="reportDescription" />
+                            <p:spacer/><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="maintenanceStatus" value="Maintenance Outcome:" />        
+                            <p:selectOneMenu id="maintenanceStatus" value="#{maintenanceManagedBean.maintenanceStatus}" style="width:200px" requiredMessage="Please input outcome">                              
+                                <f:selectItem itemLabel="Select Outcome" itemValue="" />
+                                <f:selectItem itemLabel="Spoilt" itemValue="Spoilt" />
+                                <f:selectItem itemLabel="Processing" itemValue="Processing" />
+                                <f:selectItem itemLabel="Repaired" itemValue="Repaired" />
+                                 <p:ajax listener="#{maintenanceManagedBean.onSelectionChange}" update="qtySpoilt" />
+                            </p:selectOneMenu>
+                            <p:message for="maintenanceStatus" />
+                            <p:spacer/><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="qtySpoilt" value="Quantity Spoilt:" />        
+                            <p:selectOneMenu id="qtySpoilt" value="#{maintenanceManagedBean.qtySpoilt}" style="width:100px" requiredMessage="Please input spoilt quantity"  effect="fold" editable="true" disabled="#{maintenanceManagedBean.appear}">                              
+                                <f:selectItem itemLabel="Select Quantity" itemValue="" />
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                                <f:selectItem itemLabel="3" itemValue="3" />
+                                <f:selectItem itemLabel="4" itemValue="4" />
+                                <f:selectItem itemLabel="5" itemValue="5" />
+                                <f:selectItem itemLabel="6" itemValue="6" />
+                                <f:selectItem itemLabel="7" itemValue="7" />
+                                <f:selectItem itemLabel="8" itemValue="8" />
+                                <f:selectItem itemLabel="9" itemValue="9" />
+                                <f:selectItem itemLabel="10" itemValue="10" />
+                            </p:selectOneMenu>
+                            <p:message for="qtySpoilt" />
+                            <p:spacer/>
+
+                            <h:commandButton value="Submit Report" actionListener="#{maintenanceManagedBean.createMaintenanceReport(operationsManagedBean.mainReqId, operationsManagedBean.assetDetails)}" />
+
+                        </h:panelGrid>
+                    </h:form>
+
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

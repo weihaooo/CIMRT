@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="99.5%" style="margin-left: 2pt"><tr><td>
+                    <div class="card" id="breadcrumbList"></div>
+
+
+                   
+                        <p:growl id="growl" severity="info,error" showDetail="true" autoUpdate="true" />
+                    <h:form id="form">
+                        <p:tabView>
+
+                            <p:tab title="Current Leasing" >
+                                <p:dataTable id="table" var="LeasingContractEntity" value="#{bpTenderManagedBean.getLeasingRequestList1()}" style="margin-bottom:20px" rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30" 
+                                             widgetVar="currentLeasingTable" filteredValue="#{bpTenderManagedBean.filteredCurrentLeasing}" emptyMessage="No record found"
+                                             >
+
+                                    <f:facet name="header">
+                                        <div align="right">
+                                            <h:panelGroup styleClass="md-inputfield">
+                                                <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('currentLeasingTable').filter()" style="width:120px"/>
+                                                <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                            </h:panelGroup>
+                                        </div>
+                                    </f:facet>
+
+                                    <p:column headerText="Contract ID" style="width: 12%" filterBy="#{LeasingContractEntity.leasingContractId}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.leasingContractId}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Years Of Contract" width="10%" filterBy="#{LeasingContractEntity.yearsOfContract}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.yearsOfContract}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Station" style="width:60px" filterBy="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Unit Number" style="width:12%" filterBy="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}" filterStyle="display:none">     
+                                        <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}"  /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Usage" style="width:14%" filterBy="#{LeasingContractEntity.getLeasingSpace().getAssetName()}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getAssetName()}" /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Rental Fee" style="width:100px" filterBy="#{LeasingContractEntity.getLeasingSpace().getRentalFee()}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="$#{LeasingContractEntity.getLeasingSpace().getRentalFee()}/mth." /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Deposit" style="width:80px" filterBy="#{LeasingContractEntity.deposit}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="$#{LeasingContractEntity.deposit}" /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Start Date" style="width: 11%" filterBy="#{LeasingContractEntity.startDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                                <f:param value="#{LeasingContractEntity.startDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="End Date" style="width: 11%" filterBy="#{LeasingContractEntity.endDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                                <f:param value="#{LeasingContractEntity.endDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="View Progress" style="width:65px">
+                                        <p:commandLink action="#{bpTenderManagedBean.goViewLeaseContract(LeasingContractEntity.leasingContractId)}" >
+                                            <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 45%" /></div>
+                                        </p:commandLink>
+                                    </p:column>
+
+                                    <p:column headerText="Renewal" style="width:65px">
+                                        <p:commandLink action="#{bpTenderManagedBean.goRenewLeaseContract(LeasingContractEntity.leasingContractId)}" rendered="#{bpTenderManagedBean.checkLeaseTerminate(LeasingContractEntity.leasingContractId) == true}">
+                                            <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 45%" /></div>
+                                        </p:commandLink>
+                                    </p:column>
+
+                                    <p:column headerText="Terminate" style="width:65px">
+                                        <p:growl id="message" severity="info,error" showDetail="true" />
+                                        <p:commandLink action="#{bpTenderManagedBean.goTerminateLeasingContract(LeasingContractEntity.leasingContractId)}" update="form" rendered="#{LeasingContractEntity.status != 'End of Contract' and LeasingContractEntity.status =='On Contract'}">
+                                            <p:confirm header="Confirmation" message="Are you sure you want to terminate?" icon="ui-icon-alert" />
+                                            <div align="center"><h:graphicImage value="resources/image/delete.png" style="width: 45%" /></div>
+                                        </p:commandLink>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <div align="center">
+                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </div>
+                                        </p:confirmDialog>
+                                    </p:column>
+
+                                </p:dataTable>    
+                            </p:tab>
+
+                            <p:tab title="Leasing History" >
+                                <p:dataTable id="table1"  var="LeasingContractEntity" value="#{bpTenderManagedBean.getLeasingRequestList2()}" style="margin-bottom:20px" rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30" widgetVar="leasingHistoryTable" filteredValue="#{bpTenderManagedBean.filteredLeasingHistory}" emptyMessage="No record found"
+                                             >
+                                    <f:facet name="header">
+                                        <div align="right">
+                                            <h:panelGroup styleClass="md-inputfield">
+                                                <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('leasingHistoryTable').filter()" style="width:120px"/>
+                                                <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                            </h:panelGroup>
+                                        </div>
+                                    </f:facet>
+
+                                    <p:column headerText="Contract ID" style="width: 11%" filterBy="#{LeasingContractEntity.leasingContractId}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.leasingContractId}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Years Of Contract" width="16%" filterBy="#{LeasingContractEntity.yearsOfContract}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.yearsOfContract}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Station" style="width:60px" filterBy="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Unit Number" style="width:13%" filterBy="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}" filterStyle="display:none">     
+                                        <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}"  /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Usage" style="width:14%" filterBy="#{LeasingContractEntity.getLeasingSpace().getAssetName()}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getAssetName()}" /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Rental Fee" style="width:100px" filterBy="#{LeasingContractEntity.getLeasingSpace().getRentalFee()}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="$#{LeasingContractEntity.getLeasingSpace().getRentalFee()}/mth." /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Deposit" style="width:100px" filterBy="#{LeasingContractEntity.deposit}" filterStyle="display:none">
+                                        <div align="center"><h:outputText value="$#{LeasingContractEntity.deposit}" /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Start Date" style="width: 13%" filterBy="#{LeasingContractEntity.startDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                                <f:param value="#{LeasingContractEntity.startDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="End Date" style="width: 13%" filterBy="#{LeasingContractEntity.endDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                                <f:param value="#{LeasingContractEntity.endDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Status" style="width: 13%" filterBy="#{LeasingContractEntity.status}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.status}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Contract" style="width:65px">
+                                        <p:commandLink action="#{bpTenderManagedBean.goViewLeaseContract(LeasingContractEntity.leasingContractId)}" rendered="#{LeasingContractEntity.status == 'End of Contract'}">
+                                            <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 45%" /></div>
+                                        </p:commandLink>
+                                    </p:column>
+
+                                </p:dataTable>    
+                            </p:tab>
+
+                            <p:tab title="Leasing Request">
+                                <p:dataTable id="table2" var="LeasingContractEntity" value="#{bpTenderManagedBean.getLRList()}" style="margin-bottom:20px" rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30" widgetVar="leasingRequestTable" filteredValue="#{bpTenderManagedBean.filteredLeasingRequest}" emptyMessage="No record found"
+                                             >
+
+                                    <f:facet name="header">
+                                        <div align="right">
+                                            <h:panelGroup styleClass="md-inputfield">
+                                                <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('leasingRequestTable').filter()" style="width:120px"/>
+                                                <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                            </h:panelGroup>
+                                        </div>
+                                    </f:facet>
+
+
+                                    <p:column headerText="Request ID" style="width: 11%" filterBy="#{LeasingContractEntity.leasingContractId}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.leasingContractId}" />
+                                        </div>
+                                    </p:column>
+
+
+                                    <p:column headerText="Years Of Contract" width="12%" filterBy="#{LeasingContractEntity.yearsOfContract}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.yearsOfContract}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Submitted Date" style="width: 22%" filterBy="#{LeasingContractEntity.submittedDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, dd-MM-yyyy HH:mm:ss}">
+                                                <f:param value="#{LeasingContractEntity.submittedDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+
+                                    <p:column headerText="Location" width="12%" filterBy="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Unit Number" style="width:13%" filterBy="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}" filterStyle="display:none">     
+                                        <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}"  /></div>
+                                    </p:column>
+
+                                    <p:column headerText="Status" style="width: 11%" filterBy="#{LeasingContractEntity.status}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{LeasingContractEntity.status}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Edit" style="width:60px">
+                                        <p:commandLink action="#{bpTenderManagedBean.goEditLC(LeasingContractEntity.leasingContractId)}"  rendered="#{LeasingContractEntity.getStatus() == ('Submitted')}">
+                                            <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 45%" /></div>
+                                        </p:commandLink>
+                                    </p:column>
+
+                                    <p:column headerText="Delete" style="width:60px">
+                                        <p:growl id="message" severity="info,error" showDetail="true" />
+                                        <p:commandLink action="#{bpTenderManagedBean.goDeleteLC(LeasingContractEntity.leasingContractId)}" update="table2" rendered="#{LeasingContractEntity.getStatus() == ('Submitted')}">
+                                            <p:confirm header="Confirmation" message="Are you sure you want to delete this request?" icon="ui-icon-alert" />
+                                            <div align="center"><h:graphicImage value="resources/image/delete.png" style="width: 45%" /></div>
+                                        </p:commandLink>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <div align="center">
+                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </div>
+                                        </p:confirmDialog>
+                                    </p:column>
+
+                                    <p:column headerText="View Progress" style="width:65px">
+                                        <p:commandLink action="#{bpTenderManagedBean.goViewLeaseContract(LeasingContractEntity.leasingContractId)}" rendered="#{LeasingContractEntity.getStatus() == ('Successful')}" >
+                                            <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 45%" /></div>
+                                        </p:commandLink>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:tab>  
+                        </p:tabView>
+
+                    </h:form>
+                </td></tr></table>
+    </ui:define>
+</ui:composition>

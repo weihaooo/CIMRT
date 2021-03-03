@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - View Contract</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>Leasing Space Process</h1></div>
+
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error"/>
+                        <p:steps activeIndex="#{tenderManagedBean.menu}" styleClass="custom" readonly="false"  >
+                            <p:menuitem value="Tenancy Agreement"  action="#{tenderManagedBean.goIndex(0)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="Fitting Request"  action="#{tenderManagedBean.goIndex(1)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="Pre Joint Inspection"  action="#{tenderManagedBean.goIndex(2)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="Post Joint Inspection"  action="#{tenderManagedBean.goIndex(3)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="End of Contract"  action="#{tenderManagedBean.goIndex(4)}" update="form,form1,form2,form3,form4,form5"/>
+                        </p:steps>
+                    </h:form>
+
+                    <br/><br/><br/>
+
+                    <h:form id="form1"  rendered="#{tenderManagedBean.index == 0 }">
+                        <div align="center">
+                        <hr width="85%"/>
+                        
+                        <br/>
+                        <h:outputText value="Signing of Tenancy Agreement" style="font-weight:bold; font-size: 16pt" />
+
+                        <br/><br/>
+
+                        <p:outputLabel for="company" value="Company: " />             
+                        <h:outputText id="company" value="#{tenderManagedBean.leasingContract.partner.company}" style="font-weight:bold"/>
+                        <br/><br/>
+
+                        <p:outputLabel for="leasingContractId" value="Contract ID: " />             
+                        <h:outputText id="leasingContractId" value="#{tenderManagedBean.leasingContract.leasingContractId}" style="font-weight:bold"/>
+                        <br/><br/>
+
+                        <p:outputLabel for="startDate" value="Contract Start Date: " />   
+                        <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                            <f:param id="startDate" value="#{tenderManagedBean.leasingContract.startDate}"  />
+                        </h:outputFormat> 
+                        <br/><br/>
+
+                        <p:outputLabel for="endDate" value="Contract End Date: " />   
+                        <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                            <f:param id="endDate" value="#{tenderManagedBean.leasingContract.endDate}"  />
+                        </h:outputFormat> 
+                        <br/><br/>
+
+                        <p:outputLabel for="deposit" value="Tender Deposit Amount: " />             
+                        <h:outputText id="deposit" value="$#{tenderManagedBean.leasingContract.deposit}0" style="font-weight:bold"/>
+                        <br/><br/>
+
+                        <p:outputLabel for="reqDate" value="Appointment Date: " /> 
+                        <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                            <f:param id="reqDate" value="#{tenderManagedBean.leasingContract.signedDate}"  />
+                        </h:outputFormat>
+                        <br/><br/>
+
+                        <p:outputLabel for="reqDate1" value=" Appointment Time: " /> 
+                        <h:outputFormat value="{0, date, HH:mm}" style="font-weight:bold">
+                            <f:param id="reqDate1" value="#{tenderManagedBean.leasingContract.signedDate}"  />
+                        </h:outputFormat>
+                        <br/><br/>
+
+
+                        <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                            <p:outputLabel for="Date" value="Change Appointment Date: " rendered="#{tenderManagedBean.canEdit == true}"/>
+                            <p:calendar required="true" id="Date" value="#{tenderManagedBean.signingDate}" mindate="#{infraAssetManagedBean.todayDate}" locale="de" navigator="true" pattern="dd/MM/yyyy HH:mm" yearRange="c-80:c+0" requiredMessage="Please select a date" rendered="#{tenderManagedBean.canEdit == true}"/>
+                            <h:commandButton value="Update" action="#{tenderManagedBean.editSigningLC(tenderManagedBean.leasingContract.leasingContractId)}" style="width: 80px" rendered="#{tenderManagedBean.canEdit == true}"/>  
+                        </p:panelGrid>
+
+                        <br/>
+
+                        <h:commandButton value="Complete" action="#{tenderManagedBean.completedSigningLeaseContract(tenderManagedBean.leasingContract.leasingContractId)}" rendered="#{tenderManagedBean.menu == 0 and tenderManagedBean.leasingContract.signingOfAgreement == false}" />                          
+                        <p:spacer width="10pt"/>
+                        <h:commandButton value="Edit Date" action="#{tenderManagedBean.editSigningLeaseContract()}" rendered="#{tenderManagedBean.menu == 0 and tenderManagedBean.leasingContract.signingOfAgreement == false}"  />  
+
+                        <h:graphicImage value="resources/image/completed.png" style="width: 12%" rendered="#{tenderManagedBean.leasingContract.signingOfAgreement == true}" />
+                        <br/>
+                        <hr width="85%"/>
+                        </div>
+                    </h:form>       
+
+                    <h:form id="form2"  rendered="#{tenderManagedBean.index == 1 }">
+                        <div align="center">
+                        <hr width="85%"/>
+                        <br/>
+                        <h:outputText value="Fitting Out Request Details" style="font-weight:bold; font-size: 16pt" />
+                        <br/>
+
+                        <h:outputText value="Waiting for Tenant Decision" rendered="#{tenderManagedBean.leasingContract.fittingRequest == null}" />
+                        <br/>
+
+                        <h:outputText value="Tenant does not require fitting out period" rendered="#{tenderManagedBean.leasingContract.fittingRequest == 'Completed' and tenderManagedBean.fittingOut == null}" />
+                        <br/>
+
+                        <p:outputLabel for="reqDate3" value="Requested Date: " rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                        <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}">
+                            <f:param id="reqDate3" value="#{tenderManagedBean.fittingOut.requestedDate}"  />
+                        </h:outputFormat> 
+                        <br/><br/>
+
+                        <h:outputText value="Duration: " rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                        <h:outputText value="#{tenderManagedBean.fittingOut.duration}" style="font-weight:bold" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}"/>
+                        <br/><br/>
+
+
+                        <p:outputLabel for="reqDate" value="Fitting Out Start Date: " rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                        <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}">
+                            <f:param id="reqDate" value="#{tenderManagedBean.fittingOut.startDate}"  />
+                        </h:outputFormat>                           
+                        <br/><br/>
+
+
+                        <p:outputLabel for="reqDate1" value="Fitting Out End Date: " rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                        <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}">
+                            <f:param id="reqDate1" value="#{tenderManagedBean.fittingOut.endDate}"  />
+                        </h:outputFormat>                           
+                        <br/><br/>
+
+
+                        <p:outputLabel value="Deposit: " rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                        <h:outputText value="$#{tenderManagedBean.fittingOut.deposit}0" style="font-weight:bold" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed')}"/>
+                        <br/><br/>
+
+                        <p:outputLabel value="Remarks: " rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.fittingOut.remarks != null)}" />
+                        <h:outputText value="#{tenderManagedBean.fittingOut.remarks}" style="font-weight:bold" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.fittingOut.remarks != null)}"/>
+                        <br/><br/>
+
+                        <h:commandButton value="Approve" action="#{tenderManagedBean.approveFittingOutRequest(tenderManagedBean.leasingContract.leasingContractId)}" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed') and tenderManagedBean.fittingOut.status != 'Approved'}" />                          
+                        <p:spacer width="10pt"/>
+                        <h:commandButton value="Reject" action="#{tenderManagedBean.rejectFittingOutRequest()}" rendered="#{tenderManagedBean.fittingOut != null and (tenderManagedBean.leasingContract.fittingRequest == 'Completed') and tenderManagedBean.fittingOut.status != 'Approved' and tenderManagedBean.fittingOut.status != 'Rejected'}"  />   
+
+                        <h:graphicImage value="resources/image/completed.png" style="width: 12%" rendered="#{(tenderManagedBean.leasingContract.fittingRequest == 'Completed' and tenderManagedBean.fittingOut.status == 'Approved') or (tenderManagedBean.leasingContract.fittingRequest == 'Completed' and tenderManagedBean.fittingOut == null)}" />
+                        <br/>
+
+                        <p:outputLabel for="remarks" value="Remarks: " style="width:125px" rendered="#{tenderManagedBean.canEdit == true}" />
+                        <p:inputTextarea counter="display" required="true" maxlength="2000" counterTemplate="{0} characters remaining." autoResize="false" id="remarks" value="#{tenderManagedBean.remarks}" style="width:300px; height:100px;" rendered="#{tenderManagedBean.canEdit == true}"/>
+                        <p:spacer width="7pt"/>
+                        <h:commandButton value="Submit" action="#{tenderManagedBean.rejectFitting(tenderManagedBean.leasingContract.leasingContractId)}" rendered="#{tenderManagedBean.canEdit == true}"/>
+                        <br/>
+
+                        <h:outputText id="display" rendered="#{tenderManagedBean.canEdit == true}"/>         
+
+                        <hr width="85%"/>
+                        </div>
+                    </h:form>   
+
+                    <h:form id="form3"  rendered="#{tenderManagedBean.index == 2 }">
+                        <hr width="85%"/>
+                        <ul align="center">        
+                            <h:outputText value="Pre Joint Inspection Information" style="font-weight:bold; font-size: 16pt" />
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="leasingContractId" value="Contract ID: " />             
+                            <h:outputText id="leasingContractId" value="#{tenderManagedBean.leasingContract.leasingContractId}" style="font-weight:bold"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="startDate" value="Contract Start Date: " />   
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="startDate" value="#{tenderManagedBean.leasingContract.startDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="endDate" value="Contract End Date: " />   
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="endDate" value="#{tenderManagedBean.leasingContract.endDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="deposit" value="Tender Deposit Amount: " />             
+                            <h:outputText id="deposit" value="$#{tenderManagedBean.leasingContract.deposit}0" style="font-weight:bold"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="company" value="Company: " rendered="#{tenderManagedBean.leasingContract.jointInspection != null}"/>             
+                            <h:outputText id="company" value="#{tenderManagedBean.leasingContract.partner.company}" style="font-weight:bold" rendered="#{tenderManagedBean.leasingContract.jointInspection != null}"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate" value="Date: " rendered="#{tenderManagedBean.leasingContract.jointInspection != null}"/> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{tenderManagedBean.leasingContract.jointInspection != null}">
+                                <f:param id="reqDate" value="#{tenderManagedBean.leasingContract.jointInspection.entryInspection}" />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate1" value="Time: " rendered="#{tenderManagedBean.leasingContract.jointInspection != null}"/> 
+                            <h:outputFormat value="{0, date, HH:mm}" style="font-weight:bold" rendered="#{tenderManagedBean.leasingContract.jointInspection != null}">
+                                <f:param id="reqDate1" value="#{tenderManagedBean.leasingContract.jointInspection.entryInspection}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center" >
+                            <div align="center">
+                                <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                    <p:outputLabel for="Date1" value="Schedule Date: " rendered="#{tenderManagedBean.leasingContract.jointInspection == null}"/>
+                                    <p:calendar required="true" id="Date1" value="#{tenderManagedBean.signingDate}" mindate="#{tenderManagedBean.checkMin(tenderManagedBean.leasingContract.leasingContractId)}" maxdate="#{tenderManagedBean.checkMax(tenderManagedBean.leasingContract.leasingContractId)}" locale="de" navigator="true" pattern="dd/MM/yyyy HH:mm" yearRange="c-80:c+0" requiredMessage="Please select a date" rendered="#{tenderManagedBean.leasingContract.jointInspection == null}"/>
+                                    <h:commandButton value="Update" action="#{tenderManagedBean.schedulePreJointInspection(tenderManagedBean.leasingContract.leasingContractId)}" style="width: 80px" rendered="#{tenderManagedBean.leasingContract.jointInspection == null}"/>  
+                                </p:panelGrid>
+                            </div>
+                        </ul>
+
+                        <ul align="center" >
+                            <div align="center">
+                                <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                    <p:outputLabel for="Date" value="Change Appointment Date: " rendered="#{tenderManagedBean.canEdit == true}"/>
+                                    <p:calendar required="true" id="Date" value="#{tenderManagedBean.signingDate}" mindate="#{tenderManagedBean.checkMin(tenderManagedBean.leasingContract.leasingContractId)}" maxdate="#{tenderManagedBean.checkMax(tenderManagedBean.leasingContract.leasingContractId)}" locale="de" navigator="true" pattern="dd/MM/yyyy HH:mm" yearRange="c-80:c+0" requiredMessage="Please select a date" rendered="#{tenderManagedBean.canEdit == true}"/>
+                                    <h:commandButton value="Update" action="#{tenderManagedBean.editPreJointInspection(tenderManagedBean.leasingContract.leasingContractId)}" style="width: 80px" rendered="#{tenderManagedBean.canEdit == true}"/>  
+                                </p:panelGrid>
+                            </div>
+                        </ul>
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 12%" rendered="#{tenderManagedBean.leasingContract.jointInspection.entryStatus == 'Completed'}" />
+
+                            <h:commandButton value="Complete" action="#{tenderManagedBean.completedPreJointInspection(tenderManagedBean.leasingContract.leasingContractId)}" rendered="#{tenderManagedBean.leasingContract.jointInspection.entryStatus != 'Completed' and tenderManagedBean.leasingContract.jointInspection !=null}" />                          
+                            <p:spacer width="10pt"/>
+                            <h:commandButton value="Edit Date" action="#{tenderManagedBean.editPreJointInspection()}" rendered="#{tenderManagedBean.leasingContract.jointInspection.entryStatus != 'Completed' and tenderManagedBean.leasingContract.jointInspection !=null}"  />  
+                        </ul>
+
+                        <hr width="85%"/>
+                    </h:form>       
+
+                    <h:form id="form4"  rendered="#{tenderManagedBean.index == 3 }">
+                        <hr width="85%"/>
+
+                        <ul align="center">        
+                            <h:outputText value="Post Joint Inspection" style="font-weight:bold; font-size: 16pt" />
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="leasingContractId" value="Contract ID: " />             
+                            <h:outputText id="leasingContractId" value="#{tenderManagedBean.leasingContract.leasingContractId}" style="font-weight:bold"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="startDate" value="Contract Start Date: " />   
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="startDate" value="#{tenderManagedBean.leasingContract.startDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="endDate" value="Contract End Date: " />   
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="endDate" value="#{tenderManagedBean.leasingContract.endDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="deposit" value="Tender Deposit Amount: " />             
+                            <h:outputText id="deposit" value="$#{tenderManagedBean.leasingContract.deposit}0" style="font-weight:bold"/>
+                        </ul>
+
+                        <ul align="center">
+                            <h:outputText value=" The details of the appointment:" style="font-weight:bold"  rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != null }"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="company" value="Company: " rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != null}"/>             
+                            <h:outputText id="company" value="#{tenderManagedBean.leasingContract.partner.company}" style="font-weight:bold" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != null}"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate" value="Date: " rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != null}"/> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != null}">
+                                <f:param id="reqDate" value="#{tenderManagedBean.leasingContract.jointInspection.exitInspection}" />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate1" value="Time: " rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != null}"/> 
+                            <h:outputFormat value="{0, date, HH:mm}" style="font-weight:bold" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != null}">
+                                <f:param id="reqDate1" value="#{tenderManagedBean.leasingContract.jointInspection.exitInspection}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center" >
+                            <div align="center">
+                                <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                    <p:outputLabel for="Date1" value="Schedule Date: " rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus == null}"/>
+                                    <p:calendar required="true" id="Date1" value="#{tenderManagedBean.signingDate}" mindate="#{tenderManagedBean.checkMin1(tenderManagedBean.leasingContract.leasingContractId)}" maxdate="#{tenderManagedBean.leasingContract.endDate}" locale="de" navigator="true" pattern="dd/MM/yyyy HH:mm" yearRange="c-80:c+0" requiredMessage="Please select a date" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus == null}"/>          
+                                    <h:commandButton value="Update" action="#{tenderManagedBean.schedulePostJointInspection(tenderManagedBean.leasingContract.leasingContractId)}" style="width: 80px" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus == null}"/>  
+                                </p:panelGrid>
+                            </div>
+                        </ul>
+
+                        <ul align="center">
+                            <div align="center">
+                                <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                    <p:outputLabel for="Date" value="Change Appointment Date: " rendered="#{tenderManagedBean.canEdit == true}"/>
+                                    <p:calendar required="true" id="Date" value="#{tenderManagedBean.signingDate}" mindate="#{tenderManagedBean.checkMin1(tenderManagedBean.leasingContract.leasingContractId)}" maxdate="#{tenderManagedBean.leasingContract.endDate}" locale="de" navigator="true" pattern="dd/MM/yyyy HH:mm" yearRange="c-80:c+0" requiredMessage="Please select a date" rendered="#{tenderManagedBean.canEdit == true}"/>          
+                                    <h:commandButton value="Update" action="#{tenderManagedBean.editPostJointInspection(tenderManagedBean.leasingContract.leasingContractId)}" style="width: 80px" rendered="#{tenderManagedBean.canEdit == true}"/>  
+                                </p:panelGrid>
+                            </div>
+                        </ul>
+
+                        <ul align="center" >
+                            <h:commandButton value="Complete" action="#{tenderManagedBean.completedPostJointInspection(tenderManagedBean.leasingContract.leasingContractId)}" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != 'Completed' and tenderManagedBean.leasingContract.jointInspection.exitStatus !=null}" />                          
+                            <p:spacer width="10pt"/>
+                            <h:commandButton value="Edit Date" action="#{tenderManagedBean.editPostJointInspection()}" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus != 'Completed' and tenderManagedBean.leasingContract.jointInspection.exitStatus !=null}"  />  
+
+                            <h:graphicImage value="resources/image/completed.png" style="width: 12%" rendered="#{tenderManagedBean.leasingContract.jointInspection.exitStatus == 'Completed'}" />
+                        </ul>
+
+                        <hr width="85%"/>
+                    </h:form>     
+
+
+                    <h:form id="form5"  rendered="#{tenderManagedBean.index == 4 }">
+                        <hr width="85%"/>
+                        <div align="center">
+
+                            <br/>
+                            <div style="font-size: 16pt">
+                                The tenancy contract ID: <b><u>#{tenderManagedBean.leasingContract.leasingContractId}</u></b> with <b><u>#{tenderManagedBean.leasingContract.partner.company}</u></b> <br/><br/> that started on <u><h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                        <f:param id="sd" value="#{tenderManagedBean.leasingContract.startDate}"  />
+                                    </h:outputFormat></u> has ended at 
+                                <u><h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                        <f:param id="ed" value="#{tenderManagedBean.leasingContract.endDate}"  />
+                                    </h:outputFormat></u>
+                            </div>
+                            <br/>
+                            <h:graphicImage value="resources/image/completed.png" style="width: 12%"  />
+                            <hr width="85%"/>
+                        </div>
+                    </h:form>       
+
+
+
+                </p:layoutUnit>
+
+                <style type="text/css">
+                    .ui-steps .ui-steps-item {
+                        width: 20%;
+                    }
+
+                    .ui-state-highlight {
+                        text-shadow: none !important;
+                    }
+
+                    .ui-steps.custom {
+                        margin-bottom: 30px;
+                    }
+
+                    .ui-steps.custom .ui-steps-item .ui-menuitem-link {
+                        height: 10px;
+                        padding: 0 1em;
+                    }
+
+                    .ui-steps.custom .ui-steps-item .ui-steps-number {
+                        background-color: #0081c2;
+                        color: #FFFFFF;
+                        display: inline-block;
+                        width: 30px;
+                        border-radius: 10px;
+                        margin-top: -10px;
+                        margin-bottom: 10px;
+                    }
+
+                    .ui-steps.custom .ui-steps-item.ui-state-highlight .ui-steps-title {
+                        color: #555;
+                    }
+
+
+                </style>
+
+
+
+            </p:layout>
+        </h:body>
+    </f:view>
+
+
+</html>
+

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+                <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Edit Station</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Edit Station</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="infraId" value="InfraID: " />
+                            <h:outputText id="infraId" value="#{infraAssetManagedBean.infraId}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="fixedTrainLine" value="Train Line: " />
+                            <h:outputText id="fixedTrainLine"  value="#{infraAssetManagedBean.fixedTrainLine}" />
+                            <p:spacer />
+
+                            <p:outputLabel for="code" value="Station Code: " />        
+                            <p:inputText id="code" value="#{infraAssetManagedBean.code}" required="true" requiredMessage="Value is required in this field" validatorMessage="Please enter a numeric value (e.g. 02)">
+                                <f:validateRegex pattern="\d{2}" /> 
+                            </p:inputText>
+                            <p:message for="code" /> 
+                            
+                            <p:outputLabel for="infraName" value="Station Name: " />        
+                            <p:inputText id="infraName" value="#{infraAssetManagedBean.infraName}" style="width:200px" required="true" requiredMessage="Please enter a name for the station" />
+                            <p:message for="infraName" />
+
+                            <p:outputLabel for="address" value="Address: " />        
+                            <p:inputText id="address" value="#{infraAssetManagedBean.infraAddress}" style="width:200px" required="true" requiredMessage="Please enter the station address" />
+                            <p:message for="address" />
+
+                            <p:outputLabel for="previousStation" value="Previous Depot/Station Code: " />        
+                            <p:selectOneMenu id="previousStation" required="true" value="#{infraAssetManagedBean.previousStation}" style="width:125px" requiredMessage="Please select a previous station">
+                                <f:selectItem itemLabel="Select One" itemValue="" />                              
+                                <c:if test="#{infraAssetManagedBean.fixedTrainLine == 'NSL'}">
+                                <f:selectItems value="#{infraAssetManagedBean.nslStationList}" />
+                                </c:if>
+                                <c:if test="#{infraAssetManagedBean.fixedTrainLine == 'EWL'}">
+                                <f:selectItems value="#{infraAssetManagedBean.ewlStationList}" />
+                                </c:if>
+                            </p:selectOneMenu>
+                            <p:message for="previousStation" /> 
+
+                            <p:outputLabel for="nextStation" value="Next Depot/Station Code: " />        
+                            <p:selectOneMenu id="nextStation" required="true" value="#{infraAssetManagedBean.nextStation}" style="width:125px" requiredMessage="Please select a next station">
+                                <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                <c:if test="#{infraAssetManagedBean.fixedTrainLine == 'NSL'}">
+                                <f:selectItems value="#{infraAssetManagedBean.nslStationList}" />
+                                </c:if>
+                                <c:if test="#{infraAssetManagedBean.fixedTrainLine == 'EWL'}">
+                                <f:selectItems value="#{infraAssetManagedBean.ewlStationList}" />
+                                </c:if>
+                            </p:selectOneMenu>
+                            <p:message for="nextStation" /> 
+
+                            <p:outputLabel for="distanceToFirstStation" value="Distance To First Station (m): " />        
+                            <p:inputText id="distanceToFirstStation" value="#{infraAssetManagedBean.distanceToFirstStation}" style="width:200px" required="true" requiredMessage="Value is required in this field" /> 
+                            <p:message for="distanceToFirstStation" />
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="latitude" value="Latitude: " />        
+                            <p:inputNumber id="latitude" value="#{infraAssetManagedBean.latitude}" decimalPlaces="6" required="true" requiredMessage="Value is required in this field"/> 
+                            <p:spacer/><p:message for="latitude" /> 
+
+                            <p:outputLabel for="longitude" value="Longitude: " />        
+                            <p:inputNumber id="longitude" value="#{infraAssetManagedBean.longitude}" decimalPlaces="6" required="true" requiredMessage="Value is required in this field"/> 
+                            <p:spacer/><p:message for="longitude" /> 
+
+                            <h:commandButton value="Update" action="#{infraAssetManagedBean.updateStation}" style="width: 80px" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

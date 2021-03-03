@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Attended Workshop</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h:form id="form" rendered="#{manpowerManagedBean.role eq 'Station Manager' or manpowerManagedBean.role eq 'Depot Manager' or manpowerManagedBean.role eq 'HR'}">
+                        <div id="list"><h1>#{loginManagedBean.firstName} #{loginManagedBean.lastName} Team's Attended Workshop</h1></div>
+                        <p:dataTable paginatorPosition="bottom" var="staff" value="#{manpowerManagedBean.teamIndividualWorkshopsEnrolled}" expandableRowGroups="true" style="margin-bottom:20px; width: 99%; margin-right: 5px" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="workshopTable" filteredValue="#{manpowerManagedBean.filteredWorkshop}" emptyMessage="No record found">
+
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <div align="right">
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('workshopTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </div>
+                                </p:outputPanel>
+                            </f:facet>
+
+
+                            <p:column style="width:10px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Staff ID" style="width:200px" filterBy="#{staff.staffId}" filterStyle="display:none">
+                                <div align='center'><h:outputText value="#{staff.staffId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Staff Name" style="width:200px" filterBy="#{staff.firstName} #{staff.lastName}" filterStyle="display:none">
+                                <div align='center'><h:outputText value="#{staff.firstName} #{staff.lastName}" /></div>
+                            </p:column>
+
+
+                            <p:rowExpansion>
+                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:800px;">
+
+
+                                    <h:outputText value="Not enrolled in any workshops" rendered="#{empty staff.workshops}"/>
+                                    <ui:repeat value="#{staff.workshops}" var="workshop">
+                                        <b><h:outputText value="Workshops:" />
+                                            <u><h:outputText value="#{workshop.workshopId}">
+                                                    <f:convertNumber/></h:outputText></u></b>
+                                        <br/>
+                                        <b><h:outputText value="Workshop Name: " />
+                                            <u><h:outputText value="#{workshop.workshopName} " /></u></b>
+                                        <br/>
+                                    </ui:repeat>
+
+
+                                </p:panelGrid>
+                            </p:rowExpansion>
+
+                        </p:dataTable>
+
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewAction action="#{cardManagedBean.retrieveUserCards}" />
+            <f:viewAction action="#{cardManagedBean.retrievePoints}" />
+        </f:metadata>
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/myCards" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">               
+                    <div class="card card-w-title">
+                        <h:form>
+                            <p:growl severity="error,info" autoUpdate="true" />
+                            <h1 style="color:#003c95;"><b>My CIT Cards</b></h1>
+                            <div align="right"> Available Points to Redeem: <b>#{cardManagedBean.availablePoints}</b></div>
+                            <br/>
+                            <p:dataTable id="table" var="card" value="#{cardManagedBean.cards}" style="margin-bottom:20px" rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30" emptyMessage="No record found" rowIndexVar="index"
+                                         widgetVar="viewCardsTable" filteredValue="#{cardManagedBean.filteredCards}"
+                                         >
+
+                                <f:facet name="header">
+                                    <div align="right">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('viewCardsTable').filter()" style="width:120px"/>
+                                            <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                        </h:panelGroup>
+                                    </div>
+                                </f:facet>
+
+                                <p:column headerText="Card ID" style="width: 12%" filterBy="#{card.cardId}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{card.cardId}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Card Type" style="width: 12%" filterBy="#{card.type}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{card.type}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Amount($)" style="width: 12%" filterBy="#{card.amount}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{card.amount}" >
+                                            <f:convertNumber pattern="#0.00" />
+                                        </h:outputText>
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Concession End Date" style="width: 12%" filterBy="#{card.concessionEnd}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{card.concessionEnd}">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Top Up" style="width: 12%">
+                                    <div align="center">
+                                        <p:commandLink action="#{cardManagedBean.goTopup(index)}">
+                                            <h:graphicImage value="resources/images/credit.png" style="width: 30%" />
+                                        </p:commandLink>
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Redeem Points" style="width: 12%">
+                                    <div align="center">
+                                        <p:commandLink action="#{cardManagedBean.goRedeem(index)}">
+                                            <h:graphicImage value="resources/images/appreciation.png" style="width: 30%" />
+                                        </p:commandLink>
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="View Transaction Details" style="width: 12%">
+                                    <div align="center">
+                                        <p:commandLink action="#{cardManagedBean.goTransactionDetails(index)}">
+                                            <h:graphicImage value="resources/images/shuffle.png" style="width: 30%" />
+                                        </p:commandLink>
+                                    </div>
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+                        <div align="right">
+                            <h:form>
+                                <p:commandButton value="Add Card" action="addCard" />
+                            </h:form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <style>
+            img{
+                opacity: 0.8; 
+            }
+
+            img:hover {
+                opacity: 1;
+            }
+        </style>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Train Cars</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>List of Train Cars</h1></div>
+                    <h:form id="form">
+                        <p:dataTable id="table" var="trainCarEntity" value="#{infraAssetManagedBean.trainCars}" style="margin-bottom:20px" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" widgetVar="trainCarTable" filteredValue="#{infraAssetManagedBean.filteredTrainCars}" emptyMessage="No train cars found with given criteria">
+
+                            <f:facet name="header">
+                                <div align="right">
+                                <p:outputPanel>
+                                    <h:outputText value="Search all fields:" />
+                                    <p:inputText id="globalFilter" onkeyup="PF('trainCarTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <f:facet name="footer">
+                                <div align="right">
+                                    <h:commandButton value="Add Train Car" action="#{infraAssetManagedBean.goAddTC()}"/>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Infra ID" filterBy="#{trainCarEntity.assetId}" style="width: 8%" filterStyle="display:none" sortBy="#{trainCarEntity.infraId}">
+                                <div align="center"><h:outputText value="#{trainCarEntity.assetId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Brand" filterBy="#{trainCarEntity.brand}" style="width: 10%" filterStyle="display:none" sortBy="#{trainCarEntity.brand}">
+                                <div align="center"><h:outputText value="#{trainCarEntity.brand}" /></div>
+                            </p:column>
+                            
+                            <p:column headerText="Train Car Type" filterBy="#{trainCarEntity.type}" style="width: 10%" filterStyle="display:none" sortBy="#{trainCarEntity.type}">
+                                <div align="center"><h:outputText value="#{trainCarEntity.type}" /></div>
+                            </p:column>
+                            
+                            <p:column headerText="Description" filterBy="#{trainCarEntity.description}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{trainCarEntity.description}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Car Code" filterBy="#{trainCarEntity.carCode}" style="width: 10%" filterStyle="display:none" sortBy="#{trainCarEntity.carCode}">
+                                <div align="center"><h:outputText value="#{trainCarEntity.carCode}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Status" filterBy="#{trainCarEntity.status}" style="width: 10%" filterStyle="display:none" sortBy="#{trainCarEntity.status}">
+                                <div align="center"><h:outputText value="#{trainCarEntity.status}" /></div>
+                            </p:column>
+                            
+                            <p:column headerText="Attached Depot" filterBy="#{infraAssetManagedBean.attachedDepot(trainCarEntity.carCode)}" style="width: 10%" filterStyle="display:none" sortBy="#{trainCarEntity.location}">
+                                <div align="center"><h:outputText value="#{infraAssetManagedBean.attachedDepot(trainCarEntity.carCode)}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Attached Rolling Stock" filterBy="#{infraAssetManagedBean.attachedRS(trainCarEntity.carCode)}" style="width: 12%" filterStyle="display:none" sortBy="#{infraAssetManagedBean.attachedRS(trainCarEntity.carCode)}">
+                               <div align="center"> <h:outputText value="#{infraAssetManagedBean.attachedRS(trainCarEntity.carCode)}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Edit" style="width:60px">
+                                <div align="center">
+                                <p:commandLink action="#{infraAssetManagedBean.goEditTC(trainCarEntity.assetId)}" rendered="#{trainCarEntity.status == 'Available' and (infraAssetManagedBean.role == 'I&amp;A Manager' or infraAssetManagedBean.role == 'I&amp;A Staff')}">
+                                    <h:graphicImage value="resources/image/edit.png" style="width: 40%" />
+                                </p:commandLink>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Delete" style="width:10%" >
+                                <p:growl id="message" severity="info,error" showDetail="true" />
+                                <p:commandLink action="#{infraAssetManagedBean.goDeleteTC(trainCarEntity.carCode)}" update="form table message" rendered="#{infraAssetManagedBean.role == 'I&amp;A Manager' or infraAssetManagedBean.role == 'I&amp;A Staff'}">
+                                    <p:confirm header="Confirmation" message="Are you sure you want to delete?" icon="ui-icon-alert" />
+                                    <h:graphicImage value="resources/image/delete.png" style="width: 50%" />
+                                </p:commandLink>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <div align="center">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </div>
+                                </p:confirmDialog>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                    
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

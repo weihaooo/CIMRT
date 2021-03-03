@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center"  class="outer_table">
+                <tr>
+                    <td align="center" height="180">
+                        <img src="resources/image/CIMRTBG.png" alt="CIMRT Logo"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="500" height="50" cellpadding="0" cellspacing="0" border="0" align="center">
+                            <tr>
+                                <td align="center">
+                        <p:messages id="messages" severity="info,error" showDetail="true"/>
+                                   
+                                    <h:form>
+                                        <p:commandLink value="View Profile" ajax="false" action="profile.xhtml?faces-redirect=true" style="margin-right: 86px; font-size: 10pt;"/>
+                                    </h:form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </h:body>
+    </f:view>
+</html>
+

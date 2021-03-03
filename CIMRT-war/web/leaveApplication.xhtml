@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+                <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Submit Leave Application</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Submit Leave Application</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form enctype="multipart/form-data">
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="leaveType" value="Leave Type: " />
+                            <p:selectOneMenu id="leaveType" value="#{leaveManagedBean.type}" style="width:200px" required="true" requiredMessage="Please select a leave type!">
+                                <p:ajax listener="#{leaveManagedBean.onTypeChange}"  update="start" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                <f:selectItem itemLabel="Medical Certification" itemValue="MC" /> 
+                                <f:selectItem itemLabel="Annual Leave" itemValue="AL" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" /> 
+                            </p:selectOneMenu>
+                            <p:message for="leaveType" />
+
+                            <p:outputLabel for="start" value="Start Date:" />
+                            <p:calendar id="start" value="#{leaveManagedBean.start}" mindate="#{leaveManagedBean.today}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please select a start date!">
+                                <p:ajax event="dateSelect" listener="#{leaveManagedBean.onDateSelect}" update="end" />
+                            </p:calendar>
+                            <p:message for="start" />
+
+                            <p:outputLabel for="end" value="End Date:" />
+                            <p:calendar id="end" value="#{leaveManagedBean.end}" mindate="#{leaveManagedBean.dateSelect}" pattern="dd/MM/yyyy" required="true" requiredMessage="Please select a end date!">
+                                <!--                                <p:ajax event="dateEndSelect" listener="{leaveManagedBean.onDateEndSelect}"/>-->
+                            </p:calendar>
+                            <p:message for="end" /> 
+
+                            <p:outputLabel for="content" value="Description:" />
+                            <p:inputTextarea id="content" value="#{leaveManagedBean.content}" rows="5" cols="30" counter="display" maxlength="250" counterTemplate="{0} characters remaining." autoResize="true" />
+                            <p:spacer/>  <p:spacer/>  
+                            <h:outputText id="display" /><p:spacer/>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" style="margin-top: 10px">
+                            <!--                            <p:fileUpload fileUploadListener="{leaveManagedBean.handleFileUpload}" value="{fileUploadView.file}" mode="advanced" dragDropSupport="false"
+                                                                      update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />-->
+                            <p:outputLabel value="Upload Document: "/>                            
+                            <p:fileUpload value="#{leaveManagedBean.file}" sizeLimit="1000000" update="messages"  mode="simple" skinSimple="true" allowTypes="/(\.|\/)(jpe?g|png)$/" style="height: 30pt"/>
+                            <!--                            <p:growl id="messages" showDetail="true" />-->
+                            <p:spacer/>
+                            <h:outputLabel value="*The supporting format is .png only!" style="font-size: 10px"/>
+                            <p:spacer/>
+                            <p:spacer/>
+                            <h:commandButton value="Submit" actionListener="#{leaveManagedBean.handleFileUpload()}"/>
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

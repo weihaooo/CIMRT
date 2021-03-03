@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+
+                        <p:panelMenu>
+                            <p:submenu id="passenger" label="Our Passengers" icon="ui-icon-people" expanded="true">
+                                <p:submenu id="trainInfo" label="Train Information" icon="ui-icon-train">
+                                    <p:menuitem id="journeyPlanner" value="Journey Planner" icon="ui-icon-map" outcome="/timeCalculator" />
+                                    <p:menuitem id="fareCalculator" value="Train Fare Information" icon="ui-icon-attach-money " outcome="/fareCalculator" />
+                                    <p:menuitem id="arrivalTime" value="Train Arrival Time" icon="ui-icon-access-time" outcome="/nextTwoTrainSchedule" />
+                                    <p:menuitem id="firstLastTrain" value="First and Last Train" icon="ui-icon-train" outcome="/firstTrainLastTrain" />
+                                </p:submenu>
+                                <p:submenu id="travelInfo" label="Travel Information" icon="ui-icon-info-outline">
+                                    <p:menuitem id="um_lnk112" value="Accessibility" icon="ui-icon-accessibility" outcome="/accessibility" />
+                                    <p:menuitem id="um_lnk113" value="Visit Coral Island" icon="ui-icon-streetview" outcome="/visitCoralIsland" />
+                                </p:submenu>
+                                <p:menuitem id="safety" value="Safety Guideline" icon="ui-icon-subject" outcome="/safetyGuideline" />
+                                <p:menuitem id="faq" value="FAQs" icon="ui-icon-question-answer" outcome="/faqs" />   
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>Train Arrival Time</b></h1> 
+                        <h:form id="table">
+                            <p:messages id="messages" severity="info"/>
+                            <p:fieldset legend="Next Two Trains' Timings" style="margin-bottom:20px">
+                                <h:panelGrid columns="3" cellpadding="5">
+                                    <p:outputLabel for="stationNameList" value="Station: " />
+                                    <p:selectOneMenu id="stationNameList" value="#{trainScheduleManagedBean.theStation}" style="width:186px"  required="true" requiredMessage="Please Select a Station">
+                                        <p:ajax listener="#{trainScheduleManagedBean.onStationChange}"  update="routeList" />
+                                        <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                        <f:selectItems value="#{trainScheduleManagedBean.stations}" />
+                                    </p:selectOneMenu>
+                                    <p:message for="stationNameList" />
+
+                                    <p:outputLabel for="routeList" value="Terminating at: " />
+                                    <p:selectOneMenu id="routeList" value="#{trainScheduleManagedBean.theRoute}" style="width:186px"  required="true" requiredMessage="Please Select a Route">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                        <f:selectItems value="#{trainScheduleManagedBean.routeList}" />
+                                    </p:selectOneMenu>
+                                    <p:message for="routeList" />
+
+                                    <p:spacer/>
+                                    <p:commandButton value="Go" actionListener="#{trainScheduleManagedBean.getNextTwoTrainSchedule()}" update="table"/>
+                                    <p:spacer/>
+                                </h:panelGrid>
+                                <p:spacer/><p:spacer/><p:spacer/>
+                                <p:dataTable id="table" var="TripStationScheduleEntity" value="#{trainScheduleManagedBean.nextTwoTrainSchedules}" style="width:900px;">
+                                    <!--                                        <p:headerRow>
+                                                                                <p:column colspan="3">
+                                                                                    <h:outputText value="{TripStationScheduleEntity.route.getCode()}" />
+                                                                                </p:column>
+                                                                            </p:headerRow>-->
+                                    <p:column headerText="Route" width="19%">
+                                        <h:outputText value="#{TripStationScheduleEntity.route.getCode()}" />
+                                    </p:column>
+                                    <p:column headerText="Arrival Time" width="19%">
+                                        <h:outputText value="#{TripStationScheduleEntity.arrivalTime}" >
+                                            <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT+7:30" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:fieldset>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

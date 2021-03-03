@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Team Roster</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Assigning Staff To Team</h1></div>
+                    <h:form id="form">
+
+                        <p:growl id="messages" severity="info,error" showDetail="true"/>
+                        <p:outputLabel for="node" value="Node: " />
+                        <p:selectOneMenu id="node" required="true" value="#{systemAdminManagedBean.nodeCode}" style="width:125px" requiredMessage="Please select a node">
+                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                            <f:selectItems value="#{systemAdminManagedBean.nodeList}" />
+                            <p:ajax event="change" update="team" listener="#{systemAdminManagedBean.retrieveTeamList()}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="team" value="Team: " />
+                        <p:selectOneMenu id="team" required="true" value="#{systemAdminManagedBean.teamId}" style="width:125px" requiredMessage="Please select a team">
+                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                            <f:selectItems value="#{systemAdminManagedBean.teamList}" />
+                            <p:ajax event="change" update="table" listener="#{systemAdminManagedBean.retrieveStaffList()}" />
+                        </p:selectOneMenu>
+
+
+                        <p:spacer></p:spacer>
+
+                        <p:dataTable id="table" var="staff" value="#{systemAdminManagedBean.staffList}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50" >
+                            <f:facet name="header">
+                                #{systemAdminManagedBean.nodeCode} - #{systemAdminManagedBean.teamId} Staff List:
+                            </f:facet>
+
+                            <p:column headerText="Staff ID">
+                                <div align="center"><h:outputText value="#{staff.staffId}" style="align-items: center; align-self: " /></div>
+                            </p:column>
+
+                            <p:column headerText="Staff Name">
+                                <div align="center"><h:outputText value="#{staff.firstName} #{staff.lastName}"/></div>
+
+                            </p:column>
+
+
+                            <p:column headerText="Staff Role">
+                                <div align="center"><h:outputText value="#{staff.staffRole.staffRole}" /></div>
+                            </p:column>  
+
+                            <p:column headerText="Remove From Team" style="width:15%">
+                                <p:commandLink action="#{systemAdminManagedBean.removeFromTeam(staff)}" update=":form:table :form1:table1 :form2:table2 :form:messages">
+                                    <div align="center"><h:graphicImage value="resources/image/delete.png" style="width: 17%" /></div>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+
+                    <h:form id="form1">
+                        <p:growl severity="info,error" showDetail="true"/>
+                        <p:spacer></p:spacer>
+
+                        <p:dataTable id="table1" var="staff" value="#{systemAdminManagedBean.sStaffWithoutTeamList}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50" editable="true"  widgetVar="tableWidgetVar1">
+                            <p:ajax event="rowEdit" listener="#{systemAdminManagedBean.onRowEdit(staff)}" update="table1 :form:table :form:messages" oncomplete="PF('tableWidgetVar1').filter();"/>
+                            <p:ajax event="rowEditCancel" listener="#{systemAdminManagedBean.onRowCancel()}" />
+                            <f:facet name="header">
+                                List of Station Staff without a team:
+                            </f:facet>
+
+                            <p:column headerText="Staff ID">
+                                <div align="center"><h:outputText value="#{staff.staffId}" style="align-items: center; align-self: " /></div>
+                            </p:column>
+
+                            <p:column headerText="Staff Name">
+                                <div align="center"><h:outputText value="#{staff.firstName} #{staff.lastName}"/></div>
+                            </p:column>
+
+                            <p:column headerText="Staff Role">
+                                <div align="center"><h:outputText value="#{staff.staffRole.staffRole}" /></div>
+                            </p:column>  
+                            <p:column headerText="Node" width="25%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:outputLabel for="node1" value="Node: " />
+                                        <p:selectOneMenu id="node1" required="true" value="#{systemAdminManagedBean.station}" style="width:125px" requiredMessage="Please select a station">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                            <f:selectItems value="#{systemAdminManagedBean.sList}" />
+                                            <p:ajax event="change" update="team1" listener="#{systemAdminManagedBean.retrieveSTeamList}" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Team" width="25%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:outputLabel for="team1" value="Team: " />
+                                        <p:selectOneMenu id="team1" required="true" value="#{systemAdminManagedBean.sTeam}" style="width:125px" requiredMessage="Please select a team">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                            <f:selectItems value="#{systemAdminManagedBean.sTeamList}" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+
+                    <h:form id="form2">
+                        <p:growl severity="info,error" showDetail="true"/>
+                        <p:spacer></p:spacer>
+
+                        <p:dataTable id="table2" var="staff" value="#{systemAdminManagedBean.dStaffWithoutTeamList}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50" editable="true" widgetVar="tableWidgetVar">
+                            <p:ajax event="rowEdit" listener="#{systemAdminManagedBean.onRowEdit(staff)}" update="table2 :form:table :form:messages" oncomplete="PF('tableWidgetVar').filter();" />
+                            <p:ajax event="rowEditCancel" listener="#{systemAdminManagedBean.onRowCancel()}" />
+                            <f:facet name="header">
+                                List of Depot Staff without a team:
+                            </f:facet>
+
+                            <p:column headerText="Staff ID">
+                                <div align="center"><h:outputText value="#{staff.staffId}" style="align-items: center; align-self: " /></div>
+                            </p:column>
+
+                            <p:column headerText="Staff Name">
+                                <div align="center"><h:outputText value="#{staff.firstName} #{staff.lastName}"/></div>
+                            </p:column>
+
+                            <p:column headerText="Staff Role">
+                                <div align="center"><h:outputText value="#{staff.staffRole.staffRole}" /></div>
+                            </p:column>  
+                            <p:column headerText="Node" width="25%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:outputLabel for="node2" value="Node: " />
+                                        <p:selectOneMenu id="node2" required="true" value="#{systemAdminManagedBean.depot}" style="width:125px" requiredMessage="Please select a station">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                            <f:selectItems value="#{systemAdminManagedBean.dList}" />
+                                            <p:ajax event="change" update="team2" listener="#{systemAdminManagedBean.retrieveDTeamList(staff)}" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Team" width="25%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:outputLabel for="team2" value="Team: " />
+                                        <p:selectOneMenu id="team2" required="true" value="#{systemAdminManagedBean.dTeam}" style="width:125px" requiredMessage="Please select a team">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                            <f:selectItems value="#{systemAdminManagedBean.dTeamList}" />
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

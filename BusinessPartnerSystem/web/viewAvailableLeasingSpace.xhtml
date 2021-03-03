@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <h:form id="form">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="home.xhtml" />
+                            <p:menuitem value="Commercial Space" url="#" />
+                            <p:menuitem value="Leasing Information" url="#" />
+                            <p:menuitem value="Leasing Space" url="viewAvailableLeasingSpace.xhtml" />
+                        </p:breadCrumb>
+                    </div>
+
+                    <p:growl id="messages" severity="info,error"/>
+
+                    <div class="card card-w-title">
+                        <div align="center"><h1><b>Station Map Leasing Spaces</b></h1></div>
+                        <div align="center"><h:graphicImage value="resources/image/floorplan.png" style="width: 55%" /></div>
+                        <br/>
+                        <div align="center"><p:outputLabel for="location" value="Station: " />        
+                            <p:selectOneMenu id="location" value="#{bpTenderManagedBean.location}" style="width:200px;" required="true" requiredMessage="Please select a station">
+                                <f:selectItem itemLabel="Select a Station to View" itemValue="" />
+                                <f:selectItems value="#{bpTenderManagedBean.stationList}" />
+                                <p:ajax listener="#{bpTenderManagedBean.onSelectionChange}" update="form" />
+                            </p:selectOneMenu>
+                        </div>
+                        <br/>
+
+                        <p:dataTable paginatorPosition="bottom" var="LeasingSpaceEntity" value="#{bpTenderManagedBean.leasingList}"  expandableRowGroups="true" style="margin-bottom:20px;" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="leasingSpaceTable" filteredValue="#{bpTenderManagedBean.filteredLeasingSpace}" emptyMessage="No record found with given criteria" rendered="#{bpTenderManagedBean.showDatatable}">
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('leasingSpaceTable').filter()" style="width:120px"/>
+                                        <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                    </h:panelGroup>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Unit Number" style="width:10%" filterBy="#{LeasingSpaceEntity.unitNumber}" filterStyle="display:none">     
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.unitNumber}"  /></div>
+                            </p:column>
+
+                            <p:column headerText="Usage" style="width:15%" filterBy="#{LeasingSpaceEntity.assetName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.assetName}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Water Provision" style="width:10%" filterBy="#{LeasingSpaceEntity.waterProvision}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputText value="Yes" rendered="#{LeasingSpaceEntity.waterProvision == 'true'}" />
+                                    <h:outputText value="No" rendered="#{LeasingSpaceEntity.waterProvision == 'false'}" />
+                                </div>
+                            </p:column>                
+
+                            <p:column headerText="Floor Area" style="width:10%" filterBy="#{LeasingSpaceEntity.floorArea}sqm" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.floorArea}sqm" /></div>
+                            </p:column>
+
+                            <p:column headerText="Description" style="width:200px" filterBy="#{LeasingSpaceEntity.leaseDescription}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.leaseDescription}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Rental Fee" style="width:100px" filterBy="#{LeasingSpaceEntity.rentalFee}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="$#{LeasingSpaceEntity.rentalFee}/mth." /></div>
+                            </p:column>
+
+                            <p:column headerText="Closed Date" style="width:80px" filterBy="#{LeasingSpaceEntity.deadline}" filterStyle="display:none">
+                                <div align="center"><h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}">
+                                        <f:param id="deadline" value="#{LeasingSpaceEntity.deadline}"  />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Request" style="width:60px">
+                                <p:commandLink action="#{bpTenderManagedBean.goRequestLeasing(LeasingSpaceEntity.assetId)}" >
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 40%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

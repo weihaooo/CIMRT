@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="home.xhtml" />
+                        <p:menuitem value="Leasing Information" url="#" />
+                        <p:menuitem value="Leasing Record" url="viewMyLeasing.xhtml" />
+                        <p:menuitem value="Edit Leasing Request" url="#" />
+                    </p:breadCrumb>
+                </div>
+
+                <div class="card card-w-title">
+                    <div id="page"><h1>Edit Advertising Request</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form id="form">      
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="leasingContractId" value="Request ID: " />
+                            <h:outputText id="leasingContractId" value="#{bpTenderManagedBean.leasingContractId}" />
+                            <p:spacer/>
+
+                             <p:outputLabel for="code" value="Code: " />
+                            <h:outputText id="code" value="#{bpTenderManagedBean.code}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="location" value="Location: " />
+                            <h:outputText id="location" value="#{bpTenderManagedBean.location}" />
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="type" value="Type: " />
+                            <h:outputText id="type" value="#{bpTenderManagedBean.type}" />
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="numberCode" value="Identifier: " />
+                            <h:outputText id="numberCode" value="#{bpTenderManagedBean.numberCode}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="leaseYear" value="Contract Duration: " />     
+                            <h:outputLink id="ltv" value="#" >
+                                <p:selectOneMenu id="leaseYear" value="#{bpTenderManagedBean.leaseYear}" style="width:150px" required="true" requiredMessage="Value is required in this field" >
+                                    <f:selectItem itemLabel="Select Duration" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="1 month" itemValue="1"  />
+                                    <f:selectItem itemLabel="2 months" itemValue="2" />
+                                    <f:selectItem itemLabel="3 months" itemValue="3" />
+                                    <f:selectItem itemLabel="4 months" itemValue="4" />
+                                    <f:selectItem itemLabel="5 months" itemValue="5" />
+                                    <f:selectItem itemLabel="6 months" itemValue="6" />
+                                </p:selectOneMenu>
+                                <p:tooltip for="ltv" value="PLEASE INPUT SMTH" trackMouse="true" />
+                            </h:outputLink>
+                            <p:message for="leaseYear" />
+            
+
+                            <p:outputLabel for="reqDate" value="Submitted Date: " />  
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                <f:param id="reqDate" value="#{bpTenderManagedBean.reqDate}"  />
+                            </h:outputFormat>
+                            <p:spacer/>
+                            <p:spacer/>
+
+                            <p:commandButton value="Edit" action="#{bpTenderManagedBean.editMyAdvertising}" ajax="false" style="width: 80px" update=":form" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

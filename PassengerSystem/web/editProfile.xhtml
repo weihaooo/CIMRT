@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/index" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td width="90%">              
+                    <div class="card card-w-title">
+                        <h:form id="form">
+                            <h1 style="color:#003c95;"><b>Edit My Profile</b></h1>
+                            <h:panelGrid columns="4" cellpadding="10" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                <p:outputLabel for="username" value="Username: " />        
+                                <p:outputLabel id="username" value="#{sessionScope['username']}" />
+                                <p:spacer/><p:spacer/>
+
+                                <p:outputLabel for="pwd" value="Password:"/>
+                                <p:outputLabel id="pwd" value="*************"/>
+                                <h:outputLink value="changePW.xhtml" id="changePass"><h:graphicImage value="resources/images/edit2.png" style="width: 3%"/></h:outputLink>
+                                <p:tooltip id="toolTipGrow" for="changePass" value="Change Password"
+                                           showEffect="clip" hideEffect="explode" position="right" style="font-size: 12pt"/>
+
+                                <p:outputLabel for="firstName" value="First Name: " />        
+                                <p:inputText id="firstName" value="#{accountManagedBean.firstName}" required="true" requiredMessage="Value is required in this field" />
+                                <p:message for="firstName" /><p:spacer/>
+
+                                <p:outputLabel for="lastName" value="Last Name: " />        
+                                <p:inputText id="lastName" value="#{accountManagedBean.lastName}" required="true" requiredMessage="Value is required in this field" />
+                                <p:message for="lastName" /><p:spacer/>
+
+                                <p:outputLabel for="gender" value="Gender:" />
+                                <p:outputLabel id="gender" value="#{accountManagedBean.gender}" />
+                                <p:spacer/><p:spacer/>
+
+                                <p:outputLabel for="nric" value="NRIC:"/>
+                                <p:outputLabel id="nric" value="#{accountManagedBean.nric}"/>
+                                <p:spacer/><p:spacer/>    
+
+                                <p:outputLabel for="dob" value="Date of Birth"/>
+                                <h:outputText id="dob" value="#{accountManagedBean.dob}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                                <p:spacer/><p:spacer/>
+
+                                <p:outputLabel for="phoneNumber" value="Phone Number: " />        
+                                <p:inputText id="phoneNumber" required="true" value="#{accountManagedBean.phoneNumber}" validatorMessage="Allowable length is minimum of '8'" requiredMessage="Value is required in this field">
+                                    <f:validateLength minimum="8"/> 
+                                </p:inputText>
+                                <p:message for="phoneNumber" /><p:spacer/>
+
+                                <p:outputLabel for="emailAddress" value="Email Address: " />        
+                                <p:inputText id="emailAddress" required="true" value="#{accountManagedBean.email}" validatorMessage="Invalid email format" requiredMessage="Value is required in this field">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                                <p:message for="emailAddress" /><p:spacer/>
+
+                                <p:outputLabel for="address" value="Address: " />        
+                                <p:inputTextarea id="address" autoResize="false" required="true" value="#{accountManagedBean.address}" requiredMessage="Value is required in this field" />
+                                <p:message for="address" /><p:spacer/>
+                                <p:spacer/>
+                                <p:commandButton value="Edit" action="#{accountManagedBean.editProfile}" update=":form" style="width: 70pt"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

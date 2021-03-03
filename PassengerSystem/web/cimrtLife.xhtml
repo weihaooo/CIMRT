@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="content">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width="20%">
+                    <div class="card-w-title">
+                        <p:panelMenu>
+                            <p:submenu id="joinUs" label="Join Us" icon="ui-icon-people" expanded="true">
+                                <p:menuitem id="recruitment" value="CIMRT Recruitment" icon="ui-icon-work" outcome="/recruitment" />
+                                <p:menuitem id="lifeCIMRT" value="Life at CIMRT" icon="ui-icon-star" outcome="/cimrtLife"  />   
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">          
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>Life at CIMRT</b></h1>
+                        <p:graphicImage value="resources/images/cimrtLife.jpg" width="100%" height="40%" />
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:row>
+                                <p:column>
+                                    <br/>
+                                    At CIMRT, we understand that there’s more to life than work. We provide employees with an exciting and prospectable future; one that's balanced yet holistic.
+                                    Other than local job positions, we also offer overseas opportunities for our employees.
+                                    <br/><br/>
+                                    Our excellent reputation in the industry has allowed us to expand our business to the Middle East and Asia Pacific. Leveraging on our proven track record in offering integrated transport services, we provide operations and maintenance, engineering, consultancy and project management services to our global customers to help them manage, optimise and enhance their land transportation system. In addition to investing in ZONA and Shenzhen, we have also offered engineering consultancy and O/M services to operators in Korea, Dubai, China, India, Thailand, Vietnam and many other markets in Asia.
+                                    <br/><br/>
+                                    Our intention to grow globally has influenced the way we do business and how we select, groom and develop our people to support our global business plans. Employees have the chance to gain exposure and accumulate skills with these overseas opportunities, which will prove crucial in their career development.
+                                    <br/><br/>
+                                    You can be certain that a satisfying career awaits you at CIMRT!<br/>
+                                </p:column>
+                            </p:row>
+
+                            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <h3><b>Let's hear what our fellow CIMRT-ians have to say!</b></h3>
+                                    </p:column>
+                                </p:row>
+                                <p:spacer/>
+
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <b>Tan Ming Hui, Train Captain, Rail Operations</b><br/><br/>
+                                        <i>“At CIMRT, both my career and personal life are well balanced and meaningful. The company spares no effort in helping its employees to succeed and grow through training and other cross-functional projects. They also organise various social and recreational activities for us to participate. These include Family Day, Dinner and Dance, Inter Business Unit games and more. I really enjoy working here!” </i> 
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column rowspan="1">
+                                        <div align="center"><p:graphicImage value="resources/images/joseph.jpg" width="80%" /></div>
+                                    </p:column>
+                                </p:row>
+                                
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <b>Mohamed Faizal, Station Manager of Joo Kia Station, Rail Operations</b><br/><br/>
+                                        <i>"I am thankful to CIMRT for giving me the opportunity to excel in my work and to develop additional skill sets which prepare me for an exciting career growth. I was given a LEAP sponsorship award to further my studies. I have since been studying at National University of Coral Island, as a part-time undergraduate of Bachelor of Science in Rail Operation Management programme.
+                                        With this opportunity, I was able to acquire new skills which may be applied in CIMRT. Coupled with my work experiences, I am able to produce quality work and excel in my job. Thank you, CIMRT!” </i>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column rowspan="1">
+                                        <div align="center"><p:graphicImage value="resources/images/faizal.png" width="80%" /></div>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </div>
+                </td> 
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+
+

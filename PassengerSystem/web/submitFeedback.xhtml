@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <body>
+        <ui:define name="content">
+            <table width="100%" cellpadding="5">
+                <tr>
+                    <td valign="top" width="20%">
+                        <div class="card-w-title">
+                            <p:panelMenu>
+                                <p:submenu label="Feedback" icon="ui-icon-feedback"/>  
+                            </p:panelMenu>
+                        </div>
+                    </td>
+                    <td width="90%">          
+                        <div class="card card-w-title">
+                            <h1 style="color:#003c95;"><b>Feedback / Enquiry Form</b></h1>
+                            <h:form id="form">
+                                <!--<p:growl id="messages" severity="info" showDetail="true"/>-->
+                                <table cellpadding="8">
+                                    <tr>
+                                        <p:growl id="messages" severity="info" /> 
+                                    </tr>
+
+                                    <tr>
+                                        <td><p:outputLabel for="selectedStation" value="Station: " /> </td>
+                                        <td><p:selectOneMenu id="selectedStation" value="#{passengerFeedbackManagedBean.selectedStation}" style="width:190px" required="true" requiredMessage="Please select an option.">
+                                                <f:selectItem itemLabel="Select Station" itemValue="" />
+                                                <f:selectItem itemLabel="General Enquiry" itemValue="General Enquiry" />
+                                                <f:selectItems value="#{passengerFeedbackManagedBean.stationNames}" />               
+                                            </p:selectOneMenu></td>
+                                        <td>
+                                            <p:message for="selectedStation" /></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td><p:outputLabel for="subject" value="Subject: " /></td>
+                                        <td><p:inputText id="subject" value="#{passengerFeedbackManagedBean.subject}" style="width:300px;"  required="true" requiredMessage="Value is required in this field" /></td>
+                                        <td><p:message for="subject" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p:outputLabel for="description" value="Description: " /></td>    
+                                        <td><p:inputTextarea counter="display" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="description" value="#{passengerFeedbackManagedBean.description}" style="width:450px; height:150px;" required="true" requiredMessage="Value is required in this field"/></td>
+                                        <td><p:message for="description" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <h:outputText id="display" /> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="Submit as Anonymous: " />
+                                        </td>
+                                        <td colspan="2">
+                                            <p:selectBooleanCheckbox value="#{passengerFeedbackManagedBean.anonymous}" >
+                                                <p:ajax update="publicName mobileNo messages" listener="#{passengerFeedbackManagedBean.addMessage}" />
+                                            </p:selectBooleanCheckbox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><p:outputLabel id="nameLabel" for="publicName" value="Your Name: " /></td>
+                                        <td>
+                                            <p:inputText id="publicName" value="#{passengerFeedbackManagedBean.publicName}" style="width:150px;" required="#{passengerFeedbackManagedBean.anonymous eq false}" requiredMessage="Please state your name." disabled="#{passengerFeedbackManagedBean.anonymous eq true}"/>
+                                        </td>
+                                        <td><p:message for="publicName" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><p:outputLabel id="mobileLabel" for="mobileNo" value="Contact No: " /> </td>       
+                                        <td>
+                                            <p:inputNumber id="mobileNo" decimalPlaces="0" thousandSeparator="" value="#{passengerFeedbackManagedBean.mobileNo}" style="width:150px;" required="#{passengerFeedbackManagedBean.anonymous eq false}" requiredMessage="Please state your number." disabled="#{passengerFeedbackManagedBean.anonymous eq true}" validatorMessage="Please input proper contact number">
+                                                <f:validateLength minimum="8"/> 
+                                            </p:inputNumber>
+                                        </td>
+                                        <td><p:message for="mobileNo" />
+                                        </td>
+                                    </tr><tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <p:commandButton value="Submit" action="#{passengerFeedbackManagedBean.submitFeedback}" update="messages form" style="width: 70pt"/>
+                                        </td> 
+                                    </tr>
+                                </table>
+                            </h:form>
+                        </div>
+                    </td> 
+                </tr>
+            </table>
+        </ui:define>
+    </body>
+</ui:composition>
+
+

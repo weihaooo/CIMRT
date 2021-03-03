@@ -1,0 +1,67 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# User defined
+/nbproject/
+/nbproject/private/
+/build/
+/dist/
+/CIMRT-ejb/nbproject/private/
+/CIMRT-ejb/nbproject/
+/CIMRT-ejb/build/
+/CIMRT-ejb/dist/
+/CIMRT-war/nbproject/private/
+/CIMRT-war/nbproject/
+/CIMRT-war/build/
+/CIMRT-war/dist/
+/IntrainOperatorSystem/nbproject/private/
+/IntrainOperatorSystem/nbproject/
+/IntrainOperatorSystem/build/
+/IntrainOperatorSystem/dist/
+/PassengerSystem/nbproject/private/
+/PassengerSystem/nbproject/
+/PassengerSystem/build/
+/PassengerSystem/dist/
+/BusinessPartnerSystem/nbproject/private/
+/BusinessPartnerSystem/nbproject/
+/BusinessPartnerSystem/build/
+/BusinessPartnerSystem/dist/
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+/tag/target/
+/CITCardTopUp/nbproject/private/
+/CITCardTopUp/build/
+/CITCardTopUp/dist/
+/CIMRT-ejb/MaintenanceRemoteInterface/nbproject/private/
+/CIMRT-ejb/MaintenanceRemoteInterface/build/
+/CIMRT-ejb/MaintenanceRemoteInterface/dist/
+/CIMRT-ejb/CIMRTMobile/nbproject/private/
+/CIMRT-ejb/CIMRT-Mobile/gen/
+/CIMRT-ejb/CIMRT-Mobile/bin/
+/CIMRT-ejb/CIMRTMobileAppCordova/nbproject/private/
+/CIMRT-ejb/CIMRTMobileAppCordova/platforms/android/CordovaLib/build/
+/CIMRTMobileAppCordova/nbproject/private/
+/CIMRTMobileAppCordova/platforms/android/CordovaLib/build/
+/CIMRTMobileAppCordova/node_modules/
+/CIMRT-ejb/testing/nbproject/private/
+/testnn/nbproject/private/
+/FareTransaction/nbproject/private/
+/FareTransaction/build/
+/FareTransaction/dist/

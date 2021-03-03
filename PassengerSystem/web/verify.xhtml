@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Edit Profile</ui:define>
+
+    <ui:define name="content">
+
+        <div class="card card-w-title">
+            <table width="100%" align="center"><tr><td align="center">
+                        <h1 style="color:#003c95;"><b>OTP Authentication</b></h1>
+                        <h:form>
+                            <p:messages id="messages" severity="error,info"/>
+                            <h:panelGrid columns="3" cellpadding="5">
+
+                                <p:outputLabel for="otp" value="OTP:" />        
+                                <p:password id="otp" required="true" value="#{accountManagedBean.otp}" >
+                                </p:password>
+                                <p:message for="otp" display="text" />
+                                <p:spacer/>                            
+                                <p:commandButton value="Authenticate" action="#{accountManagedBean.authenticateOTP}" icon="ui-icon-check"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </td></tr></table>
+        </div>
+    </ui:define>
+</ui:composition>
+
+

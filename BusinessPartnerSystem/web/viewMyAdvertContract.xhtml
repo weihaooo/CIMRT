@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card" id="breadcrumbList"></div>
+
+                <h:form id="form">
+                    <div class="card">
+                        <h1>Advertising Space Process</h1>
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <p:steps activeIndex="#{bpTenderManagedBean.menu}" styleClass="custom" readonly="false">
+                            <p:menuitem value="Tenancy Agreement"  action="#{bpTenderManagedBean.goIndex1(0)}" update="form,form1,form2,form3,form4"/>
+                            <p:menuitem value="Installation"  action="#{bpTenderManagedBean.goIndex1(1)}" update="form,form1,form2,form3,form4"/>
+                            <p:menuitem value="Removal"  action="#{bpTenderManagedBean.goIndex1(2)}" update="form,form1,form2,form3,form4"/>  
+                            <p:menuitem value="End of Contract"  action="#{bpTenderManagedBean.goIndex1(3)}" update="form,form1,form2,form3,form4"/>
+                        </p:steps>
+                    </div>
+                </h:form>
+
+                <h:form id="form1"  rendered="#{bpTenderManagedBean.index == 0 }">
+                    <div class="card">
+
+                        <ul align="center">        
+                            <h:outputText value="Signing of Tenancy Agreement" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center"> 
+                            Important Note: 
+                        </ul>
+
+                        <ul align="center">
+                            Please note that your contract will start on <u>
+                                <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                    <f:param id="startDate" value="#{bpTenderManagedBean.advertisingContract.startDate}"  />
+                                </h:outputFormat> </u>
+                            and end on <u>
+                                <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                    <f:param id="endDate" value="#{bpTenderManagedBean.advertisingContract.endDate}"  />
+                                </h:outputFormat> 
+                            </u>
+                        </ul>
+
+
+                        <ul align="center">
+                            The following are the details of the appointment:
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate" value="Date: " /> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="reqDate" value="#{bpTenderManagedBean.advertisingContract.signedDate}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate1" value="Time: " /> 
+                            <h:outputFormat value="{0, date, HH.mm}" style="font-weight:bold">
+                                <f:param id="reqDate1" value="#{bpTenderManagedBean.advertisingContract.signedDate}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            Before the appointment, please
+                        </ul> 
+
+                        <ul align="center">  
+                            (1)
+                            <h:outputText value="Read the document: "/>
+                            <p:commandLink value="Tenancy Agreement" ajax="false">
+                                <p:fileDownload value="#{bpTenderManagedBean.file}" />
+                            </p:commandLink>
+                        </ul>
+
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%" rendered="#{bpTenderManagedBean.advertisingContract.signingOfAgreement == true}" />
+                        </ul>
+                    </div>
+                </h:form> 
+
+                <h:form id="form2"  rendered="#{bpTenderManagedBean.index == 1 }">
+                    <div class="card">
+                        <ul align="center">        
+                            <h:outputText value="Installation of Advertisement" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center"> 
+                            Dear Business Partner, do take note that all installation will be provided by CIMRT and will be done over the night till early morning of the contract start date.
+                            Our team will contact you asap to arrange a short meeting to have a sensing of how you would like to place your advertisement. You should receive your call in 3-5 working days.
+                            Do not hesitant to contact us regarding any matters to advertising space.
+
+                        </ul>
+
+                        <ul align="center">
+                            Please note that your contract will start on:
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold; text-decoration: underline">
+                                <f:param id="startDate" value="#{bpTenderManagedBean.advertisingContract.startDate}"  />
+                            </h:outputFormat> 
+                            and end on:
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold; text-decoration: underline">
+                                <f:param id="endDate" value="#{bpTenderManagedBean.advertisingContract.endDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+                        <ul align="center">
+                            You can <a href="tenderDocuments.xhtml">click here</a> to find out more about CIMRT policy and its terms &amp; conditions
+
+                        </ul>
+
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%" rendered="#{bpTenderManagedBean.advertisingContract.installation == true }" />
+                        </ul>
+
+                    </div>
+                </h:form>
+
+
+
+                <h:form id="form3"  rendered="#{bpTenderManagedBean.index == 2 }">
+                    <div class="card">
+
+                        <ul align="center">        
+                            <h:outputText value="Removal of Advertisement" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center">
+                            Dear Business Partner, do note that your advertisement materials will be remove on <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="ed" value="#{bpTenderManagedBean.advertisingContract.endDate}" /> </h:outputFormat> after 2359.
+                            Please come by the location where your advertising are, to collect your advertising materials on the following day. Any items materials not collected
+                            will be send back to CIMRT's HQ and be kept in the warehouse for 2 weeks. 
+                            CIMRT Pte.Ltd, CIMRT Headquarters, Reception Block A, 251 North Bridge Road Singapore 179102 within one week from this email's stipulated date.
+                            <br/><br/>
+                            Please collect them within this time period or your advertising material <u>will be dispose.</u>
+                            <br/><br/>
+                            You are also allow to renew your contract however, CIMRT staff remain the rights to accept or reject your request for contract renewal.
+                        </ul>
+
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%" rendered="#{bpTenderManagedBean.advertisingContract.removal == true }" />
+                        </ul>                 
+
+                    </div>
+                </h:form>
+
+
+                <h:form id="form4"  rendered="#{bpTenderManagedBean.index == 3 }">
+                    <div class="card">
+                        <ul align="center">        
+                            <h:outputText value="End of Contract Details" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center">
+                            Dear precious business partner, your contract that started on <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="sd" value="#{bpTenderManagedBean.advertisingContract.startDate}"  />
+                            </h:outputFormat> has ended at <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="ed" value="#{bpTenderManagedBean.advertisingContract.endDate}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center"> 
+                            Thank you for the partnership. We Look forward to work with you again.                        
+                        </ul>
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%"  />
+                        </ul>
+
+                    </div> 
+                </h:form>
+
+            </div>
+        </div>
+
+        <style type="text/css">
+            .ui-steps .ui-steps-item {
+                width: 25%;
+            }
+
+        </style>
+    </ui:define>
+
+</ui:composition>

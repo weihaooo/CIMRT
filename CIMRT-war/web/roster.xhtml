@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Roster</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" >
+                    <h:form id="form" rendered="#{rosterManagedBean.role eq 'HR' or rosterManagedBean.role eq 'Super Admin' or rosterManagedBean.role eq 'System Admin'}" >
+                        <h1>Generate Roster for Staff</h1>
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <table><tr><td>
+                                    <p:outputLabel for="node" value="Node:" style="font-size: 15pt;"/>
+                                    <p:selectOneMenu id="node" required="true" value="#{rosterManagedBean.nodeId}" style="width:260px; " requiredMessage="Please select a node">
+                                        <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                        <f:selectItems value="#{rosterManagedBean.nodes}" />
+                                        <p:ajax event="change" update="table growl" listener="#{rosterManagedBean.updateTable()}" />
+                                    </p:selectOneMenu>
+                                </td>
+                                <td>
+                                    <p:spacer width="10pt"/>
+                                    <p:outputLabel for="startDate" value="Start Date: " style="font-size: 15pt" />
+                                    <p:calendar inputStyle="width: 200px" id="startDate" mindate="#{rosterManagedBean.todayStart}" maxdate="#{rosterManagedBean.maxDateStart}" value="#{rosterManagedBean.startDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10" >
+                                        <p:ajax event="dateSelect" update="table form" listener="#{rosterManagedBean.updateTable()}" />
+                                    </p:calendar>
+                                </td>
+                                <td>
+                                    <p:spacer width="10pt"/>
+                                    <p:outputLabel for="lastDate" value="Last Date: " style="font-size: 15pt" />
+                                    <p:calendar inputStyle="width: 200px" id="lastDate" mindate="#{rosterManagedBean.todayLast}" maxdate="#{rosterManagedBean.maxDate}" value="#{rosterManagedBean.lastDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10">
+                                        <p:ajax event="dateSelect" update="table form" listener="#{rosterManagedBean.updateTable()}" />
+                                    </p:calendar>
+                                </td></tr></table>
+
+                        <br/>
+                        <p:dataTable id="table" var="roster" value="#{rosterManagedBean.rosterList}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50">
+
+                            <f:facet name="header">
+                                #{rosterManagedBean.nodeId} Roster:
+                            </f:facet>
+                            <p:column style="width:16px">
+                                <p:rowToggler />
+                            </p:column>
+                            <p:column headerText="Date">
+                                <div align="center">
+                                    <h:outputText value="#{roster.get(0).date}" style="align-items: center; align-self: " > 
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Morning Shift " />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="SS" rendered="#{roster.get(0).shift.shiftId eq 'SS1' or roster.get(0).shift.shiftId eq 'SS2' or roster.get(0).shift.shiftId eq 'SS3' or roster.get(0).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(0).shift.shiftId eq 'MS1' or roster.get(0).shift.shiftId eq 'MS2' or roster.get(0).shift.shiftId eq 'MS3' or roster.get(0).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(0).shift.shiftId eq 'TD1' or roster.get(0).shift.shiftId eq 'TD2' or roster.get(0).shift.shiftId eq 'TD3' or roster.get(0).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(0).team.teamId}" />
+                                </div>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Afternoon Shift " />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="SS" rendered="#{roster.get(1).shift.shiftId eq 'SS1' or roster.get(1).shift.shiftId eq 'SS2' or roster.get(1).shift.shiftId eq 'SS3' or roster.get(1).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(1).shift.shiftId eq 'MS1' or roster.get(1).shift.shiftId eq 'MS2' or roster.get(1).shift.shiftId eq 'MS3' or roster.get(1).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(1).shift.shiftId eq 'TD1' or roster.get(1).shift.shiftId eq 'TD2' or roster.get(1).shift.shiftId eq 'TD3' or roster.get(1).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(1).team.teamId}" /> 
+                                </div>
+                            </p:column>  
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Night Shift " />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="SS" rendered="#{roster.get(2).shift.shiftId eq 'SS1' or roster.get(2).shift.shiftId eq 'SS2' or roster.get(2).shift.shiftId eq 'SS3' or roster.get(2).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(2).shift.shiftId eq 'MS1' or roster.get(2).shift.shiftId eq 'MS2' or roster.get(2).shift.shiftId eq 'MS3' or roster.get(2).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(2).shift.shiftId eq 'TD1' or roster.get(2).shift.shiftId eq 'TD2' or roster.get(2).shift.shiftId eq 'TD3' or roster.get(2).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(2).team.teamId}" /> 
+                                </div>
+                            </p:column>
+                            <p:column headerText="Off Day">
+                                <div align="center">
+                                    <h:outputText value="SS" rendered="#{roster.get(3).shift.shiftId eq 'SS1' or roster.get(3).shift.shiftId eq 'SS2' or roster.get(3).shift.shiftId eq 'SS3' or roster.get(3).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(3).shift.shiftId eq 'MS1' or roster.get(3).shift.shiftId eq 'MS2' or roster.get(3).shift.shiftId eq 'MS3' or roster.get(3).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(3).shift.shiftId eq 'TD1' or roster.get(3).shift.shiftId eq 'TD2' or roster.get(3).shift.shiftId eq 'TD3' or roster.get(3).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(3).team.teamId}" /> 
+                                </div>
+                            </p:column>
+                            <p:column headerText="Edit" style="width:60px">
+                                <p:commandLink action="#{rosterManagedBean.goEditRoster(roster)}">
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 45%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:rowExpansion>
+                                <p:panelGrid  style="width:1400px">
+                                    <f:facet name="header">
+                                        <h3>Team's Detailed Information</h3>
+                                    </f:facet>
+                                    <ui:repeat value="#{roster}" var="teams">
+                                        <b><h:outputText value="Team:" />
+                                            <u><h:outputText value="#{teams.team.teamId}" /></u></b>
+                                        <br/>
+                                        <h:outputText value="Staff: " />
+                                        <ui:repeat value="#{teams.team.staff}" var="staff">
+                                            <h:outputText value="#{staff.staffId} - #{staff.firstName} #{staff.lastName} " />
+                                        </ui:repeat>
+                                        <br/>
+                                        <br/>
+                                    </ui:repeat>
+                                </p:panelGrid>
+                            </p:rowExpansion>
+                        </p:dataTable>
+
+                    </h:form>
+                    <h:form id="form1" rendered="#{rosterManagedBean.role eq 'HR' or rosterManagedBean.role eq 'Super Admin' or rosterManagedBean.role eq 'System Admin'}">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h3>Generate Roster</h3>
+                            <p:spacer/>
+                            <p:outputLabel for="endDate" value="Select Date:" />
+                            <p:calendar id="endDate" mindate="#{rosterManagedBean.minDate}" required="true" value="#{rosterManagedBean.endDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10" requiredMessage="Please select a date"/>
+                            <p:spacer/>
+                            <p:commandButton value="Generate Roster" update=":form :form1" action="#{rosterManagedBean.generateRoster}" />
+                        </h:panelGrid>
+                    </h:form>
+
+                    <h:form id="form2" rendered="#{rosterManagedBean.role eq 'Station Manager' or rosterManagedBean.role eq 'Depot Manager'}">
+                        <h1>#{loginManagedBean.firstName}, view your scheduled roster</h1>
+                        <p:outputLabel for="startDate1" value="Start Date: " style="font-size: 14pt"/>
+                        <p:calendar inputStyle="width: 105pt" id="startDate1" mindate="#{rosterManagedBean.todayStart}" maxdate="#{rosterManagedBean.maxDateStart}" value="#{rosterManagedBean.startDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10" >
+                            <p:ajax event="dateSelect" update="table1 form2" listener="#{rosterManagedBean.updateTable()}" />
+                        </p:calendar>
+                        <p:spacer width='15pt'/>
+                        <p:outputLabel for="lastDate1" value="Last Date: " style="font-size: 14pt"/>
+                        <p:calendar inputStyle="width: 105pt" id="lastDate1" mindate="#{rosterManagedBean.todayLast}" maxdate="#{rosterManagedBean.maxDate}" value="#{rosterManagedBean.lastDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10">
+                            <p:ajax event="dateSelect" update="table1 form2" listener="#{rosterManagedBean.updateTable()}" />
+                        </p:calendar>
+
+                        <br/><br/>
+
+                        <p:dataTable id="table1" var="roster" value="#{rosterManagedBean.rosterList}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50">
+
+                            <f:facet name="header">
+                                #{rosterManagedBean.nodeId} Roster Table
+                            </f:facet>
+                            <p:column style="width:16px">
+                                <p:rowToggler />
+                            </p:column>
+                            <p:column headerText="Date">
+                                <div align="center">
+                                    <h:outputText value="#{roster.get(0).date}" > 
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Morning Shift " />
+                                </f:facet>
+                                <div align='center'>
+                                    <h:outputText value="SS" rendered="#{roster.get(0).shift.shiftId eq 'SS1' or roster.get(0).shift.shiftId eq 'SS2' or roster.get(0).shift.shiftId eq 'SS3' or roster.get(0).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(0).shift.shiftId eq 'MS1' or roster.get(0).shift.shiftId eq 'MS2' or roster.get(0).shift.shiftId eq 'MS3' or roster.get(0).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(0).shift.shiftId eq 'TD1' or roster.get(0).shift.shiftId eq 'TD2' or roster.get(0).shift.shiftId eq 'TD3' or roster.get(0).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(0).team.teamId}" />
+                                </div>
+                            </p:column>
+
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Afternoon Shift " />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="SS" rendered="#{roster.get(1).shift.shiftId eq 'SS1' or roster.get(1).shift.shiftId eq 'SS2' or roster.get(1).shift.shiftId eq 'SS3' or roster.get(1).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(1).shift.shiftId eq 'MS1' or roster.get(1).shift.shiftId eq 'MS2' or roster.get(1).shift.shiftId eq 'MS3' or roster.get(1).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(1).shift.shiftId eq 'TD1' or roster.get(1).shift.shiftId eq 'TD2' or roster.get(1).shift.shiftId eq 'TD3' or roster.get(1).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(1).team.teamId}" /> 
+                                </div>
+                            </p:column>  
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Night Shift " />
+                                </f:facet>
+                                <div align="center">
+                                    <h:outputText value="SS" rendered="#{roster.get(2).shift.shiftId eq 'SS1' or roster.get(2).shift.shiftId eq 'SS2' or roster.get(2).shift.shiftId eq 'SS3' or roster.get(2).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(2).shift.shiftId eq 'MS1' or roster.get(2).shift.shiftId eq 'MS2' or roster.get(2).shift.shiftId eq 'MS3' or roster.get(2).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(2).shift.shiftId eq 'TD1' or roster.get(2).shift.shiftId eq 'TD2' or roster.get(2).shift.shiftId eq 'TD3' or roster.get(2).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(2).team.teamId}" /> 
+                                </div>
+                            </p:column>
+                            <p:column headerText="Off Day">
+                                <div align="center">
+                                    <h:outputText value="SS" rendered="#{roster.get(3).shift.shiftId eq 'SS1' or roster.get(3).shift.shiftId eq 'SS2' or roster.get(3).shift.shiftId eq 'SS3' or roster.get(3).shift.shiftId eq 'SS4'}"/>
+                                    <h:outputText value="MS" rendered="#{roster.get(3).shift.shiftId eq 'MS1' or roster.get(3).shift.shiftId eq 'MS2' or roster.get(3).shift.shiftId eq 'MS3' or roster.get(3).shift.shiftId eq 'MS4'}"/>
+                                    <h:outputText value="TD" rendered="#{roster.get(3).shift.shiftId eq 'TD1' or roster.get(3).shift.shiftId eq 'TD2' or roster.get(3).shift.shiftId eq 'TD3' or roster.get(3).shift.shiftId eq 'TD4'}"/>
+                                    <h:outputText value="#{roster.get(3).team.teamId}" /> 
+                                </div>
+                            </p:column>
+                            <p:column headerText="Edit" style="width:60px" rendered="#{rosterManagedBean.role eq 'Station Manager' or rosterManagedBean.role eq 'Depot Manager'}">
+                                <p:commandLink action="#{rosterManagedBean.goEditRoster(roster)}">
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 45%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:rowExpansion>
+
+                                <p:panelGrid  style="width:1600px">
+                                    <f:facet name="header">
+                                        <h3>Team's Detail Information</h3>
+                                    </f:facet>
+                                    <ui:repeat value="#{roster}" var="teams">
+                                        <b><h:outputText value="Team:" />
+                                            <u><h:outputText value="#{teams.team.teamId}" /></u></b>
+                                        <br/>
+                                        <h:outputText value="Staff: " />
+                                        <ui:repeat value="#{teams.team.staff}" var="staff">
+                                            <h:outputText value="#{staff.staffId} - #{staff.firstName} #{staff.lastName} " />
+                                        </ui:repeat>
+                                        <br/>
+                                        <br/>
+                                    </ui:repeat>
+                                </p:panelGrid>
+                            </p:rowExpansion>
+
+                        </p:dataTable> 
+                    </h:form>
+                    
+                    <h:form id="form3" rendered="#{rosterManagedBean.role eq 'Station Staff' or rosterManagedBean.role eq 'Maintenance Staff' or rosterManagedBean.role eq 'Train Driver'}">
+                        <h1>#{loginManagedBean.firstName}, view your scheduled roster</h1>
+                        <p:outputLabel for="startDate2" value="Start Date: " style="font-size: 14pt"/>
+                        <p:calendar inputStyle="width: 105pt" id="startDate2" mindate="#{rosterManagedBean.todayStart}" maxdate="#{rosterManagedBean.maxDateStart}" value="#{rosterManagedBean.startDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10" >
+                            <p:ajax event="dateSelect" update="table2 form3" listener="#{rosterManagedBean.updateTable()}" />
+                        </p:calendar>
+                        <p:spacer width='15pt'/>
+                        <p:outputLabel for="lastDate2" value="Last Date: " style="font-size: 14pt"/>
+                        <p:calendar inputStyle="width: 105pt" id="lastDate2" mindate="#{rosterManagedBean.todayLast}" maxdate="#{rosterManagedBean.maxDate}" value="#{rosterManagedBean.lastDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10">
+                            <p:ajax event="dateSelect" update="table2 form3" listener="#{rosterManagedBean.updateTable()}" />
+                        </p:calendar>
+
+                        <br/><br/>
+
+                        <p:dataTable id="table2" var="shift" value="#{rosterManagedBean.shiftList}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50" rowIndexVar="index">
+
+                            <f:facet name="header">
+                                #{rosterManagedBean.nodeId} Roster Table
+                            </f:facet>
+                            <p:column style="width:16px">
+                                <p:rowToggler />
+                            </p:column>
+                            <p:column headerText="Date">
+                                <div align="center">
+                                    <h:outputText value="#{rosterManagedBean.dateList.get(index)}" > 
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Shift " />
+                                </f:facet>
+                                <div align='center'>
+                                    <h:outputText value="#{shift}" />
+                                </div>
+                            </p:column>
+
+                        </p:dataTable> 
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

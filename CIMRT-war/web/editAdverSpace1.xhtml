@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Edit Advertisement Space</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Edit Advertisement Space</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+
+                        <h:panelGrid columns="3" cellpadding="4" >
+                            
+                            <p:outputLabel for="assetId" value="Asset ID: " />
+                            <h:outputText id="assetId" value="#{infraAssetManagedBean.assetId}" />
+                            <p:spacer/>
+
+                           <p:outputLabel for="assetName" value="Venue: " />
+                            <h:outputText id="assetName" value="#{infraAssetManagedBean.assetName}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="code" value="Code: " />
+                            <h:outputText id="code" value="#{infraAssetManagedBean.code}" />
+                            <p:spacer/>
+                                                
+                            <p:outputLabel for="location" value="Location: " />
+                            <h:outputText id="location" value="#{infraAssetManagedBean.location}" />
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="type" value="Type: " />
+                            <h:outputText id="type" value="#{infraAssetManagedBean.type}" />
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="numbercode" value="Identifier: " />
+                            <h:outputText id="numberCode" value="#{infraAssetManagedBean.numberCode}" />
+                            <p:spacer/>
+                            
+                            <h:outputText style="font-weight:bold" value="Fee charged by per month" /><p:spacer/><p:spacer/>
+                            
+                            <h:outputLabel for="peakPeriod" value="Peak Period: ($) " />     
+                            <h:outputLink id="Peak" value="#">
+                            <p:inputNumber id="peakPeriod" value="#{infraAssetManagedBean.peakPeriod}" style="width:228px" required="true" requiredMessage="Value is required in this field" />
+                            <p:tooltip for="Peak" value="From 0730 - 0930, 1730 - 1930 " trackMouse="true" />
+                            </h:outputLink>
+                            <p:message for="peakPeriod" />
+
+                            <p:outputLabel for="nonpeakPeriod" value="Non Peak Period: ($) " />
+                            <h:outputLink id="nonPeak" value="#">
+                                <p:inputNumber id="nonpeakPeriod" value="#{infraAssetManagedBean.nonpeakPeriod}" style="width:228px" required="true" requiredMessage="Value is required in this field" />
+                                <p:tooltip for="nonPeak" value="From 0530 - 0729, 0931 -1729, 1931 - 2359" trackMouse="true" />
+                            </h:outputLink>
+                            <p:message for="nonpeakPeriod" />
+
+                            <p:outputLabel for="deadline" value="Closed Date: " />
+                            <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}">
+                                <f:param id="deadline" value="#{infraAssetManagedBean.deadline}" />
+                            </h:outputFormat><p:spacer/><p:spacer/>
+
+
+                            <h:commandButton value="Update" action="#{infraAssetManagedBean.updateAdvertisementSpace1}" style="width: 80px" />
+
+                        </h:panelGrid>
+                      
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

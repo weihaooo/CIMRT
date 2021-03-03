@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - View Station/Depot Train Schedule</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                     <div id="page"><h1>View Station/Depot Train Schedule</h1></div>
+                    <h:form id="form">
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="route" value="Route: " />
+                            <p:selectOneMenu id="route" value="#{nodeScheduleManagedBean.route}" style="width:186px" required="true" requiredMessage="Please Select a Route">
+                                <p:ajax listener="#{nodeScheduleManagedBean.onRouteChange}" update="scheduleStructure" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                <f:selectItems value="#{nodeScheduleManagedBean.routes}" />
+                            </p:selectOneMenu>
+                            <p:message for="route" />
+                            <p:outputLabel for="node" value="Station" />
+                            <p:outputLabel id="node" value="#{nodeScheduleManagedBean.nodeCode}" />
+                        </h:panelGrid>
+                        <p:dataTable id="scheduleStructure" var="TripStationScheduleEntity" value="#{nodeScheduleManagedBean.viewSchedules}" style="width:800px; margin-left: 9px"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15">
+                            <p:column headerText="Trip Number" sortBy="#{TripStationScheduleEntity.tripNum}">
+                                <div align="center"><h:outputText value="#{TripStationScheduleEntity.tripNum}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Arrival Time">
+                                <div align="center">
+                                    <h:outputText value="#{TripStationScheduleEntity.arrivalTime}">
+                                        <f:convertDateTime pattern="HH:mm:ss" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Departure Time">
+                                <div align="center">
+                                    <h:outputText value="#{TripStationScheduleEntity.departureTime}">
+                                        <f:convertDateTime pattern="HH:mm:ss" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+                            
+                            <p:column headerText="Rolling Stock" rendered="#{nodeScheduleManagedBean.isDepot}">
+                                <div align="center">
+                                    <h:outputText value="#{TripStationScheduleEntity.rollingStock.infraId}"/>
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                        <br/>
+                        <div style="margin-left: 9px">
+                            <h:commandButton value="Submit Delay Request" action="#{nodeScheduleManagedBean.goEdit()}" rendered="#{nodeScheduleManagedBean.canSubmitDelayRequest}"/>
+                        </div>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

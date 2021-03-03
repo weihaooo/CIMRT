@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card" id="breadcrumbList"></div>
+
+                <div class="card card-w-title">
+                    <h1>Transaction </h1>
+                    <h:form id="form">
+                        <p:growl severity="info,error" autoUpdate="true"/>
+
+                        <h:panelGrid columns="3" cellpadding="10" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:outputLabel for="type" value="Transaction Type: " />
+                            <p:selectOneRadio id="type" value="#{transactionManagedBean.type}" required="true" onclick="location.reload()">
+                                <f:selectItem itemLabel="Card" itemValue="Card" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                                <p:ajax event="valueChange" update="card cardLabel nric nricLabel"  />
+                            </p:selectOneRadio>
+                            <p:message for="type" />
+
+                            <p:outputLabel for="amount" value="Transaction Amount: " />
+                            <p:inputNumber id="amount" value="#{transactionManagedBean.amount}" required="true" requiredMessage="Please enter transaction amount!" validatorMessage="Please enter a value higher than 0">
+                                <f:validateDoubleRange minimum="1" />
+                            </p:inputNumber>
+                            <p:message for="amount" />
+
+
+                            <p:outputLabel id="nricLabel" for="nric" value="NRIC: " rendered="#{transactionManagedBean.type eq 'Others'}"/>
+                            <p:inputText id="nric" value="#{transactionManagedBean.nric}" required="true" rendered="#{transactionManagedBean.type eq 'Others'}" requiredMessage="Please enter NRIC!"/>
+                            <p:message for="nric" rendered="#{transactionManagedBean.type eq 'Others'}" />
+
+
+                            <p:outputLabel id="cardLabel" for="card" value="Card ID: " rendered="#{transactionManagedBean.type eq 'Card'}"/>
+                            <p:inputText id="card" value="#{transactionManagedBean.cardId}" rendered="#{transactionManagedBean.type eq 'Card'}" required="true" requiredMessage="Please enter CARD ID!"/>
+                            <p:message for="card" rendered="#{transactionManagedBean.type eq 'Card'}"/>
+                            <p:spacer/>
+
+                            <p:commandButton value="Submit" ajax="false" action="#{transactionManagedBean.submitTransaction}" />
+                        </h:panelGrid>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

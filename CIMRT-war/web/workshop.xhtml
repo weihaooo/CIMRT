@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Enrolled Workshops</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h:form id="form">
+                        <div id="list"><h1>#{loginManagedBean.firstName} #{loginManagedBean.lastName}'s Enrolled Workshop</h1></div>
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <p:dataTable paginatorPosition="bottom" var="workshop" value="#{manpowerManagedBean.workshopsByStaff}" expandableRowGroups="true" style="margin-bottom:20px; width: 99%; margin-right: 5px" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="workshopTable" emptyMessage="You did not attend any workshops yet">
+
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <div align="right">
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('workshopTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </div>
+                                </p:outputPanel>
+                            </f:facet>
+
+
+                            <p:column style="width:30px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Workshop ID" style="width:200px">
+                                <h:outputText value="#{workshop.workshopId}" /> 
+                            </p:column>
+
+                            <p:column headerText="Name" style="width:200px">
+                                <h:outputText value="#{workshop.workshopName}" /> 
+                            </p:column>
+
+                            <p:column headerText="Start Date" style="width:200px">
+                                <h:outputText value="#{workshop.startDate}" /> 
+                            </p:column>
+
+                            <p:column headerText="End Date" style="width:200px">
+                                <h:outputText value="#{workshop.endDate}" /> 
+                            </p:column>
+
+
+                            <p:rowExpansion>
+                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:800px;">
+
+                                    <h:outputText value="Workshop Name" style="width:200px;"/>
+                                    <h:outputText value="#{workshop.workshopName}"/>
+
+                                    <h:outputText value="Type" style="width:200px;"/>
+                                    <h:outputText value="#{workshop.workshopType}"/>
+
+                                    <h:outputText value="Description" style="width:200px"/>
+                                    <h:outputText value="#{workshop.description}"/>
+
+                                    <h:outputText value="Address" style="width:200px;"/>
+                                    <h:outputText value="#{workshop.workshopAddress}" />
+
+                                    <h:outputText value="Start Date" style="width:200px;"/>
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                        <f:param value="#{workshop.startDate}" />
+                                    </h:outputFormat>
+                                    <h:outputText value="End Date" style="width:200px;"/>
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                        <f:param value="#{workshop.endDate}" />
+                                    </h:outputFormat>
+
+                                    <h:outputText value="Workshop Start Time" style="width:200px;"/>
+                                    <h:outputText value="#{workshop.workshopStartTime}" />
+
+                                    <h:outputText value="Workshop End Time" style="width:200px;"/>
+                                    <h:outputText value="#{workshop.workshopEndTime}" />
+
+                                </p:panelGrid>
+                            </p:rowExpansion>
+
+                        </p:dataTable>
+
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

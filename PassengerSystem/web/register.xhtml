@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <body>
+        <ui:define name="content">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card card-w-title">
+                        <h:form id="form">
+                            <p:growl for="message1" severity="info,error" />
+                            <h1 style="color:#003c95;"><b>CIMRT Member Registration</b></h1>
+                            <p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                <p:outputLabel for="username" value="Username:"/>
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="username" value="#{accountManagedBean.username}" required="true" style="width: 150pt" requiredMessage="Please enter your username"/>
+                                </h:panelGroup>
+                                <p:message for="username"/>
+
+                                <p:outputLabel for="pwd" value="Password:"/>
+                                <p:password id="pwd" match="pwd2" value="#{accountManagedBean.password}" required="true" style="width: 150pt" requiredMessage="Please enter your password"/>
+                                <p:message for="pwd"/>
+
+                                <p:outputLabel for="pwd2" value="Retype Password:"/>
+                                <p:password id="pwd2" required="true" value="#{accountManagedBean.password2}" style="width: 150pt" requiredMessage="Please re-enter your password"/>
+                                <p:message for="pwd2"/>
+
+                                <p:outputLabel for="firstName" value="First Name:"/>
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="firstName" value="#{accountManagedBean.firstName}" required="true" style="width: 150pt" requiredMessage="Please enter your First Name"/>
+                                </h:panelGroup>
+                                <p:message for="firstName"/>
+
+                                <p:outputLabel for="lastName" value="Last Name:"/>
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="lastName" value="#{accountManagedBean.lastName}" required="true" style="width: 150pt" requiredMessage="Please enter your Last Name"/>
+                                </h:panelGroup>
+                                <p:message for="lastName"/>
+
+                                <p:outputLabel for="gender" value="Gender:" />
+                                <p:selectOneButton id="gender" value="#{accountManagedBean.gender}" required="true" requiredMessage="Value is required in this field">
+                                    <f:selectItem itemLabel="Male" itemValue="M" />
+                                    <f:selectItem itemLabel="Female" itemValue="F" />
+                                </p:selectOneButton>
+                                <p:message for="gender"/>
+
+                                <p:outputLabel for="nric" value="NRIC:"/>
+                                <p:inputText id="nric" required="true" value="#{accountManagedBean.nric}" style="width: 150pt" requiredMessage="Please enter your NRIC"/>
+                                <p:message for="nric"/>
+
+                                <p:outputLabel for="dob" value="Date of Birth"/>
+                                <p:calendar id="dob" required="true" value="#{accountManagedBean.dob}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-80:c+0" requiredMessage="Please select a date" style="width: 150pt"/>
+                                <p:message for="dob"/>
+
+                                <p:outputLabel for="email" value="Email Address"/>
+                                <p:keyboard id="email" required="true" value="#{accountManagedBean.email}" style="width: 150pt" requiredMessage="Please enter your email address"/>
+                                <p:message for="email"/>
+
+                                <p:outputLabel for="phoneNum" value="Phone Number"/>
+                                <p:inputMask id="phoneNum" mask="99999999" required="true" value="#{accountManagedBean.phoneNumber}" style="width: 150pt" requiredMessage="Please enter your phone number"/>
+                                <p:message for="phoneNum"/>
+
+                                <p:outputLabel for="address" value="Address"/>
+                                <p:inputTextarea id="address" autoResize="false" required="true" value="#{accountManagedBean.address}" style="width: 270pt" requiredMessage="Please enter your address"/>
+                                <p:message for="address"/>
+
+                                <p:outputLabel for="question" value="Security Question: " />
+                                <p:selectOneMenu id="question" required="true" value="#{accountManagedBean.secretQuestion}" requiredMessage="Please select a question" style="width: 220pt">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                    <f:selectItems value="#{accountManagedBean.questionList}" />
+                                </p:selectOneMenu>
+                                <p:message for="question"/>
+
+                                <p:outputLabel for="answer" value="Your Answer: " />        
+                                <p:inputText id="answer" required="true" value="#{accountManagedBean.secretAnswer}" requiredMessage="Please enter your answer" style="width: 220pt"/>
+                                <p:message for="answer"/>
+
+                                <p:spacer/>
+                                <p:commandButton value="Register" action="#{accountManagedBean.register}" ajax="false" style="width:125pt" update=":form"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+
+        </ui:define>
+    </body>
+</ui:composition>
+

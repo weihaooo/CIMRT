@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:outputStylesheet library="css" name="style.css"  />
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Add Trip Report </title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Add Trip Report</h1></div>
+
+                    <h:form>
+                        <p:messages id="messages" severity="error,info" />
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="date" value="Date: " />
+                             <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}">
+                                        <f:param id="date" value="#{reportManagedBean.todayDate}"  />
+                           </h:outputFormat>
+                            <p:spacer/>
+
+                            <p:outputLabel for="rollingStockId" value="Rolling Stock Infra ID: " />  
+                            <p:selectOneMenu id="rollingStockId"  required="true" value="#{reportManagedBean.rollingStock}" style="width:125px" requiredMessage="Rolling Stock Infra ID: Please select a rolling stock!">
+                              <p:ajax listener="#{reportManagedBean.onLocationChange}" update="code" />    
+                                <f:selectItem itemLabel="Select One" itemValue="" />                             
+                                <f:selectItems value="#{reportManagedBean.rollingStockList}" />
+                            </p:selectOneMenu>
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="code" value="Code: " />
+                            <p:selectOneMenu id="code" value="#{reportManagedBean.code}" style="width:200px" required="true" requiredMessage="Please select a code">  
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Not Applicable" itemValue="Not Applicable" />
+                                <f:selectItems value="#{reportManagedBean.codes}" />
+                            </p:selectOneMenu>
+                            <p:message for="code" />
+   
+                            <h3 style="margin-top:0">Checklist</h3><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="cabinLight" value="Cabin Light:" />
+                            <p:selectOneRadio id="cabinLight" value="#{reportManagedBean.cabinLight}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="cabinLight" />
+                            
+                            <p:outputLabel for="tailLight" value="Tail Light:" />
+                            <p:selectOneRadio id="tailLight" value="#{reportManagedBean.tailLight}"  required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="tailLight" /> 
+                            
+
+                            <p:outputLabel for="headLight" value="Head Light:" />
+                            <p:selectOneRadio id="headLight" value="#{reportManagedBean.headLight}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="headLight" />
+
+                            <p:outputLabel for="reverser" value="Reverser:" />
+                            <p:selectOneRadio id="reverser" value="#{reportManagedBean.reverser}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="reverser" /> 
+
+                            <p:outputLabel for="switchPanel" value="Switch Panel:" />
+                            <p:selectOneRadio id="switchPanel" value="#{reportManagedBean.switchPanel}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="switchPanel" /> 
+
+                            <p:outputLabel for="horn" value="Horn:" />
+                            <p:selectOneRadio id="horn" value="#{reportManagedBean.horn}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="horn" /> 
+
+                            <p:outputLabel for="microphone" value="Microphone:" />
+                            <p:selectOneRadio id="microphone" value="#{reportManagedBean.microphone}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="microphone" /> 
+
+                            <p:outputLabel for="speaker" value="Speaker" />
+                            <p:selectOneRadio id="speaker" value="#{reportManagedBean.speaker}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="speaker" /> 
+
+                            <p:outputLabel for="ledDisplay" value="LED Display:" />
+                            <p:selectOneRadio id="ledDisplay" value="#{reportManagedBean.ledDisplay}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="ledDisplay" /> 
+
+                            <p:outputLabel for="wipers" value="Wipers:" />
+                            <p:selectOneRadio id="wipers" value="#{reportManagedBean.wipers}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="wipers" /> 
+
+                            <p:outputLabel for="washers" value="Washers:" />
+                            <p:selectOneRadio id="washers" value="#{reportManagedBean.washers}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="washers" /> 
+
+                            <p:outputLabel for="remarks" value="Remarks: " style="width:125px" />
+                            <p:inputTextarea counter="display" required="true" requiredMessage="Remarks: Input value is required in this field!" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="remarks" value="#{reportManagedBean.remarks}" style="width:900px; height:200px;"/>
+                            <p:spacer/>
+
+                            <p:spacer/><h:outputText id="display" /><p:spacer/>          
+
+                            <p:spacer/>
+                            <h:commandButton value="Add" action="#{reportManagedBean.addTripReport}" />
+                        </h:panelGrid> 
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

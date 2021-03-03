@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Add New Job</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Add New Job</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+                        <h:panelGrid columns="3" cellpadding="5" >    
+
+                            <p:outputLabel for="jobTitle" value="Job Title: " />
+                            <p:inputText id="jobTitle" value="#{operationsManagedBean.jobTitle}" style="width:200px" required="true" requiredMessage="Please enter a job title">
+                            </p:inputText>
+                            <p:message for="jobTitle" />
+                            
+                            <p:outputLabel for="location" value="Department: " />
+                            <p:selectOneMenu id="location" value="#{operationsManagedBean.location}" style="width:200px" required="true" requiredMessage="Please select a location">
+                             <p:ajax listener="#{operationsManagedBean.onLocationChange1}" update="jobPosition" />  
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="HQ" itemValue="HQ" />
+                                <f:selectItem itemLabel="Station" itemValue="Station" />
+                                <f:selectItem itemLabel="Depot" itemValue="Depot" />
+                            </p:selectOneMenu>
+                            <p:message for="location" />
+                            
+                            
+                            <p:outputLabel for="jobPosition" value="Job Position: " />
+                            <p:selectOneMenu id="jobPosition" value="#{operationsManagedBean.jobPosition}" style="width: 150pt" effect="fold" editable="true" required="true" requiredMessage="Please select or manually input a position">
+                                <f:selectItem itemValue="" />
+                                <f:selectItems value="#{operationsManagedBean.roleNames}" />
+                            </p:selectOneMenu>  
+                            <p:message for="jobPosition" />
+                          
+                            <p:outputLabel for="jobType" value="Type: " />
+                            <p:selectOneMenu id="jobType" required="true" value="#{operationsManagedBean.jobType}" style="width:200px" requiredMessage="Please select a job type">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Part Time" itemValue="Part Time" />
+                                <f:selectItem itemLabel="Full Time" itemValue="Full Time" />
+                                <f:selectItem itemLabel="Contract" itemValue="Contract" />
+                                <f:selectItem itemLabel="Temporary" itemValue="Temporary" />
+                                <f:selectItem itemLabel="Internship" itemValue="Internship" />
+                            </p:selectOneMenu>
+                            <p:message for="jobType" />
+                              
+                            <h:outputText style="font-weight:bold" value="Salary is by per month" /><p:spacer/><p:spacer/>
+           
+                            <p:outputLabel for="jobSalary" value="Salary: ($) " />        
+                            <p:inputNumber id="jobSalary" value="#{operationsManagedBean.jobSalary}" required="true" requiredMessage="Value is required in this field" validatorMessage="Please do not submit with a value of 0">
+                            <f:validateLongRange minimum="1" />
+                            </p:inputNumber>
+                            <p:message for="jobSalary" />
+                           
+                           <p:outputLabel for="jobDescription" value="Description: " /> 
+                           <p:inputTextarea counter="display" required="true" requiredMessage="Please input value for Description" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" id="jobDescription" value="#{operationsManagedBean.jobDescription}" style="width:400px; height:100px;"/>
+                           <p:message for="jobDescription" />                         
+                           <p:spacer/><h:outputText id="display" /><p:spacer/> 
+                           
+                           <p:outputLabel for="jobQualifications" value="Qualification: " /> 
+                           <p:inputTextarea counter="display1" required="true" requiredMessage="Please input value for Qualification" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" id="jobQualifications" value="#{operationsManagedBean.jobQualifications}" style="width:400px; height:100px;"/>
+                           <p:message for="jobQualifications" />                       
+                           <p:spacer/><h:outputText id="display1" /><p:spacer/>
+                           
+                           <p:outputLabel for="jobDeadline" value="Close Date: " />
+                            <p:calendar id="jobDeadline" value="#{operationsManagedBean.jobDeadline}" mindate="#{operationsManagedBean.todayDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-80:c+0" required="true" requiredMessage="Please select a date"/>
+                            <p:message for="jobDeadline" /><p:spacer/>
+                           
+                            <h:commandButton value="Create" action="#{operationsManagedBean.createJob}" style="width: 80px" />
+                            
+                        </h:panelGrid>
+
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Send Messages</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+            <p:layoutUnit position="center">
+                <div id="page"><h1>Send Messages</h1></div>
+                <h:form>
+                    <f:event type="preRenderView" listener="#{facesContext.externalContext.response.setHeader('Cache-Control', 'no-cache, no-store')}" />
+                    <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel for="receiver" value="To: " style="width:125px" />
+                        <p:selectOneMenu id="receiver" value="#{commonManagedBean.receiver}" style="width:190px">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{commonManagedBean.receiverList}" />
+                            <p:ajax event="change" update="conversationList" listener="#{commonManagedBean.updateConversationList}" />
+                        </p:selectOneMenu> 
+                        <p:spacer/>
+
+                        <p:outputLabel for="msgContent" value="Input Message" style="width:125px" />
+                        <p:inputTextarea counter="display" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="msgContent" value="#{commonManagedBean.msgContent}" style="width:905px; height:150px;"/>
+                        <p:spacer/><p:spacer/><h:outputText id="display" />
+
+                    </h:panelGrid> 
+
+                    <table width="800"><tr><td width="108"></td><td>
+                                <h:panelGrid cellpadding="5" columns="3">
+                                    <p:spacer/>
+                                    <p:commandButton value="Send" action="#{commonManagedBean.sendMessage}" update="conversationList" />  
+                                    <p:commandButton value="Clear" action="#{commonManagedBean.clearMessage}" update="conversationList" /> 
+                                </h:panelGrid>
+                                <p:spacer/>
+                            </td></tr></table>
+
+                </h:form>
+                <h:form id="conversationList">
+                    <div align="center">
+                        <p:dataTable  var="convoList" value="#{commonManagedBean.conversationList}" style="margin-bottom:20px; width: 71%; margin-right: 110px" rows="10"
+                                      paginator="true"
+                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                      rowsPerPageTemplate="10,20,30,40,50" >
+                            <f:facet name="header">
+                                Conversation Log:
+                            </f:facet>
+
+                            <p:column headerText="Message Date" width="40%">
+                                <h:outputText value="#{convoList.messageDate}" style="align-items: center; align-self: " >
+                                    
+                                        <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:MM" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Sender" width="15%">
+                                <h:outputText value="#{convoList.senderName}" />
+                            </p:column>
+
+                            <p:column headerText="Receiver" width="15%">
+                                <h:outputText value="#{convoList.receiverName}" />
+                            </p:column>
+
+
+                            <p:column headerText="Message" width="39%">
+                                <div align="center">
+                                    <h:outputText value="#{convoList.msgContent}" /> 
+                                </div>
+                            </p:column>              
+
+                        </p:dataTable>   
+                    </div>
+                </h:form>
+
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
+
+
+

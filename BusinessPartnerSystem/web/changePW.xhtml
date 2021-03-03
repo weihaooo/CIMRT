@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="card">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="home.xhtml" />
+                <p:menuitem value="Profile" url="profile.xhtml" />
+                <p:menuitem value="Change Password" url="changePW.xhtml" />
+            </p:breadCrumb>
+        </div>
+
+        <table width="1247pt" style="margin-left: 3pt"><tr><td>
+                    <h:form id="form">
+                        <div class="card card-w-title">
+                            <h1>Change Password</h1>
+
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                <p:outputLabel for="partnerId" value="Partner ID: " />        
+                                <h:outputText id="partnerId" value="#{sessionScope['partnerId']}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="password" value="Enter Your Current Password: " />        
+                                <p:password id="password" required="true" value="#{accountManagedBean.password}" />
+                                <p:message for="password" />
+
+                                <p:outputLabel for="newPW" value="Enter Your New Password: " />        
+                                <p:password id="newPW" required="true" value="#{accountManagedBean.newPW}" match="newPW2" validatorMessage="New password does not match!" inline="true" style="margin-top:10px;" feedback="true"/>
+                                <p:message for="newPW" />
+
+                                <p:outputLabel for="newPW2" value="Confirm Your New Password: " />        
+                                <p:password id="newPW2" required="true" value="#{accountManagedBean.newPW2}" inline="true" style="margin-top:10px;" feedback="true">
+                                    <f:validateLength minimum="8"/>
+                                </p:password>
+                                <p:message for="newPW2" />
+
+                                <br/>
+
+                                <p:commandButton update=":form" value="Change Password" action="#{accountManagedBean.changePassword}" />
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+
+                </td></tr></table>
+    </ui:define>
+
+</ui:composition>

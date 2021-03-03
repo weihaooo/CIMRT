@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Workshop List</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+
+                    <h:form id="form" rendered="#{manpowerManagedBean.role eq 'Station Manager' or manpowerManagedBean.role eq 'Depot Manager'}">
+                        <div id="list"><h1>List of Available Workshops</h1></div>
+                        <p:growl severity="info,error" showDetail="true"/>
+                        <p:dataTable var="workshopEntity" value="#{manpowerManagedBean.workshopList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="workshopTable" filteredValue="#{manpowerManagedBean.filteredWorkshopList}" emptyMessage="No workshop found with given criteria"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('workshopTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column style="width:5px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Workshop ID" style="width:5%" filterBy="#{workshopEntity.workshopId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{workshopEntity.workshopId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Workshop Name" style="width:200px" filterBy="#{workshopEntity.workshopName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{workshopEntity.workshopName}" /></div>
+                            </p:column>
+
+                            <p:rowExpansion>
+                                <h3>Workshop's Detail Information</h3>
+                                <table style='margin-bottom: 10pt'>
+                                    <tr>
+                                        <td width="213pt">
+                                            <b><h:outputText value="Workshop ID" /></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopId}" /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Workshop Name"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopName}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Type"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopType}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Description"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.description}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Address"/></b>
+                                        </td><td><h:outputText value="#{workshopEntity.workshopAddress}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Commencement Date"/></b>
+                                        </td>
+                                        <td><h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                                <f:param value="#{workshopEntity.startDate}" />
+                                            </h:outputFormat>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="End Date"/></b>
+                                        </td>
+                                        <td> <h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                                <f:param value="#{workshopEntity.endDate}" />
+                                            </h:outputFormat></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Workshop Start Time"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopStartTime}" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Workshop End Time"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopEndTime}" /></td>
+                                    </tr>
+                                </table>
+                            </p:rowExpansion>
+
+                            <p:column headerText="Sign Up" style="width:60px">
+                                <p:commandLink action="#{manpowerManagedBean.goToSignup(workshopEntity.workshopId, workshopEntity.workshopName)}">
+                                    <div align="center"><h:graphicImage value="resources/image/register.png" style="width: 16%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="View Participants" style="width:60px">
+                                <p:commandLink action="#{manpowerManagedBean.viewParticipants(workshopEntity.workshopId, workshopEntity.workshopName)}">
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 16%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+
+                    <h:form id="form1" rendered="#{manpowerManagedBean.role eq 'HR'}">
+                        <div id="list"><h1>List of Available Workshop</h1></div>
+                        <p:growl severity="info,error" showDetail="true"/>
+                        <p:dataTable var="workshopEntity" value="#{manpowerManagedBean.workshopList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="workshopTable" filteredValue="#{manpowerManagedBean.filteredWorkshopList}" emptyMessage="No workshop found with given criteria"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('workshopTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <f:facet name="footer">
+                                <div align="right">
+                                    <h:commandButton value="Create New Workshop" action="#{manpowerManagedBean.goToCreateWorkshop}"/>
+                                </div>
+                            </f:facet>
+
+                            <p:column style="width:5px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Workshop ID" style="width:6%" filterBy="#{workshopEntity.workshopId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{workshopEntity.workshopId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Workshop Name" style="width:200px" filterBy="#{workshopEntity.workshopName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{workshopEntity.workshopName}" /></div>
+                            </p:column>
+
+                            <p:rowExpansion>
+                                <h3>Workshop's Detail Information</h3>
+                                <table style="margin-bottom: 10pt">
+                                    <tr>
+                                        <td width="213pt">
+                                            <b><h:outputText value="Workshop ID" /></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopId}" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Workshop Name"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopName}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Type"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopType}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Description"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.description}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Address"/></b>
+                                        </td><td><h:outputText value="#{workshopEntity.workshopAddress}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Commencement Date"/></b>
+                                        </td>
+                                        <td><h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                                <f:param value="#{workshopEntity.startDate}" />
+                                            </h:outputFormat>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="End Date"/></b>
+                                        </td>
+                                        <td><h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                                <f:param value="#{workshopEntity.endDate}" />
+                                            </h:outputFormat></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Workshop Start Time"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopStartTime}" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Workshop End Time"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{workshopEntity.workshopEndTime}" /></td>
+                                    </tr>
+                                </table>
+
+                            </p:rowExpansion>
+
+                            <p:column headerText="Edit" style="width:30px">
+                                <p:commandLink action="#{manpowerManagedBean.editWorkshop(workshopEntity.workshopId)}">
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 32%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Sign Up" style="width:30px">
+                                <p:commandLink action="#{manpowerManagedBean.goToSignupHR(workshopEntity.workshopId, workshopEntity.workshopName)}">
+                                    <div align="center"><h:graphicImage value="resources/image/register.png" style="width: 32%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="View Participants" style="width:50px">
+                                <p:commandLink action="#{manpowerManagedBean.viewParticipantsHR(workshopEntity.workshopId, workshopEntity.workshopName)}">
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 22%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Delete" style="width:30px">
+                                <p:growl id="message" severity="info,error" showDetail="true" />
+                                <p:commandLink action="#{manpowerManagedBean.deleteWorkshop(workshopEntity.workshopId)}" update="message">
+                                    <p:confirm header="Confirmation" message="Are you sure you want to delete?" icon="ui-icon-alert" />
+                                    <div align="center"><h:graphicImage value="resources/image/delete.png" style="width: 32%" /></div>
+                                </p:commandLink>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <div align="center">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </div>
+                                </p:confirmDialog>
+                            </p:column>  
+
+                        </p:dataTable>
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+    </f:view>
+</html>

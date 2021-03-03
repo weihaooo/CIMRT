@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+        <ui:define name="content">
+            <!--                    <ui:include src="calculatorTab.xhtml"/>-->
+            <!--                     <div id="page"><h1>Trip Fare Calculator</h1></div>-->
+
+            <table width="100%" cellpadding="5">
+                <tr>
+                    <td valign="top" width='20%'>
+                        <div class="card-w-title">               
+                            <p:panelMenu>
+                                <p:submenu id="passenger" label="Our Passengers" icon="ui-icon-people" expanded="true">
+                                    <p:submenu id="trainInfo" label="Train Information" icon="ui-icon-train">
+                                        <p:menuitem id="journeyPlanner" value="Journey Planner" icon="ui-icon-map" outcome="/timeCalculator" />
+                                        <p:menuitem id="fareCalculator" value="Train Fare Information" icon="ui-icon-attach-money " outcome="/fareCalculator" />
+                                        <p:menuitem id="arrivalTime" value="Train Arrival Time" icon="ui-icon-access-time" outcome="/nextTwoTrainSchedule" />
+                                         <p:menuitem id="firstLastTrain" value="First and Last Train" icon="ui-icon-train" outcome="/firstTrainLastTrain" />
+                                    </p:submenu>
+                                    <p:submenu id="travelInfo" label="Travel Information" icon="ui-icon-info-outline">
+                                        <p:menuitem id="um_lnk112" value="Accessibility" icon="ui-icon-accessibility" outcome="/accessibility" />
+                                        <p:menuitem id="um_lnk113" value="Visit Coral Island" icon="ui-icon-streetview" outcome="/visitCoralIsland" />
+                                    </p:submenu>
+                                    <p:menuitem id="safety" value="Safety Guideline" icon="ui-icon-subject" outcome="/safetyGuideline" />    
+                                    <p:menuitem id="faq" value="FAQs" icon="ui-icon-question-answer" outcome="/faqs" />     
+                                </p:submenu>
+                            </p:panelMenu>
+                        </div>
+                    </td>
+                    <td valign="top" width="90%">
+                        <div class="card card-w-title">
+                            <h1 style="color:#003c95;"><b>Train Fare Information</b></h1> 
+                            <h:form id="fare">
+                                <p:messages id="messages" severity="info" showDetail="true"/>
+                                <p:fieldset legend="Trip Fare Calculator" style="margin-bottom:20px">
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <p:outputLabel for="passengerType" value="Passenger Type: " />
+                                        <p:selectOneMenu id="passengerType" value="#{calculatorManagedBean.passengerType}" style="width:186px" required="true" requiredMessage="Please Select a Passenger Type">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                            <f:selectItems value="#{calculatorManagedBean.passengerTypeList}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="passengerType" />
+
+                                        <p:outputLabel for="startPtList" value="From: " />
+                                        <p:selectOneMenu id="startPtList" value="#{calculatorManagedBean.startPt}" style="width:186px"  required="true" requiredMessage="Please Select a Station">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                            <f:selectItems value="#{calculatorManagedBean.stations}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="startPtList" />
+
+                                        <p:outputLabel for="stationNameList" value="To: " />
+                                        <p:selectOneMenu id="stationNameList" value="#{calculatorManagedBean.endPt}" style="width:186px"  required="true" requiredMessage="Please Select a Station">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                            <f:selectItems value="#{calculatorManagedBean.stations}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="stationNameList" />
+
+                                        <p:spacer/>
+                                        <p:commandButton value="Calculate My Fare" actionListener="#{calculatorManagedBean.calculateFare()}" update="fare"/>
+                                        <p:spacer/>
+                                        <h:outputLabel value="Trip Fare ($) :"/> 
+                                        <p:outputLabel id="fare" value="#{calculatorManagedBean.tripFare}">
+                                            <f:convertNumber pattern="#0.00" />
+                                        </p:outputLabel>
+                                    </h:panelGrid>
+                                </p:fieldset>
+                            </h:form>
+                            <p:fieldset legend="Fare Structure" style="margin-bottom:20px">
+                                <h:form>
+                                    <h3 style="color:#003c95;"><b>Variable Fare Rate</b></h3>
+                                    <p:dataTable var="FareAlgoEntity" value="#{viewFareManagedBean.fares}" sortBy="#{FareAlgoEntity.passengerType}" expandableRowGroups="true" style="width:900px;">
+                                        <p:headerRow>
+                                            <p:column colspan="3">
+                                                <h:outputText value="#{FareAlgoEntity.passengerType}" />
+                                            </p:column>
+                                        </p:headerRow>
+                                        <p:column headerText="Fare Type" width="19%">
+                                            <h:outputText value="#{FareAlgoEntity.fareType}" />
+                                        </p:column>
+
+                                        <p:column headerText="Base Fee (Distance under 3.2KM)">
+                                            <div align="center"><h:outputText value="$#{FareAlgoEntity.baseFee}" /></div>
+                                        </p:column>
+
+                                        <p:column headerText="Incremental Rate (Distance above 3.2KM)">
+                                            <div align="center"><h:outputText value="$#{FareAlgoEntity.incrementRate}/km"/></div>
+                                        </p:column>
+                                    </p:dataTable>
+
+                                    <h3 style="color:#003c95;"><b>Concession Rate</b></h3>
+                                    <p:dataTable var="FareAlgoEntity" value="#{viewFareManagedBean.faresConcession}"  style="width:900px;">
+                                        <p:column headerText="Passenger Type" width="19%">
+                                            <h:outputText value="#{FareAlgoEntity.passengerType}" />
+                                        </p:column>
+                                        <p:column headerText="Base Fee">
+                                            <div align="center">
+                                                <h:outputText value="$#{FareAlgoEntity.baseFee}/week" rendered="#{FareAlgoEntity.passengerType == 'Short-term Visitor'}"/>
+                                                <h:outputText value="$#{FareAlgoEntity.baseFee}/month" rendered="#{FareAlgoEntity.passengerType != 'Short-term Visitor'}"/>
+                                            </div>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <br/>
+                                </h:form>
+                            </p:fieldset>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </ui:define>
+</ui:composition>

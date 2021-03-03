@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="passenger" label="Our Passengers" icon="ui-icon-people" expanded="true">
+                                <p:submenu id="trainInfo" label="Train Information" icon="ui-icon-train">
+                                    <p:menuitem id="journeyPlanner" value="Journey Planner" icon="ui-icon-map" outcome="/timeCalculator" />
+                                    <p:menuitem id="fareCalculator" value="Train Fare Information" icon="ui-icon-attach-money " outcome="/fareCalculator" />
+                                    <p:menuitem id="arrivalTime" value="Train Arrival Time" icon="ui-icon-access-time" outcome="/nextTwoTrainSchedule" />
+                                    <p:menuitem id="firstLastTrain" value="First and Last Train" icon="ui-icon-train" outcome="/firstTrainLastTrain" />
+                                </p:submenu>
+                                <p:submenu id="travelInfo" label="Travel Information" icon="ui-icon-info-outline">
+                                    <p:menuitem id="um_lnk112" value="Accessibility" icon="ui-icon-accessibility" outcome="/accessibility" />
+                                    <p:menuitem id="um_lnk113" value="Visit Coral Island" icon="ui-icon-streetview" outcome="/visitCoralIsland" />
+                                </p:submenu>
+                                <p:menuitem id="safety" value="Safety Guideline" icon="ui-icon-subject" outcome="/safetyGuideline" />
+                                <p:menuitem id="faq" value="FAQs" icon="ui-icon-question-answer" outcome="/faqs" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <h1 style="color:#003c95;"><b>Safety Guideline</b></h1><br/>
+                            Your safety is our top priority. No efforts will be spared to ensure the safe operation of our services but there are a number of things you can do to make each trip a smoother, safer and more enjoyable ride.
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:row>
+                                <p:column colspan="2">
+                                     <h3><b>At the station</b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+                            
+                            <p:row>
+                                <p:column colspan="2">
+                                    - When entering the station, watch your step on stairs and escalators. Do hold onto the handrails and keep your eyes on the stairs and escalators <br/>
+                                    - Be aware of passengers in wheelchairs and those pushing prams/strollers, carrying foldable bikes and bulky items.<br/>
+                                    - For your own safety, do not run when in the station or on the platform.<br/>
+                                    - Do note that wet floors can be slippery. While we make every effort to ensure floors are clean and dry. If you do spot a wet area, please report its location to our station staff.<br/>
+                                    - At the fare gate, tap your card on the reader on your right, and wait for the barrier to clear before entering. Please allow the passenger in front of you to move off before tapping your card.<br/>
+                                </p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column rowspan="1">
+                                    <div align="center"><p:graphicImage value="resources/images/station.jpg" width="90%" /></div>
+                                </p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>On the platform</b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+                            
+                            <p:row>
+                                <p:column colspan="2">
+                                    - When the train doors open, please stand within the queue lines and allow passengers to alight before boarding. <br/>
+                                    - Do not rush to board the train when its doors are closing. Do listen for the door closing chime and announcement.  <br/>
+                                    - Do not retrieve items that have fallen onto the tracks. Please seek assistance from our station staff. <br/>
+                                    - When boarding and alighting the train, please mind the gap between the platform edge and the train. If you are caught in the gap, remain calm and alert other commuters to press the Emergency Stop Plunger (for the North-South East-West line) located on a wall or pillar at the station platform. For the Circle Line, press the Emergency Train Stop located on the station platform. This will prevent the train from moving off. <br/>
+                                    - For less crowded train cars, wait at the first and last train carriages. <br/>
+                                    - Please keep yourself and your belongings clear of the doors upon entering and when exiting the train car. <br/>
+                                    - Station platforms have tactile ground surface indicators to guide the visually impaired. <br/>
+                                </p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/platform.jpg" width="90%" /></div>
+                                </p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>On the train</b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    - When boarding and alighting the train, please mind the gap between the platform edge and the train. <br/>
+                                    - Do not lean against the train doors or the door to the train captain’s cabin which is located at both ends of the train (for North-South East-West Line).<br/>
+                                    - Do not bring flammable liquids and gases onboard the train.<br/>
+                                    - Please keep prams/strollers, bags and luggage out of the way of fellow commuters. These must never block walkways and doorways.<br/>
+                                    - If you are caught between train doors, remain calm and alert other commuters to press the emergency communication button to inform the train captain. The train will not depart if its doors are not fully closed.<br/>
+                                   -In an Emergency, press the red Emergency Communications Button (ECB) located beside the train door to speak to our staff. Speak into the intercom and report the type of incident.
+                                    To find out which train car you are travelling on, look for the four-digit number located near the gangway between train cars <br/>
+                                </p:column>
+                            </p:row>
+                            
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/intrain.jpg" width="90%" /></div>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                        </p:panelGrid>        
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

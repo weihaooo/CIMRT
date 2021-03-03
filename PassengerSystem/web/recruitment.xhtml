@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="joinUs" label="Join Us" icon="ui-icon-people" expanded="true">
+                                <p:menuitem id="recruitment" value="CIMRT Recruitment" icon="ui-icon-work" outcome="/recruitment" />
+                                <p:menuitem id="lifeCIMRT" value="Life at CIMRT" icon="ui-icon-star" outcome="/cimrtLife"  />   
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>CIMRT Job Listings</b></h1> 
+                        <p:graphicImage value="resources/images/recruitment1.jpg" width="100%" height="40%" /><br/><br/>
+                        <div align="center" style="font-size: 18px">Check out our latest job listings!</div><br/>
+                        <h:form id="form">
+                            <p:growl id="growl" severity="info,error" showDetail="true"/>
+
+                            <p:dataTable var="jobOfferEntity" value="#{careerManagedBean.jobOfferList}" style="margin-bottom:20px" rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30" 
+                                         >
+
+                                <p:column headerText="Title" style="width:200px">
+                                    <div align="center"><h:outputText value="#{jobOfferEntity.jobTitle}" /></div>
+                                </p:column>
+
+                                <p:column headerText="Type" style="width:80px">
+                                    <div align="center"><h:outputText value="#{jobOfferEntity.jobType}" /></div>
+                                </p:column>
+
+                                <p:column headerText="Posted Date" style="width:80px">
+                                    <div align="center"><h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                            <f:param id="postedDate" value="#{jobOfferEntity.postedDate}"  />
+                                        </h:outputFormat>
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Closing Date" style="width:80px">
+                                    <div align="center"><h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                            <f:param id="closeDate" value="#{jobOfferEntity.jobDeadline}"  />
+                                        </h:outputFormat>
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="View Job Details" style="width:95px">
+                                    <p:commandLink action="#{careerManagedBean.goViewJob(jobOfferEntity.jobId)}">
+                                        <div align="center"><p:graphicImage value="resources/images/viewpage.png" style="width: 25%"/></div>
+                                    </p:commandLink>
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

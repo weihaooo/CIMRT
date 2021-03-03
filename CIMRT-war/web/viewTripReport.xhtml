@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:outputStylesheet library="css" name="style.css"  />
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - View Trip Report</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>View Trip Report</h1></div>
+
+                    <h:form>
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <table cellpadding="10" border="2" bordercolor="black">
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="tripReportId" value="Trip Report ID: " />  
+                                </td>
+                                <td>
+                                    <h:outputText id="tripReportId" value="#{reportManagedBean.tripReportId}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="submitter" value="Submitter: " />
+                                </td>
+                                <td>
+                                    <h:outputText id="submitter" value="#{reportManagedBean.submitter}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="reportType" value="Report Type: " />
+                                </td>
+                                <td>
+                                    <h:outputText id="reportType" value="#{reportManagedBean.reportType}" />
+                                    <blockspace />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="date" value="Date of Submission: " />
+                                </td>
+                                <td>
+                                     <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}">
+                                    <f:param id="date" value="#{reportManagedBean.date}" />
+                                    </h:outputFormat>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="location" value="Rolling Stock: " />
+                                </td>
+                                <td>
+                                    <h:outputText id="location" value="#{reportManagedBean.location}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="code" value="Cabin: " />
+                                </td>
+                                <td>
+                                    <h:outputText id="code" value="#{reportManagedBean.code}" />
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                            <tr>
+                                <td colspan="4">
+                                    <h3 style="margin-top:0">Trip Checklist</h3> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="cabinLight" value="Cabin Light: " /> 
+                                </td>
+                                <td>
+                                    <h:outputText id="cabinLight" value="#{reportManagedBean.cabinLight}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="headLight" value="Head Light: "/>
+                                </td>
+                                <td>
+                                    <h:outputText id="headLight" value="#{reportManagedBean.headLight}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="tailLight" value="Tail Light: " /> 
+                                </td>
+                                <td>
+                                    <h:outputText id="tailLight" value="#{reportManagedBean.tailLight}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="reverser" value="Reverser:"/>
+                                </td>
+                                <td>
+                                    <h:outputText id="reverser" value="#{reportManagedBean.reverser}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="switchPanel" value="Switch Panel: " /> 
+                                </td>
+                                <td>
+                                    <h:outputText id="switchPanel" value="#{reportManagedBean.switchPanel}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="horn" value="Horn: "/>
+                                </td>
+                                <td>
+                                    <h:outputText id="horn" value="#{reportManagedBean.horn}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="microphone" value="Microphone: " /> 
+                                </td>
+                                <td>
+                                    <h:outputText id="microphone" value="#{reportManagedBean.microphone}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="speaker" value="Speaker: "/>
+                                </td>
+                                <td>
+                                    <h:outputText id="speaker" value="#{reportManagedBean.speaker}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="ledDisplay" value="Led Display: " /> 
+                                </td>
+                                <td>
+                                    <h:outputText id="ledDisplay" value="#{reportManagedBean.ledDisplay}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="wipers" value="Wipers: "/>
+                                </td>
+                                <td>
+                                    <h:outputText id="wipers" value="#{reportManagedBean.wipers}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="washers" value="Washers: " /> 
+                                </td>
+                                <td>
+                                    <h:outputText id="washers" value="#{reportManagedBean.washers}" />
+                                </td>
+                                
+                            </tr> 
+                                <tr>
+                                <td colspan="4">
+                                    <p:outputLabel for="remarks" value="Remarks: "/>
+                                    <h:outputText id="remarks" value="#{reportManagedBean.remarks}"/>
+                                </td>
+                             </tr> 
+                               </tr>   
+                        </table>
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

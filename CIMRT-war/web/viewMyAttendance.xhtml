@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Attendances</title>
+            </f:facet>
+
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" >
+
+                    <h:form id="form">
+                        <div id="list" align="center"><h2>Clock In/Out Shift on #{attendanceManagedBean.todayString}</h2></div> 
+                        <div align="center">
+                            <b><h:outputText value="&lt;&lt; It is not your shift now  &gt;&gt;" rendered="#{attendanceManagedBean.shiftNow eq false}"/></b>
+                            <p:commandButton value='Clock In Now' action='#{attendanceManagedBean.clockIn}' update="form :form1:table1" style="background-color: #ECECEC; height: 25pt" rendered='#{attendanceManagedBean.clockedIn eq false and attendanceManagedBean.shiftNow eq true}'/>
+
+                            <h:outputText value="You have clocked in at " rendered="#{attendanceManagedBean.clockedIn eq true}"/>
+                            <h:outputText value="#{attendanceManagedBean.todayAttendance.clockinTime}" rendered="#{attendanceManagedBean.clockedIn eq true}">
+                                <f:convertDateTime type="time" pattern="HH:mm" />
+                            </h:outputText>
+
+                            <br/>
+
+                            <h:outputText value="You have clocked out at " rendered="#{attendanceManagedBean.clockedOut eq true}"/>
+                            <h:outputText value="#{attendanceManagedBean.todayAttendance.clockoutTime}" rendered="#{attendanceManagedBean.clockedOut eq true}">
+                                <f:convertDateTime type="time" pattern="HH:mm" />
+                            </h:outputText>
+                            <br/>
+
+                            <p:commandButton value='Clock Out Now' action='#{attendanceManagedBean.clockOut}' update="form :form1:table1" style="background-color: #ECECEC; height: 25pt" rendered='#{attendanceManagedBean.clockedIn eq true and attendanceManagedBean.clockedOut eq false}'/>
+
+                        </div>
+                    </h:form>
+
+                    <h:form id="form1">
+                        <div id="list" align="center"><h2>Attendance Record Table</h2></div>
+                        <p:growl severity="info,error" showDetail="true"/>
+
+                        <p:dataTable id="table1" var="attendance" value="#{attendanceManagedBean.attendancesByStaff}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="5"
+                                     paginator="true" paginatorPosition="top"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15,20" rowIndexVar="index"><p:growl severity="info,error" showDetail="true"/>
+
+                            <p:column headerText="Date">
+                                <div align="center">
+                                    <h:outputText value="#{attendance.workDate}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Attendance Type">
+                                <div align="center"><h:outputText value="#{attendance.type}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Clock In Time">
+                                <div align="center">
+                                    <h:outputText value="#{attendance.clockinTime}">
+                                        <f:convertDateTime type="time" pattern="HH:mm" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Clock Out Time">
+                                <div align="center">
+                                    <h:outputText value="#{attendance.clockoutTime}">
+                                        <f:convertDateTime type="time" pattern="HH:mm" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Remark" width="30%">
+                                <div align="center"><h:outputText value="#{attendance.remarks}" /></div>
+                            </p:column>
+
+                        </p:dataTable> 
+                    </h:form>
+
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

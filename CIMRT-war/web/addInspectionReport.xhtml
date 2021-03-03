@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:outputStylesheet library="css" name="style.css"  />
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Add Inspection Report</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                   <div id="page"><h1>Add Inspection Report</h1></div>
+
+                    <h:form>
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="date" value="Date: " />
+                            <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}">
+                                <f:param id="date" value="#{reportManagedBean.todayDate}" />
+                            </h:outputFormat>
+                            <p:spacer/>
+
+                            <p:outputLabel for="rollingStockId" value="Rolling Stock Infra ID: " />  
+                            <p:selectOneMenu id="rollingStockId"  required="true" value="#{reportManagedBean.rollingStock}" style="width:125px" requiredMessage="Rolling Stock Infra ID: Please select a rolling stock!">
+                              <p:ajax listener="#{reportManagedBean.onLocationChange}" update="code" />    
+                                <f:selectItem itemLabel="Select One" itemValue="" />                             
+                                <f:selectItems value="#{reportManagedBean.rollingStockList}" />
+                            </p:selectOneMenu>
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="code" value="Code: " />
+                            <p:selectOneMenu id="code" value="#{reportManagedBean.code}" style="width:200px" required="true" requiredMessage="Please select a code">  
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Not Applicable" itemValue="Not Applicable" />
+                                <f:selectItems value="#{reportManagedBean.codes}" />
+                            </p:selectOneMenu>
+                            <p:message for="code" />
+
+                            <p:outputLabel for="reportType" value="Report Type: " />  
+                            <p:selectOneMenu id="reportType"  required="true" value="#{reportManagedBean.reportType}" style="width:200px" requiredMessage="Please select a report type">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Pre-Departure" itemValue="Pre-Departure" />
+                                <f:selectItem itemLabel="End of Day" itemValue="End of Day" />
+                            </p:selectOneMenu>
+                            <p:message for="reportType" />
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <h3>Driver Cabin</h3><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="dCabinLight" value="Driver Cabin Light:" />
+                            <p:selectOneRadio id="dCabinLight" value="#{reportManagedBean.driverCabinLight}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="dCabinLight" />
+
+                            <p:outputLabel for="throttle" value="Throttle:" />
+                            <p:selectOneRadio id="throttle" value="#{reportManagedBean.throttle}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="throttle" />
+
+                            <p:outputLabel for="brake" value="Brake:" />
+                            <p:selectOneRadio id="brake" value="#{reportManagedBean.brake}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="brake" /> 
+
+                            <p:outputLabel for="reverser" value="Reverser:" />
+                            <p:selectOneRadio id="reverser" value="#{reportManagedBean.reverser}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="reverser" /> 
+
+                            <p:outputLabel for="switchPanel" value="Switch Panel:" />
+                            <p:selectOneRadio id="switchPanel" value="#{reportManagedBean.switchPanel}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="switchPanel" /> 
+
+                            <p:outputLabel for="horn" value="Horn:" />
+                            <p:selectOneRadio id="horn" value="#{reportManagedBean.horn}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="horn" /> 
+
+                            <p:outputLabel for="microphone" value="Microphone:" />
+                            <p:selectOneRadio id="microphone" value="#{reportManagedBean.microphone}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="microphone" /> 
+
+                            <p:outputLabel for="speaker" value="Speaker" />
+                            <p:selectOneRadio id="speaker" value="#{reportManagedBean.speaker}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="speaker" /> 
+
+                            <p:outputLabel for="ledDisplay" value="LED Display:" />
+                            <p:selectOneRadio id="ledDisplay" value="#{reportManagedBean.ledDisplay}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="ledDisplay" /> 
+
+                            <p:outputLabel for="wipers" value="Wipers:" />
+                            <p:selectOneRadio id="wipers" value="#{reportManagedBean.wipers}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="wipers" /> 
+
+                            <p:outputLabel for="washers" value="Washers:" />
+                            <p:selectOneRadio id="washers" value="#{reportManagedBean.washers}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="washers" /> 
+
+                            <p:outputLabel for="driverChair" value="Driver Chair:" />
+                            <p:selectOneRadio id="driverChair" value="#{reportManagedBean.driverChair}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="driverChair" /> 
+
+                            <h3>Passenger Cabin</h3><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="pCabinLight" value="Passenger Cabin Light:" />
+                            <p:selectOneRadio id="pCabinLight" value="#{reportManagedBean.passCabinLight}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="pCabinLight" /> 
+
+                            <p:outputLabel for="cabinBenches" value="Cabin Benches:" />
+                            <p:selectOneRadio id="cabinBenches" value="#{reportManagedBean.cabinBenches}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="cabinBenches" /> 
+
+                            <p:outputLabel for="handGrips" value="Hand Grips:" />
+                            <p:selectOneRadio id="handGrips" value="#{reportManagedBean.handGrips}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="handGrips" /> 
+
+                            <p:outputLabel for="handRails" value="Hand Rails:" />
+                            <p:selectOneRadio id="handRails" value="#{reportManagedBean.handRails}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="handRails" /> 
+
+                            <p:outputLabel for="doorSignals" value="Door Signals:" />
+                            <p:selectOneRadio id="doorSignals" value="#{reportManagedBean.doorSignals}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="doorSignals" /> 
+
+                            <p:outputLabel for="emergencyButtons" value="Emergency Buttons:" />
+                            <p:selectOneRadio id="emergencyButtons" value="#{reportManagedBean.emergencyButtons}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="emergencyButtons" /> 
+
+                            <p:outputLabel for="emergencyExitDoors" value="Emergency Exit Doors:" />
+                            <p:selectOneRadio id="emergencyExitDoors" value="#{reportManagedBean.emergencyExitDoors}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="emergencyExitDoors" /> 
+
+                            <p:outputLabel for="loudspeakers" value="Loudspeakers:" />
+                            <p:selectOneRadio id="loudspeakers" value="#{reportManagedBean.loudspeakers}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="loudspeakers" /> 
+
+                            <p:outputLabel for="animatedTrainMaps" value="Animated Train Maps:" />
+                            <p:selectOneRadio id="animatedTrainMaps" value="#{reportManagedBean.animatedTrainMaps}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="animatedTrainMaps" /> 
+
+                            <p:outputLabel for="windows" value="Windows:" />
+                            <p:selectOneRadio id="windows" value="#{reportManagedBean.windows}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="windows" /> 
+
+                            <p:outputLabel for="trainDoors" value="Train Doors:" />
+                            <p:selectOneRadio id="trainDoors" value="#{reportManagedBean.trainDoors}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="trainDoors" /> 
+
+                            <p:outputLabel for="aircons" value="Air Conditioners:" />
+                            <p:selectOneRadio id="aircons" value="#{reportManagedBean.aircons}" required="true" requiredMessage="Input is required in this field" >
+                                <f:selectItem itemLabel="Working" itemValue="Working" />
+                                <f:selectItem itemLabel="Faulty" itemValue="Faulty" />
+                            </p:selectOneRadio>
+                            <p:message for="aircons" /> 
+
+                            <p:outputLabel for="remarks" value="Remarks: " style="width:125px" />
+                            <p:inputTextarea counter="display" required="true" maxlength="2000" counterTemplate="{0} characters remaining." autoResize="false" id="remarks" value="#{reportManagedBean.remarks}" style="width:900px; height:200px;"/>
+                            <p:spacer/>
+
+                            <p:spacer/><h:outputText id="display" /><p:spacer/>          
+
+                            <p:spacer/>
+                            <h:commandButton value="Add" action="#{reportManagedBean.addInspectionReport}" />
+                        </h:panelGrid> 
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pu="http://primefaces.org/ultima">
+
+    <h:form id="menuform"> 
+        <div class="layout-menu #{guestPreferences.menuClass}">
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">
+
+                    <!--<ui:fragment rendered="#{guestPreferences.profileMode != 'inline' and guestPreferences.menuLayout != 'menu-layout-static menu-layout-horizontal'}">
+                        <div class="profile">
+                            <div class="profile-image" />
+                            <a id="profile-options" href="#">
+                                <span class="profile-name">Jane Williams</span>
+                                <i class="material-icons">&#xE313;</i>
+                            </a>
+                        </div>
+
+                        <ul id="profile-menu" class="ultima-menu">
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE7FD;</i>
+                                    <span>Profile</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE32A;</i>
+                                    <span>Privacy</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE8B9;</i>
+                                    <span>Settings</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE8AC;</i>
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </ui:fragment>-->
+
+                    <pu:menu widgetVar="me">
+                        <p:menuitem id="home" value="Home" icon="&#xe88a;" outcome="/index"/>
+                        <p:submenu id="cimrt" label="About CIMRT" icon="&#xe570;">
+                            <p:menuitem id="history" value="Our Identity" icon="&#xe87d;" outcome="/ourIdentity" />
+                            <p:menuitem id="seniorMgmt" value="Our Senior Management" icon="&#xe7ef;" outcome="/seniorManagement"/>
+                            <p:menuitem id="announcements" value="Announcements" icon="&#xe8cd;" outcome="/announcements"/>
+                            <p:menuitem id="contact" value="Contact Us" icon="&#xe0ba;" outcome="/contactUs"/>
+                        </p:submenu>    
+                        <p:submenu id="passenger" label="Our Passengers" icon="&#xe7fb;">
+                            <p:submenu id="trainInfo" label="Train Information" icon="&#xe570;">
+                                <p:menuitem id="journeyPlanner" value="Journey Planner" icon="&#xe55b;" outcome="/timeCalculator" />
+                                <p:menuitem id="fareCalculator" value="Train Fare Information" icon="&#xe227;" outcome="/fareCalculator" />
+                                <p:menuitem id="arrivalTime" value="Train Arrival Time" icon="&#xe192;" outcome="/nextTwoTrainSchedule" />
+                                 <p:menuitem id="firstLastTrain" value="First and Last Train" icon="&#xe570;" outcome="/firstTrainLastTrain" />
+                            </p:submenu>
+                            <p:submenu id="travelInfo" label="Travel Information" icon="&#xe88f;">
+                                <p:menuitem id="um_lnk112" value="Accessibility" icon="&#xe84e;" outcome="/accessibility" />
+                                <p:menuitem id="um_lnk113" value="Visit Coral Island" icon="&#xe56e;" outcome="/visitCoralIsland" />
+                            </p:submenu>
+                            <p:menuitem id="safety" value="Safety Guideline" icon="&#xe8d2;" outcome="/safetyGuideline" />    
+                            <p:menuitem id="faq" value="FAQs" icon="&#xe8af;" outcome="/faqs" />     
+                        </p:submenu>
+                        
+                        <p:menuitem id="bizPartners" value="Our Business Partners" icon="&#xeb3f;" outcome="/businessPartner"/>
+                        <p:menuitem id="feedback" value="Feedback" icon="&#xe87f;" outcome="/submitFeedback"/>
+
+                        <p:submenu id="joinUs" label="Join Us" icon="&#xe8dc;">
+                            <p:menuitem id="recruitment" value="CIMRT Recruitment" icon="&#xe8f9;" outcome="/recruitment" />
+                            <p:menuitem id="lifeCIMRT" value="Life at CIMRT" icon="&#xe838;" outcome="/cimrtLife"  />
+                        </p:submenu>
+                    </pu:menu>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

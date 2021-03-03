@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="passenger" label="About CIMRT" expanded="true">
+                                <p:menuitem id="history" value="Our Identity" icon="ui-icon-favorite" outcome="/ourIdentity" />
+                                <p:menuitem id="seniorMgmt" value="Our Senior Management" icon="ui-icon-group" outcome="/seniorManagement"/>
+                                <p:menuitem id="announcements" value="Announcements" icon="ui-icon-speaker-notes" outcome="/announcements"/>
+                                <p:menuitem id="contact" value="Contact Us" icon="ui-icon-contacts" outcome="/contactUs"/>  
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>CIMRT Announcements and News Releases</b></h1>
+                        For press and media queries, please contact via:<br/>
+                        Email: media@cimrt.com.ci<br/>
+                        Tel. no: +61 9450 1117<br/><br/>
+                        <h:form id="form">
+                            <p:dataTable var="AnnouncementEntity" value="#{announcementManagedBean.aList}" sortBy="#{announcementEntity.dateAndTime}" style="margin-bottom:20px; width: 99%; margin-right: 5px" rows="5" paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" paginatorPosition="bottom"
+                                         rowsPerPageTemplate="5,10,15" widgetVar="announcementTable" filteredValue="#{announcementManagedBean.filteredAnnouncement}" emptyMessage="No announcement record found">
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <div align="right">
+                                            <h:outputText value="Search all fields:" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('announcementTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                        </div>
+                                    </p:outputPanel>
+                                </f:facet>
+                                <p:column headerText="Date" width="10%" filterBy="#{AnnouncementEntity.dateAndTime}" filterStyle="display:none">
+                                    <div align="center">
+                                        <h:outputText value="#{AnnouncementEntity.dateAndTime}">
+                                            <f:convertDateTime pattern="yyyy-MM-dd" />
+                                        </h:outputText>
+                                    </div>
+                                </p:column>
+                                <p:column headerText="Time" width="10%" filterBy="#{AnnouncementEntity.dateAndTime}" filterStyle="display:none">
+                                    <div align="center">
+                                        <h:outputText value="#{AnnouncementEntity.dateAndTime}">
+                                            <f:convertDateTime pattern="HH:mm" />
+                                        </h:outputText>
+                                    </div>
+                                </p:column>
+                                <p:column headerText="Title" width="30%" filterBy="#{AnnouncementEntity.title}" filterStyle="display:none">
+                                    <div align="center"><h:outputText value="#{AnnouncementEntity.title}" /></div>
+                                </p:column>
+                                <p:column headerText="Content" width="50%" filterBy="#{AnnouncementEntity.description}" filterStyle="display:none">
+                                    <div align="justify"><h:outputText value="#{AnnouncementEntity.description}" escape="false" /></div>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

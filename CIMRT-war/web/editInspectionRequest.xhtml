@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Edit Inspection Request</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="0">
+                    <div align="center">
+                        <h:graphicImage value="resources/image/CIMRTBG.png" style="width: 16%"/>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="25" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="0">
+                    @Copyright CIMRT
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="224" header="CIMRT Internal Staff" collapsible="true" gutter="0">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h1>Edit Inspection Request</h1>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+
+                        <p:outputLabel for="inspectionRequestId" value="InspectionRequestID: " />
+                        <h:outputText id="inspectionRequestId" value="#{maintenanceManagedBean.inspectionRequestId}" />
+
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="assetType" value="Asset Type: " />        
+                            <p:selectOneMenu id="assetType" required="true" value="#{maintenanceManagedBean.assetType}" requiredMessage="Value is required in this field">
+                                <f:selectItem itemLabel="AssetType" itemValue="" />
+                                <f:selectItems value="#{maintenanceManagedBean.assetTypeListString}" />
+                            </p:selectOneMenu>
+                            <p:message for="assetType" /> 
+
+                            <p:outputLabel for="assetId" value="Asset ID: " />        
+                            <p:selectOneMenu id="assetId" required="true" value="#{maintenanceManagedBean.assetId}" requiredMessage="Value is required in this field">
+                                <f:selectItem itemLabel="AssetID" itemValue="" />
+                                <f:selectItems value="#{maintenanceManagedBean.assetIdListString}" />
+                            </p:selectOneMenu>
+                            <p:message for="assetId" /> 
+
+                            <p:outputLabel for="requestDescription" value="Description: " />        
+                            <p:inputText id="requestDescription" value="#{maintenanceManagedBean.requestDescription}" style="width:200px" required="true" requiredMessage="Please enter description" />
+                            <p:message for="requestDescription" />
+
+                            <p:outputLabel for="urgencyLvl" value="Urgency Level: " />
+                            <p:selectOneMenu id="urgencyLvl" required="true" value="#{maintenanceManagedBean.urgencyLvl}" requiredMessage="Please select a urgency level">
+                                <f:selectItem itemLabel="High" itemValue="High" />
+                                <f:selectItem itemLabel="Moderate" itemValue="Moderate" />
+                                <f:selectItem itemLabel="Low" itemValue="Low" />
+                            </p:selectOneMenu>
+                            <p:message for="urgencyLvl" />
+
+                            <h:commandButton value="Update" actionListener="#{maintenanceManagedBean.updateInspectionRequest}" style="width: 80px" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

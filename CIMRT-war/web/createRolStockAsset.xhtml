@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Add Rolling Stock Asset</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Add Rolling Stock Asset</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="5">
+
+                            <p:outputLabel for="rollingStockAssetType" value="Asset Type: " />
+                            <p:selectOneMenu id="rollingStockAssetType" value="#{infraAssetManagedBean.rollingStockAssetType}" style="width:200px" required="true" requiredMessage="Please Select a type" >
+                                <p:ajax listener="#{infraAssetManagedBean.onTypeChange3}" update="assetName" /> 
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{infraAssetManagedBean.rollingStockAssetTypeList}" />
+                            </p:selectOneMenu>
+                            <p:message for="rollingStockAssetType" /><p:spacer/>
+
+
+                            <p:outputLabel for="assetName" value="Asset Name: " />        
+                             <p:selectOneMenu id="assetName" value="#{infraAssetManagedBean.assetName}" effect="fold" editable="true" required="true" requiredMessage="Please select a asset name or enter it manually">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{infraAssetManagedBean.assetList}" />
+                            </p:selectOneMenu>
+                            <p:message for="assetName" /><p:spacer/>
+
+                            <p:outputLabel for="qty" value="In Use: " />        
+                            <p:inputText id="qty" value="#{infraAssetManagedBean.qty}" required="true" requiredMessage="Value is required in this field" validatorMessage="Please do not submit with a value of 0">
+                                <f:convertNumber integerOnly="true" type="number" />
+                                <f:validateLongRange minimum="1" />
+                            </p:inputText>
+                            <p:message for="qty" /><p:spacer/>
+                            
+                            <p:outputLabel for="storage" value="Storage: " />        
+                            <p:inputText id="storage" value="#{infraAssetManagedBean.storage}" required="true" requiredMessage="Value is required in this field" validatorMessage="Please do not submit with a value of 0">
+                                <f:convertNumber integerOnly="true" type="number" />
+                                <f:validateLongRange minimum="1" />
+                            </p:inputText>
+                            <p:message for="storage" /><p:spacer/>
+
+                            <p:outputLabel for="lifetimeValue" value="Life Time Value: " />        
+                            <h:outputLink id="ltv" value="#">
+                                <p:inputText id="lifetimeValue" value="#{infraAssetManagedBean.lifetimeValue}" required="true" requiredMessage="Value is required in this field" validatorMessage="Please do not submit with a value of 0">
+                                    <f:convertNumber integerOnly="true" type="number" />
+                                    <f:validateLongRange minimum="1" />
+                                </p:inputText>
+                                <p:tooltip for="ltv" value="Life Time Value explains the duration of an asset life" trackMouse="true" />
+                            </h:outputLink>
+                            <p:message for="lifetimeValue" /><p:spacer/>
+
+                            <p:outputLabel for="purchaseDate" value="Purchase Date: " />
+                            <p:calendar id="purchaseDate" value="#{infraAssetManagedBean.purchaseDate}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-80:c+0" required="true" requiredMessage="Please select a date"/>
+                            <p:message for="purchaseDate" /><p:spacer/>
+
+                            <p:outputLabel for="infraId" value="Rolling Stock ID: " />
+                            <p:selectOneMenu id="infraId" value="#{infraAssetManagedBean.infraId}" style="width:150px" required="true" requiredMessage="Please select rolling stock ID">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{infraAssetManagedBean.rollingStocksList}" />
+                            </p:selectOneMenu>
+                            <p:message for="infraId" /><p:spacer/><p:spacer/>
+
+                            <h:commandButton value="Create" action="#{infraAssetManagedBean.addRollingStockAsset}" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

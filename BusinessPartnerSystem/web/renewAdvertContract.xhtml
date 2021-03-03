@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card card-w-title">
+
+                    <h:form id="form">
+                        <div style="margin-left: 4pt">
+                            <h1>Renewal of Contract</h1>
+
+                        </div>
+                        <br/>
+                        <h:panelGrid columns="3" cellpadding="5">
+                             <p:outputLabel for="leaseYear" value="Contract Duration: " />     
+                            <h:outputLink id="ltv" value="#" rendered="#{bpTenderManagedBean.canRequest}">
+                                <p:selectOneMenu id="leaseYear" value="#{bpTenderManagedBean.leaseYear}" style="width:150px" required="true" requiredMessage="Value is required in this field" >
+                                    <f:selectItem itemLabel="Select Duration" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="1 month" itemValue="1"  />
+                                    <f:selectItem itemLabel="2 months" itemValue="2" />
+                                    <f:selectItem itemLabel="3 months" itemValue="3" />
+                                    <f:selectItem itemLabel="4 months" itemValue="4" />
+                                    <f:selectItem itemLabel="5 months" itemValue="5" />
+                                    <f:selectItem itemLabel="6 months" itemValue="6" />
+                                </p:selectOneMenu>
+                                <p:tooltip for="ltv" value="PLEASE INPUT SMTH" trackMouse="true" />
+                            </h:outputLink>
+                            <p:message for="leaseYear" />
+                            <p:spacer/>
+
+                            <p:commandButton value="Renew" action="#{bpTenderManagedBean.renewAdvertContract()}" update=":form" />
+
+                        </h:panelGrid>
+                    </h:form>
+
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

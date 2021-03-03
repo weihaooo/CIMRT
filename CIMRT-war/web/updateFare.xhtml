@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+                <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Update Fare</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Update Fare</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="passenger" value="Passenger: " />
+                            <p:selectOneMenu id="passenger" value="#{updateFareManagedBean.passenger}" style="width:200px" required="true" requiredMessage="Please select a type of passenger">
+                                <p:ajax listener="#{updateFareManagedBean.onFareChange}" update="fare" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Adult" itemValue="Adult" />
+                                <f:selectItem itemLabel="Student" itemValue="Student" />
+                                <f:selectItem itemLabel="Senior Citizen" itemValue="Senior Citizen" />
+                                <f:selectItem itemLabel="Short-term Visitor" itemValue="Short-term Visitor" />
+                            </p:selectOneMenu>
+                            <p:message for="passenger" />
+
+                            <p:outputLabel for="fare" value="Fare Type: " />
+                            <p:selectOneMenu id="fare" value="#{updateFareManagedBean.fareType}" style="width:200px" required="true" requiredMessage="Please select a type of fare type">
+                                <p:ajax listener="#{updateFareManagedBean.onFareTypeChange}" update="baseFare,incrementRate" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                <f:selectItems value="#{updateFareManagedBean.fareTypes}" />
+                            </p:selectOneMenu>
+                            <p:message for="fare" />
+
+                            <p:outputLabel for="baseFare" value="Base Fare: ($) " />
+                            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                                <p:inputNumber id="baseFare" value="#{updateFareManagedBean.baseFare}" required="true" requiredMessage="Please enter a base fare" validatorMessage="Value is less than allowable minimum of '0.01">
+                                    <f:validateDoubleRange minimum="0.01"/>
+                                </p:inputNumber>
+                                <!--                                <p:slider for="decimal" minValue="0.1" maxValue="100.0" step="0.1" />-->
+                            </h:panelGrid>
+                            <p:message for="baseFare" />
+
+                            <p:outputLabel for="incrementRate" value="Increment Rate: ($) " />
+                            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                                <p:inputNumber id="incrementRate" value="#{updateFareManagedBean.incrementRate}" disabled="#{!updateFareManagedBean.checkStatus}" required="true" requiredMessage="Please enter a increment rate" validatorMessage="Value is less than allowable minimum of '0.01">
+                                <f:validateDoubleRange minimum="0.01"/>
+                                </p:inputNumber>
+                            </h:panelGrid>
+                            <p:message for="incrementRate" /><p:spacer/>
+
+                            <h:commandButton value="Update" action="#{updateFareManagedBean.update()}" style="width: 80px" />
+
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <h:form id="form">
+                    <div class="card" id="breadcrumbList"></div>
+                    <p:growl id="growl" severity="info,error" showDetail="true"/>
+                    <div class="card card-w-title">
+
+                        <p:tabView>
+
+                            <p:tab title="Current Bidding" >
+                                <p:dataTable id="table" var="BidEntity" value="#{bpTenderManagedBean.getBidList()}" style="margin-bottom:20px" rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30" widgetVar="viewCurrentBidTable" filteredValue="#{bpTenderManagedBean.filteredCurrentBid}" emptyMessage="No record found"
+                                             >
+                                    <f:facet name="header">
+                                        <div align="right">
+                                            <h:panelGroup styleClass="md-inputfield">                
+                                                <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('viewCurrentBidTable').filter()" style="width:120px"/>
+                                                <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                            </h:panelGroup>     
+                                        </div>
+                                    </f:facet>
+
+                                    <p:column headerText="Bid Amount" style="width: 12%" filterBy="#{BidEntity.bidPrice}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="$#{BidEntity.bidPrice}" />
+                                        </div>
+                                    </p:column>
+
+
+                                    <p:column headerText="Bid Date" style="width: 12%" filterBy="#{BidEntity.bidDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                                <f:param value="#{BidEntity.bidDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Bid Time" style="width: 12%" filterBy="#{BidEntity.bidDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, HH:mm:ss}">
+                                                <f:param value="#{BidEntity.bidDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Item Name" style="width: 20%" filterBy="#{BidEntity.purchaseRequest.itemName}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{BidEntity.purchaseRequest.itemName}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Remarks" style="width: 20%" filterBy="#{BidEntity.remarks}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{BidEntity.remarks}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Status" style="width: 10%" filterBy="#{BidEntity.status}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{BidEntity.status}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Edit" style="width:7%">
+                                        <p:commandLink action="#{bpTenderManagedBean.goEditBid(BidEntity.bidId)}" rendered="#{BidEntity.status =='Submitted'}" >
+                                            <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 50%" /></div>
+                                        </p:commandLink>
+                                    </p:column>
+
+
+                                    <p:column headerText="Delete" style="width:7%">
+                                        <p:growl id="message" severity="info,error" showDetail="true" />
+                                        <p:commandLink action="#{bpTenderManagedBean.goDeleteBid(BidEntity.bidId)}" update="form" rendered="#{BidEntity.status =='Submitted'}">
+                                            <p:confirm header="Confirmation" message="Are you sure you want to withdraw?" icon="ui-icon-alert" />
+                                            <div align="center"><h:graphicImage value="resources/image/delete.png" style="width: 50%" /></div>
+                                        </p:commandLink>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <div align="center">
+                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                            </div>
+                                        </p:confirmDialog>
+                                    </p:column>  
+
+                                </p:dataTable>    
+                            </p:tab>
+
+                            <p:tab title="Bidding History">
+                                <p:dataTable id="table1" var="BidEntity" value="#{bpTenderManagedBean.getBidList11()}" style="margin-bottom:20px" rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30" widgetVar="bidHistoryTable" filteredValue="#{bpTenderManagedBean.filteredBidHistory}" emptyMessage="No record found"
+                                             >
+
+                                    <f:facet name="header">
+                                        <div align="right">
+                                            <h:panelGroup styleClass="md-inputfield">
+                                                <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                <p:inputText id="globalFilter" onkeyup="PF('bidHistoryTable').filter()" style="width:120px"/>
+                                                <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                            </h:panelGroup>
+                                        </div>
+
+                                    </f:facet>
+
+                                    <p:column headerText="Bid Amount" style="width: 11%" filterBy="#{BidEntity.bidPrice}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="$#{BidEntity.bidPrice}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Bid Date" style="width: 12%" filterBy="#{BidEntity.bidDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, dd-MM-yyyy}">
+                                                <f:param value="#{BidEntity.bidDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Bid Time" style="width: 12%" filterBy="#{BidEntity.bidDate}" filterStyle="display:none">
+                                        <div align="center"> 
+                                            <h:outputFormat value="{0, date, HH:mm:ss}">
+                                                <f:param value="#{BidEntity.bidDate}"  />
+                                            </h:outputFormat>
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Item Name" style="width: 20%" filterBy="#{BidEntity.purchaseRequest.itemName}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{BidEntity.purchaseRequest.itemName}" />
+                                        </div>
+                                    </p:column>
+
+                                    <p:column headerText="Status" style="width: 12%" filterBy="#{BidEntity.status}" filterStyle="display:none">
+                                        <div align="center" style='font-size: 11.5pt'>
+                                            <h:outputText value="#{BidEntity.status}" />
+                                        </div>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:tab>  
+
+
+                        </p:tabView>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="content">
+
+        <f:metadata>
+            <f:viewAction action="#{cardManagedBean.verifyPayment}" />
+        </f:metadata>
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/myCards" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">               
+                    <div class="card card-w-title">
+                        <h:form>
+                            <p:growl severity="error,info" autoUpdate="true" />
+                            <h1 style="color:#003c95;"><b>Confirm Top-up for #{cardManagedBean.selectedCard.cardId}</b></h1>
+
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                <p:outputLabel for="type" value="Topup Type: " />
+                                <h:outputText id="type" value="#{cardManagedBean.type}" />
+                                <p:spacer />
+
+                                <p:outputLabel for="amount" value="Amount: " />
+                                <h:outputText id="amount" value="#{cardManagedBean.amount}"/>
+                                <p:spacer/>
+
+                                <p:outputLabel id="startLabel" for="start" value="Start Date: " rendered="#{cardManagedBean.type eq 'Concession'}"/>
+                                <h:outputText id="start" value="#{cardManagedBean.startDate}" rendered="#{cardManagedBean.type eq 'Concession'}" >
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                                <p:spacer rendered="#{cardManagedBean.type eq 'Concession'}" />
+
+                                <p:outputLabel id="endLabel" for="end" value="End Date: " rendered="#{cardManagedBean.type eq 'Concession'}"/>
+                                <h:outputText id="end" value="#{cardManagedBean.endDate}" rendered="#{cardManagedBean.type eq 'Concession'}" >
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                                <p:spacer rendered="#{cardManagedBean.type eq 'Concession'}" />
+                                <p:spacer rendered="#{cardManagedBean.type eq 'Variable Amount'}" />
+                                
+
+                                <p:commandButton value="Confirm Topup" action="#{cardManagedBean.confirmTopup}" ajax="false" />
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <!--                    <ui:include src="calculatorTab.xhtml"/>-->
+        <!--                     <div id="page"><h1>Trip Fare Calculator</h1></div>-->
+
+        <table width="100%" cellpadding="5">
+            <tr>    
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="passenger" label="About CIMRT" expanded="true">
+                                <p:menuitem id="history" value="Our Identity" icon="ui-icon-favorite" outcome="/ourIdentity" />
+                                <p:menuitem id="seniorMgmt" value="Our Senior Management" icon="ui-icon-group" outcome="/seniorManagement"/>
+                                <p:menuitem id="announcements" value="Announcements" icon="ui-icon-speaker-notes" outcome="/announcements"/>
+                                <p:menuitem id="contact" value="Contact Us" icon="ui-icon-contacts" outcome="/contactUs"/>  
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>Contact Us</b></h1> 
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:outputLabel><b>Our Headquarter</b></p:outputLabel><p:spacer/>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.800321202445!2d103.85024731462218!3d1.29432699905597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19a43b568581%3A0xe64507b414b5f38!2sSMRT+Corporation+Ltd!5e0!3m2!1sen!2ssg!4v1510122239791" width="400" height="250" frameborder="0" style="border:0"></iframe><br/><br/>         
+                            <p:outputLabel>
+                                Coral Island Mass Rapid Transit Pte Ltd<br/>
+                                888 Nanxing Road<br/>
+                                CoralIsland 173005<br/>
+                                Email: contact@cimrt.com.ci<br/>
+                                Tel: 6411 0708<br/>
+                            </p:outputLabel>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:outputLabel><b>Our Social Media</b></p:outputLabel>               
+                            <p:outputLabel>Follow us at these channels to stay connected with us.</p:outputLabel>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h:link outcome="home" >
+                                            <p:graphicImage value="resources/images/facebook.png" style="width:60%; "/>
+                                        </h:link>
+                                    </td>
+                                    <td>
+                                        <h:outputLink value="https://www.instagram.com/cimrtcoralisland/" >
+                                            <p:graphicImage value="resources/images/instagram.png" style="width:60% "/>
+                                        </h:outputLink>
+                                    </td>
+                                    <td>
+                                        <h:link outcome="home" >
+                                            <h:graphicImage value="resources/images/twitter.png" style="width:60% "/>
+                                        </h:link>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:panelGrid>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

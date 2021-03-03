@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="passenger" label="Our Passengers" icon="ui-icon-people" expanded="true">
+                                <p:submenu id="trainInfo" label="Train Information" icon="ui-icon-train">
+                                    <p:menuitem id="journeyPlanner" value="Journey Planner" icon="ui-icon-map" outcome="/timeCalculator" />
+                                    <p:menuitem id="fareCalculator" value="Train Fare Information" icon="ui-icon-attach-money " outcome="/fareCalculator" />
+                                    <p:menuitem id="arrivalTime" value="Train Arrival Time" icon="ui-icon-access-time" outcome="/nextTwoTrainSchedule" />
+                                     <p:menuitem id="firstLastTrain" value="First and Last Train" icon="ui-icon-train" outcome="/firstTrainLastTrain" />
+                                </p:submenu>
+                                <p:submenu id="travelInfo" label="Travel Information" icon="ui-icon-info-outline">
+                                    <p:menuitem id="um_lnk112" value="Accessibility" icon="ui-icon-accessibility" outcome="/accessibility" />
+                                    <p:menuitem id="um_lnk113" value="Visit Coral Island" icon="ui-icon-streetview" outcome="/visitCoralIsland" />
+                                </p:submenu>
+                                <p:menuitem id="safety" value="Safety Guideline" icon="ui-icon-subject" outcome="/safetyGuideline" />     
+                                <p:menuitem id="faq" value="FAQs" icon="ui-icon-question-answer" outcome="/faqs" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <h1 style="color:#003c95;"><b>Your Visit at Coral Island</b></h1> <br/>
+                            As the main transport operator of Coral Island, we strive to provide the best travel experience not only to our fellow Coral Islanders, but also our beloved tourists. We hope you will create positive and memorable moments here,
+                            so here are some of our tips for you!
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>Catch the magnificent views of Coral Island at one of our proudest architecture - Coral Flyer</b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    Experience breathtaking, panoramic views on the region’s largest observation wheel. For locals and tourists alike, there is only one place in Coral Island that offers a bird’s eye view of the entire island city – Coral Flyer.
+                                    Enveloped safely in a capsule 165m above ground level, you will be treated to a visual 360˚ feast of iconic and historical landmarks, as well as the waves and waters that brought spices from ancient lands to Coral Island – the cornerstone of our city’s modern prosperity.
+                                    No matter who you are, where you’ve been, and where you’re headed, Coral Flyer offers you a moving experience at every turn.<br/><br/>
+                                    <b>Nearest MRT Station: Coral Plaza</b><br/><br/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/flyer.jpg" width="90%" /></div>
+                                </p:column>
+                            </p:row>
+
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>Check out one of the most renowned bird sanctuaries in the world - Rurong Bird Park</b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    Rurong Bird Park is home to the colours of the world, as the region's largest bird park with a collection of more than 5,000 birds across 400 species. The park and its line-up of award-winning exhibits, located at the west-end of Coral Island, offers 20.2 hectares of exploratory landscape and gives visitors the opportunity to meet and interact with the feathered residents.<br/><br/>
+                                    <b>Nearest MRT Station: Rurong</b><br/><br/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/birdpark.jpg" width="90%" /></div>
+                                </p:column>
+                            </p:row>
+
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>Eat and Shop at various CIMRT stations' shopping sectors - The CIMRT Mall </b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    Experiences the goodies of Coral Island with the finest food, fashion and electronic products from our fabulous business partner! You can enjoy some of the best local delights, while shopping for your favourite clothes and electronic gadgets at your convenience!
+                                    Moreover, you can earn CIMRT loyalty points and exchange for CIT value rebate when you shop with us!<br/><br/>
+                                    
+                                    The CIMRT Malls are located at all CIMRT stations.
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/shopping.jpg" width="90%" /></div>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                        </p:panelGrid>        
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

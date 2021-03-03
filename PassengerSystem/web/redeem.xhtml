@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/myCards" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">               
+                    <div class="card card-w-title">
+                        <h:form>
+                            <p:messages severity="error,info" autoUpdate="true"/>
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                             <h1 style="color:#003c95;"><b>Point Redemption</b></h1>
+                             <i>For every $1 you spend at any of the CIMRT Mall's shops, you will be rewarded with 1 point.<br/>
+                                 For online top-up transactions with a minimum of $10, you will be rewarded 1 point for every dollar you top-up.</i>
+                             <br/><br/><b>Redemption rate:<br/> 1000 points = CI$1 value in the CIT Card </b><br/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                <p:outputLabel for="available" value="Available Points: " />
+                                <h:outputText id="available" value="#{cardManagedBean.availablePoints}"/>
+                                <p:spacer />
+
+                                <p:outputLabel for="redeem" value="Points to Redeem: "/>
+                                <h:outputLink id="redeemTips" value="#">
+                                <p:inputNumber id="redeem" decimalPlaces="0" minValue="0" maxValue="#{cardManagedBean.availablePoints}" value="#{cardManagedBean.redeemPoints}" required="true" requiredMessage="Please enter a value." />
+                                <p:tooltip for="redeemTips" value="For Every 1000 Loyalty Points Can Be Redeem to $1" trackMouse="true" />
+                                </h:outputLink>
+                                <p:message for="redeem"/>
+                                
+                                <p:spacer/>
+                                <p:commandButton value="Redeem" action="#{cardManagedBean.redeemPointsForCard}" ajax="false" />
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+

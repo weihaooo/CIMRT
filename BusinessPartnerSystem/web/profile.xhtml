@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="home.xhtml" />
+                        <p:menuitem value="Profile" url="profile.xhtml" />
+                    </p:breadCrumb>
+                </div>
+
+                <h:form>
+                    <div class="card card-w-title">
+                        <p:growl id="messages" severity="info,error" showDetail="true"/>
+                        <h1>Account Information    <h:outputLink value="changePW.xhtml" id="changePass"><h:graphicImage value="resources/image/edit2.png" style="width: 1.7%"/></h:outputLink></h1>
+                        <p:tooltip id="toolTipGrow" for="changePass" value="Change Password"
+                                   showEffect="clip" hideEffect="explode" position="right" style="font-size: 9pt"/>
+
+                        <h:panelGrid columns="2" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent; width: 250pt">
+                            <p:outputLabel for="partnerId" value="Partner ID: " />        
+                            <h:outputText id="partnerId" value="#{sessionScope['partnerId']}" />
+
+                            <p:outputLabel for="password" value="Password: " />        
+                            <h:outputText id="password" value="*************" />
+                        </h:panelGrid>
+                        <br/>
+
+                        <h1>Company Information    <h:outputLink value="editProfile.xhtml" id="editProf"><h:graphicImage value="resources/image/edit2.png" style="width: 1.7%"/></h:outputLink></h1>
+                        <p:tooltip id="toolTipGrow2" for="editProf" value="Edit Profile"
+                                   showEffect="clip" hideEffect="explode" position="right" style="font-size: 9pt"/>
+
+                        <h:panelGrid columns="2" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent; width: 447pt" columnClasses="thirty-percent top-alignment, sixty-percent">
+                            <p:outputLabel for="company" value="Company: " />        
+                            <h:outputText id="company" value="#{accountManagedBean.company}" />
+
+                            <p:outputLabel for="phoneNumber" value="Office Number: " />        
+                            <h:outputText id="phoneNumber" value="#{accountManagedBean.phoneNumber}" />
+
+                            <p:outputLabel for="faxNumber" value="Fax Number: " />        
+                            <h:outputText id="faxNumber" value="#{accountManagedBean.faxNumber}" />
+
+                            <p:outputLabel for="emailAddress" value="Email: " />        
+                            <h:outputText id="emailAddress" value="#{accountManagedBean.email}" />
+
+                            <p:outputLabel for="address" value="Address: " />        
+                            <h:outputText id="address" value="#{accountManagedBean.address}" />
+
+                            <p:outputLabel for="companyProfile" value="Company Profile: " />        
+                            <h:outputText id="companyProfile" value="#{accountManagedBean.companyProfile}" />
+
+                            <p:outputLabel for="subscription" value="Subscription: " />        
+                            <h:outputText id="subscription" value="No" rendered="#{accountManagedBean.subscription == 'false'}"/>  
+                            <h:outputText id="subscription1" value="Yes" rendered="#{accountManagedBean.subscription == 'true'}"/>
+                        </h:panelGrid>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+        <style>
+
+            .thirty-percent {
+                width: 26%;
+            }
+
+            .sixty-percent {
+                width: 74%;
+            }
+        </style>
+    </ui:define>
+
+</ui:composition>

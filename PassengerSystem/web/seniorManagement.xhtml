@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+        <ui:define name="content">
+            <!--                    <ui:include src="calculatorTab.xhtml"/>-->
+            <!--                     <div id="page"><h1>Trip Fare Calculator</h1></div>-->
+
+            <table width="100%" cellpadding="5">
+                <tr>
+                    <td valign="top" width='20%'>
+                        <div class="card-w-title">               
+                            <p:panelMenu>
+                                <p:submenu id="passenger" label="About CIMRT" expanded="true">
+                                        <p:menuitem id="history" value="Our Identity" icon="ui-icon-favorite" outcome="/ourIdentity" />
+                                        <p:menuitem id="seniorMgmt" value="Our Senior Management" icon="ui-icon-group" outcome="/seniorManagement"/>
+                                        <p:menuitem id="announcements" value="Announcements" icon="ui-icon-speaker-notes" outcome="/announcements"/>
+                                        <p:menuitem id="contact" value="Contact Us" icon="ui-icon-contacts" outcome="/contactUs"/>  
+                                </p:submenu>
+                            </p:panelMenu>
+                        </div>
+                    </td>
+                    <td valign="top" width="90%">
+                        <div class="card card-w-title">
+                            <h1 style="color:#003c95;"><b>Our Senior Management</b></h1> 
+                            <p:graphicImage value="resources/images/seniorMgmt.jpg" width="100%"/>
+                            </div>
+                    </td>
+                </tr>
+            </table>
+        </ui:define>
+</ui:composition>

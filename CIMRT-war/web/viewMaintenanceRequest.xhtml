@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Maintenance Requests</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+
+                    <h:form id="form">
+                        <div id="list"><h1>View Maintenance Requests</h1></div>
+                        <p:dataTable var="MaintenanceRequestEntity" value="#{operationsManagedBean.maintenanceRequestListByDepot}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" 
+                                     widgetVar="maintenanceRequestTable" filteredValue="#{operationsManagedBean.filteredmaintenanceRequestListByDepot}" emptyMessage="No maintenance request found with given criteria"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('maintenanceRequestTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Request ID" style="width: 6%" filterBy="#{MaintenanceRequestEntity.mainReqId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{MaintenanceRequestEntity.mainReqId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Request Date" style="width: 7%" filterBy="#{MaintenanceRequestEntity.requestDate}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy / HH:mm:ss}">
+                                        <f:param value="#{MaintenanceRequestEntity.requestDate}"  />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Type" style="width: 60px" filterBy="#{MaintenanceRequestEntity.mainReqType}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{MaintenanceRequestEntity.mainReqType}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Remark" style="width: 180px" filterBy="#{MaintenanceRequestEntity.remark}" filterStyle="display:none">
+                                <h:outputText value="#{MaintenanceRequestEntity.remark}" />
+                            </p:column>
+
+                            <p:column headerText="Asset Name" style="width: 60px"  filterBy="#{MaintenanceRequestEntity.asset.assetName}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputText value="#{MaintenanceRequestEntity.asset.assetName}" /> 
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Location" style="width: 60px"  filterBy="#{operationsManagedBean.getDetails(MaintenanceRequestEntity.mainReqId)}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputText value="#{operationsManagedBean.getDetails(MaintenanceRequestEntity.mainReqId)}" /> 
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Submitter" style="width: 50px" filterBy="#{MaintenanceRequestEntity.submitter}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{MaintenanceRequestEntity.submitter}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Status" style="width: 60px" filterBy="#{MaintenanceRequestEntity.mainReqStatus}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{MaintenanceRequestEntity.mainReqStatus}" /></div>
+                            </p:column>
+
+                            <!--<p:column headerText="Edit" style="width:40px">
+                                <p:commandLink action="#{operationsManagedBean.goEditRS(MaintenanceRequestEntity.mainReqId)}" rendered="#{MaintenanceRequestEntity.mainReqStatus != 'Completed' and MaintenanceRequestEntity.mainReqStatus != 'Cancelled' and reportManagedBean.role == 'Depot Manager'}">
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 40%" /></div>
+                                </p:commandLink>
+                            </p:column> -->
+
+                            <p:column headerText="Remarks" style="width:80px" rendered="#{reportManagedBean.role == 'Depot Manager'}">
+                                <div align="center"><h:outputText value="No maintenace report to view currently." rendered="#{MaintenanceRequestEntity.mainReqStatus eq 'Received'}"/></div>
+
+                                <p:commandLink action="#{maintenanceManagedBean.goToMaintenanceReport(MaintenanceRequestEntity.mainReqId)}" rendered="#{MaintenanceRequestEntity.mainReqStatus eq 'Repaired' or MaintenanceRequestEntity.mainReqStatus eq 'Spoilt' or MaintenanceRequestEntity.mainReqStatus eq 'Replaced'}" >
+                                    <div align="center">
+                                        <h:graphicImage value="resources/image/viewpage.png" style="width: 30%" />
+                                    </div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Action" style="width:50px" rendered="#{reportManagedBean.role == 'Maintenance Staff'}">
+
+                                <p:commandLink action="#{operationsManagedBean.goCreateMaintenanceReport(MaintenanceRequestEntity.mainReqId,MaintenanceRequestEntity.remark,operationsManagedBean.getDetails(MaintenanceRequestEntity.mainReqId))}" rendered="#{MaintenanceRequestEntity.mainReqStatus eq 'Received' and reportManagedBean.role == 'Maintenance Staff'}" >
+                                    <div align="center">
+                                        <h:graphicImage value="resources/image/tools.png" style="width: 40%" />
+                                    </div>
+                                </p:commandLink>
+
+                                <p:commandLink action="#{maintenanceManagedBean.goEditMaintenanceReport(MaintenanceRequestEntity.mainReqId,MaintenanceRequestEntity.remark, operationsManagedBean.getDetails(MaintenanceRequestEntity.mainReqId))}" rendered="#{MaintenanceRequestEntity.mainReqStatus eq 'Processing' }" >
+                                    <div align="center">
+                                        <h:graphicImage value="resources/image/edit.png" style="width: 40%" />
+                                    </div>
+                                </p:commandLink>
+                                
+                                <p:commandLink action="#{maintenanceManagedBean.goUpdateMaintenanceReport(MaintenanceRequestEntity.mainReqId,MaintenanceRequestEntity.remark, operationsManagedBean.getDetails(MaintenanceRequestEntity.mainReqId))}" rendered="#{MaintenanceRequestEntity.mainReqStatus eq 'Pending Replacement' and maintenanceManagedBean.checkAssetRequestStatus(MaintenanceRequestEntity.mainReqId)}" >
+                                    <div align="center">
+                                        <h:graphicImage value="resources/image/edit.png" style="width: 40%" />
+                                    </div>
+                                </p:commandLink>
+
+
+                                <p:commandLink action="#{maintenanceManagedBean.goToMaintenanceReport(MaintenanceRequestEntity.mainReqId)}" rendered="#{MaintenanceRequestEntity.mainReqStatus eq 'Repaired' or MaintenanceRequestEntity.mainReqStatus eq 'Spoilt' or MaintenanceRequestEntity.mainReqStatus eq 'Replaced'}" >
+                                    <div align="center">
+                                        <h:graphicImage value="resources/image/viewpage.png" style="width: 40%" />
+                                    </div>
+                                </p:commandLink>
+
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

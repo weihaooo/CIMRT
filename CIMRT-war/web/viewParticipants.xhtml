@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Workshop's Participants</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Workshop's Participants</h1></div>
+                    <h:form id="form" rendered="#{manpowerManagedBean.role eq 'Station Manager' or manpowerManagedBean.role eq 'Depot Manager'}">
+
+                        <p:dataTable var="workshopEntity" value="#{manpowerManagedBean.specificWorkshopList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" 
+                                     >
+                            
+                            <p:column style="width:2px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Workshop ID" style="width:50px">
+                                <div align="center">
+                                <h:outputText value="#{workshopEntity.workshopId}" /> 
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Workshop Name" style="width:100px">
+                                <h:outputText value="#{workshopEntity.workshopName}" />
+                            </p:column>
+
+
+                            <p:rowExpansion>
+                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:800px;">
+
+                                    <h:outputText value="Participants" />
+                                    <p:selectCheckboxMenu id="participants" value="#{manpowerManagedBean.selectedStaffs}" label="Cities" multiple="true"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:250px" >
+                                        <f:selectItems value="#{manpowerManagedBean.showStaffList}" />
+                                    </p:selectCheckboxMenu>
+                                    <p:spacer/> 
+                                    <h:commandButton value="Update Participants" actionListener="#{manpowerManagedBean.signupWorkshop}" />
+
+                                </p:panelGrid>
+                            </p:rowExpansion>
+
+                        </p:dataTable>
+                    </h:form>
+
+                    <h:form id="form1" rendered="#{manpowerManagedBean.role eq 'HR'}">
+
+                        <p:dataTable var="workshopEntity" value="#{manpowerManagedBean.specificWorkshopList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" 
+                                     >
+
+                            <f:facet name="header">
+                                List of Workshops
+                            </f:facet>
+
+                            <f:facet name="footer">
+                                <div align="right">
+                                    <h:commandButton value="Create New Workshop" actionListener="#{manpowerManagedBean.goToCreateWorkshop}"/>
+                                </div>
+                            </f:facet>
+
+                            <p:column style="width:2px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Workshop ID" style="width:50px">
+                                <h:outputText value="#{workshopEntity.workshopId}" /> 
+                            </p:column>
+
+                            <p:column headerText="Workshop Name" style="width:100px">
+                                <h:outputText value="#{workshopEntity.workshopName}" />
+                            </p:column>
+
+
+                            <p:rowExpansion>
+                                <p:panelGrid  columns="2" columnClasses="label,value" style="width:800px;">
+
+                                    <h:outputText value="Participants" />
+                                    <p:selectCheckboxMenu id="participants" value="#{manpowerManagedBean.selectedHRStaffs}" label="Cities" multiple="true"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:250px" >
+                                        <f:selectItems value="#{manpowerManagedBean.showHRStaffList}" />
+                                    </p:selectCheckboxMenu>
+                                    <p:spacer/> 
+                                    <h:commandButton value="Update Participants" actionListener="#{manpowerManagedBean.signupWorkshopHR}" />
+
+                                </p:panelGrid>
+                            </p:rowExpansion>
+
+                        </p:dataTable>
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

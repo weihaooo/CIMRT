@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+     <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - View Train Schedule</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                 <div id="page"><h1>View Train Schedule</h1></div>
+                <h:form>
+                    <h:panelGrid columns="3" cellpadding="5">
+
+                        <p:outputLabel for="route" value="Route: " />
+                        <p:selectOneMenu id="route" value="#{viewTrainScheduleManagedBean.route}" style="width:186px" required="true" requiredMessage="Please Select a Route">
+                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                            <f:selectItems value="#{viewTrainScheduleManagedBean.routes}" />
+                        </p:selectOneMenu>
+                        <p:message for="route" />
+
+                        <p:outputLabel for="event" value="Date: " />
+                        <p:calendar id="event" value="#{viewTrainScheduleManagedBean.date}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-80:c+0"  required="true" requiredMessage="Please Select a Date">
+                            <p:ajax event="dateSelect" listener="#{viewTrainScheduleManagedBean.onDateSelect}" update="hourList" />
+                        </p:calendar>
+                        <p:message for="event" />
+
+                        <p:outputLabel for="hourList" value="Period: " />
+                        <p:selectOneMenu id="hourList" value="#{viewTrainScheduleManagedBean.hour}" style="width:186px"  required="true" requiredMessage="Please Select a Period">
+                            <f:selectItem itemLabel="Select One" itemValue="" />                                
+                            <f:selectItems value="#{viewTrainScheduleManagedBean.hourList}" />
+                        </p:selectOneMenu>
+                        <p:message for="hourList" /><p:spacer/>
+
+                        <h:commandButton action="#{viewTrainScheduleManagedBean.displayTable()}" value="View Train Schedule"/>
+                    </h:panelGrid>
+
+                </h:form>
+
+            </p:layoutUnit>
+
+        </p:layout>
+    </h:body>
+</html>

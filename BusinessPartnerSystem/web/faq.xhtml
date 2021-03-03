@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="home.xhtml" />
+                        <p:menuitem value="FAQ" url="faq.xhtml" />
+                    </p:breadCrumb>
+                </div>
+
+                <div class="card card-w-title">
+                    <h1>Shop Spaces</h1>
+                    <p:accordionPanel multiple="true">
+                        <p:tab title="How do I make an offer for a particular shop unit?">
+                            <label>All interested parties have to submit their interest and request for the shop units through our tender system. Tender forms can be downloaded <a href="subscribeAlert.xhtml">here</a>,
+                                submit the completed forms and necessary documents in our tender box at our Head Quarters at 251 North Bridge Road before the tender closing date and time.</label>
+                        </p:tab>
+                        <p:tab title="Can I make a direct offer without going through a tender?" closable="true">
+                            <label>Yes, we have a few shop units available for direct negotiation. You may find the information <a href="categories.xhtml">here.</a></label>
+                        </p:tab>
+                        <p:tab title="When will I be informed of the tender results?">
+                            <h:outputText value="Tender evaluation and approval will take about six to eight weeks or longer, depending on the tender bids and complexity of the evaluation process." />
+                        </p:tab>
+                        <p:tab title="How I will be informed?">
+                            <h:outputText value="We will notify you by post." />
+                        </p:tab>
+                        <p:tab title="How long is the rent-free period?">
+                            <h:outputText value="Typically, we give tenants a rent-free period of one month." />
+                        </p:tab>
+                        <p:tab title="What happens if I am not awarded the tender?">
+                            <h:outputText value="We will notify you and refund any outstanding amount via cheque to you by post." />
+                        </p:tab>
+                        <p:tab title="How long is the lease term?">
+                            <h:outputText value="Minimum of 1 year and Maximum of Three years." />
+                        </p:tab>
+                        <p:tab title="Who can I contact for enquiries?">
+                            <label>CIMRT Properties - Tel: 6224 1228 or Email: commercial@cimrt.com.sg</label>
+                        </p:tab>
+                    </p:accordionPanel>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

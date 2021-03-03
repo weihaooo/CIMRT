@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="home.xhtml" />
+                        <p:menuitem value="Procurement" url="#" />
+                        <p:menuitem value="Bidding Guide" url="procurementInfo.xhtml" />
+                    </p:breadCrumb>
+                </div>
+
+                <div class="card">
+                    <br/>
+                    <div style="font-size: 220%" align="center"><b>Guide to Goods Bidding</b>
+                        <br/><br/><br/>
+
+                        <h:graphicImage value="resources/image/procure.png" width="70%" />
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h2><u>Description of Goods Bidding Steps</u></h2>
+
+                    <label><b>Step 1:</b> Keep a lookout for new goods to bid based on the <a href="categories.xhtml" style="text-decoration: none">12 different categories.</a> For complete user guide on how to bid, <a href="#">click here.</a>
+                        <br/>
+                        <b>Step 2:</b> Bid the amount that you would like to! Do not worry! Notification will be send to you when you have been out-bided.
+                        <br/>
+                        <b>Step 3:</b> Do give us up to 5 working days to evaluate all the bids and bidders. Upon winning the bid, <a href="viewMyDelivery.xhtml" style="text-decoration: none">schedule a delivery date</a> with us!
+                        <br/>
+                        <b>Step 4:</b> Do deliver the goods on time, let us know if you are facing any difficulties locating the scheduled location. Contact us @6555 7772 or email us <a href="#"><u>cimrt-procurement@cimrt.sg</u></a>
+                        <br/>
+                        <b>Step 5:</b> Upon receiving the goods and the invoice, our finance department will transfer the amount to your company within 7 working days.
+                    </label>
+
+                </div>  
+            </div>
+        </div>
+
+        <style>
+            a {
+                opacity: 0.85;  
+            }
+
+            a:hover {
+                opacity: 1;
+            }
+        </style>
+
+    </ui:define>
+
+</ui:composition>

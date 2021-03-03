@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+                <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Submit Maintenance Request</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Submit Maintenance Request</h1></div>
+                    <h:form id="form">
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+                            
+                            <p:outputLabel for="assetRequestType" value="Asset: " />  
+                            <p:selectOneMenu id="assetRequestType" value="#{operationsManagedBean.assetRequestType}" style="width:200px" required="true" requiredMessage="Please select a type" >
+                                <p:ajax listener="#{operationsManagedBean.onTypeChange2}" update="assetType" /> 
+                                <p:ajax listener="#{operationsManagedBean.onTypeChange1}" update="form" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Node Asset" itemValue="Node Asset" />
+                                <f:selectItem itemLabel="Rolling Stock Asset" itemValue="Rolling Stock Asset" />
+                            </p:selectOneMenu>
+                            <p:spacer/>
+
+                            <p:outputLabel for="infraId" value="Rolling Stock ID: " rendered="#{operationsManagedBean.assetRequestType == 'Rolling Stock Asset'}" />
+                            <p:selectOneMenu id="infraId" value="#{operationsManagedBean.infraId}" style="width:150px" required="true" requiredMessage="Please select rolling stock ID!" rendered="#{operationsManagedBean.assetRequestType == 'Rolling Stock Asset'}" >
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{operationsManagedBean.rollingStocksList1}" />
+                            </p:selectOneMenu>
+                             <p:message for="infraId" rendered="#{operationsManagedBean.assetRequestType == 'Rolling Stock Asset'}"/>
+
+                            <p:outputLabel for="assetType" value="Asset Type: " />
+                            <p:selectOneMenu id="assetType" value="#{operationsManagedBean.assetType}" style="width:220px" required="true" requiredMessage="Please Select a type" >
+                                <p:ajax listener="#{operationsManagedBean.onTypeChange3}" update="assetName" />   
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{operationsManagedBean.assetTypeList}" />
+                            </p:selectOneMenu>
+                            <p:message for="assetType" />
+
+                            <p:outputLabel for="assetName" value="Asset Name: " />
+                            <p:selectOneMenu id="assetName" value="#{operationsManagedBean.assetName}" >
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{operationsManagedBean.assetList}" />
+                            </p:selectOneMenu>
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="mainReqType" value="Maintenance Type: " />  
+                            <p:selectOneMenu id="mainReqType" value="#{operationsManagedBean.mainReqType}" style="width:200px" required="true" requiredMessage="Please select a type!" >
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Adjustment" itemValue="Adjustment" />
+                                <f:selectItem itemLabel="Inspection" itemValue="Inspection" />
+                                <f:selectItem itemLabel="Replacement" itemValue="Replacement" />
+                                <f:selectItem itemLabel="Repair" itemValue="Repair" />
+                                <f:selectItem itemLabel="Service" itemValue="Service" />
+                                <f:selectItem itemLabel="Test" itemValue="Test" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                            </p:selectOneMenu>
+                            <p:message for="mainReqType" />
+                
+                            <p:outputLabel for="remark" value="Remark: " /> 
+                            <p:inputTextarea counter="display" required="true" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="remark" value="#{operationsManagedBean.remark}" style="width:500px; height:100px;" requiredMessage="Please input a remark"/>
+                            <p:spacer/>                         
+                            <p:spacer/><h:outputText id="display" />
+                            <p:message for="remark" /><p:spacer/>
+
+                            <h:commandButton value="Submit" action="#{operationsManagedBean.submitMaintenanceRequest}" />
+                        </h:panelGrid> 
+                    </h:form>
+
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

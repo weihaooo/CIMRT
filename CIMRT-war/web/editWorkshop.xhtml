@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Edit Workshop</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Edit Workshop</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+                        <h:panelGrid columns="3" cellpadding="5" >    
+
+                            <p:outputLabel for="workshopName" value="Workshop Name: " />        
+                            <p:inputText id="workshopName" required="true" value="#{manpowerManagedBean.workshopName}" requiredMessage="Please give a name for the workshop!"/>
+                            <p:message for="workshopName" /> 
+
+                            <p:outputLabel for="workshopType" value="Type: " />
+                            <p:selectOneMenu id="workshopType" required="true" value="#{manpowerManagedBean.workshopType}" style="width:125px" requiredMessage="Please select a type!" autoWidth="true">
+                                <f:selectItem itemLabel="Select a Type" itemValue="" />
+                                <f:selectItem itemLabel="Safety" itemValue="Safety" />
+                                <f:selectItem itemLabel="External" itemValue="External" />
+                            </p:selectOneMenu>
+                            <p:message for="workshopType" />
+
+                            <p:outputLabel for="description" value="Description: " />        
+                            <p:inputTextarea id="description" required="true" value="#{manpowerManagedBean.description}" requiredMessage="Please give a name for the workshop!" style='width: 300pt' autoResize="true"/>
+                            <p:message for="description" /> 
+
+                            <p:outputLabel for="startDate" value="Start Date of Workshop: " />
+                            <p:calendar id="startDate" required="true" value="#{manpowerManagedBean.startDate}" mindate="#{manpowerManagedBean.today}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10" requiredMessage="Please select a start date!">
+                            <p:ajax event="dateSelect" update="endDate" />
+                            </p:calendar>
+                            <p:message for="startDate" />
+                            
+                            <p:outputLabel for="endDate" value="End Date of Workshop: " />
+                            <p:calendar id="endDate" required="true" value="#{manpowerManagedBean.endDate}" locale="de" mindate="#{manpowerManagedBean.startDate}" navigator="true" pattern="dd/MM/yyyy" yearRange="c-0:c+10" requiredMessage="Please select an end date!"/>
+                            <p:message for="endDate" />
+                            
+                            <p:outputLabel for="workshopAddress" value="Address: " />        
+                            <p:inputTextarea id="workshopAddress" required="true" value="#{manpowerManagedBean.workshopAddress}" requiredMessage="Please input address of workshop!" style="width: 300pt"/>
+                            <p:message for="workshopAddress" />
+
+                            <p:outputLabel for="workshopStartTime" value="Start Time: " />
+                            <p:selectOneMenu id="workshopStartTime" required="true" value="#{manpowerManagedBean.workshopStartTime}" style="width:125px" requiredMessage="Please select a start time for the workshop!">
+                                <f:selectItem itemLabel="Select Start Time" itemValue="" />
+                                <f:selectItem itemLabel="0900HRS" itemValue="0900HRS" />
+                                <f:selectItem itemLabel="1000HRS" itemValue="1000HRS" />
+                                <f:selectItem itemLabel="1100HRS" itemValue="1100HRS" />
+                                <f:selectItem itemLabel="1200HRS" itemValue="1200HRS" />
+                                <f:selectItem itemLabel="1300HRS" itemValue="1300HRS" />
+                                <f:selectItem itemLabel="1400HRS" itemValue="1400HRS" />
+                                <f:selectItem itemLabel="1500HRS" itemValue="1500HRS" />
+                                <f:selectItem itemLabel="1600HRS" itemValue="1600HRS" />
+                                <f:selectItem itemLabel="1700HRS" itemValue="1700HRS" />
+                                <f:selectItem itemLabel="1800HRS" itemValue="1800HRS" />
+                                <f:selectItem itemLabel="1900HRS" itemValue="1900HRS" />
+                                <f:selectItem itemLabel="2000HRS" itemValue="2000HRS" />
+                                <f:selectItem itemLabel="2100HRS" itemValue="2100HRS" />
+                                <f:selectItem itemLabel="2200HRS" itemValue="2200HRS" />
+                            </p:selectOneMenu>
+                            <p:message for="workshopStartTime" />
+                            
+                            <p:outputLabel for="workshopEndTime" value="End Time: " />
+                            <p:selectOneMenu id="workshopEndTime" required="true" value="#{manpowerManagedBean.workshopEndTime}" style="width:125px" requiredMessage="Please select a end time for the workshop!">
+                                <f:selectItem itemLabel="Select End Time" itemValue="" />
+                                <f:selectItem itemLabel="0900HRS" itemValue="0900HRS" />
+                                <f:selectItem itemLabel="1000HRS" itemValue="1000HRS" />
+                                <f:selectItem itemLabel="1100HRS" itemValue="1100HRS" />
+                                <f:selectItem itemLabel="1200HRS" itemValue="1200HRS" />
+                                <f:selectItem itemLabel="1300HRS" itemValue="1300HRS" />
+                                <f:selectItem itemLabel="1400HRS" itemValue="1400HRS" />
+                                <f:selectItem itemLabel="1500HRS" itemValue="1500HRS" />
+                                <f:selectItem itemLabel="1600HRS" itemValue="1600HRS" />
+                                <f:selectItem itemLabel="1700HRS" itemValue="1700HRS" />
+                                <f:selectItem itemLabel="1800HRS" itemValue="1800HRS" />
+                                <f:selectItem itemLabel="1900HRS" itemValue="1900HRS" />
+                                <f:selectItem itemLabel="2000HRS" itemValue="2000HRS" />
+                                <f:selectItem itemLabel="2100HRS" itemValue="2100HRS" />
+                                <f:selectItem itemLabel="2200HRS" itemValue="2200HRS" />
+                            </p:selectOneMenu>
+                            <p:message for="workshopEndTime" />
+                            <p:spacer/>
+
+                            <h:commandButton value="Update" action="#{manpowerManagedBean.updateWorkshop}" style="width: 80px" />
+
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

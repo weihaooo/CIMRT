@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/myCards" />     
+                                <p:menuitem id="topUp" value="Top Up" icon="ui-icon-attach-money" outcome="/topupCard" /> 
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">               
+                    <div class="card card-w-title">
+                        <h:form>
+                            <p:growl severity="error,info" autoUpdate="true" />
+                            <h1 style="color:#003c95;"><b>Top up Card ID: #{cardManagedBean.selectedCard.cardId}</b></h1>
+
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                <p:outputLabel for="type" value="Type: " />
+                                <p:selectOneRadio id="type" value="#{cardManagedBean.type}" required="true" onclick="location.reload()">
+                                    <f:selectItem itemLabel="Concession" itemValue="Concession" />
+                                    <f:selectItem itemLabel="Variable Amount" itemValue="Variable Amount" />
+                                    <p:ajax event="valueChange" update="amount amount1 startLabel start endLabel end start1 startLabel1" listener="#{cardManagedBean.defineAmount}" />
+                                </p:selectOneRadio>
+                                <p:message for="type" />
+
+                                <p:outputLabel for="amount" value="Amount($): " rendered="#{cardManagedBean.type eq 'Variable Amount'}"/>
+                                <p:outputLabel for="amount1" value="Amount($): " rendered="#{cardManagedBean.type eq 'Concession'}"/>
+                               
+                                <p:inputNumber id="amount" value="#{cardManagedBean.amount}" required="true" requiredMessage="Please enter a value." rendered="#{cardManagedBean.type eq 'Variable Amount'}" validatorMessage="The minimum allowable value to top up is $10.00 !">
+                                    <f:validateDoubleRange minimum="10" />
+                                </p:inputNumber>
+                                <h:outputText id="amount1" value="#{cardManagedBean.amount}" rendered="#{cardManagedBean.type eq 'Concession'}"/>
+
+                                <h:outputText value="Please enter a minimum amount of $10.00 to topup." rendered="#{cardManagedBean.type eq 'Variable Amount'}"/>
+                                <p:spacer rendered="#{cardManagedBean.type eq 'Concession'}"/>
+
+
+                                <p:outputLabel id="startLabel" for="start" value="Start Date: " rendered="#{cardManagedBean.type eq 'Concession' and cardManagedBean.extend eq false}"/>
+                                <p:outputLabel id="startLabel1" for="start1" value="Start Date: " rendered="#{cardManagedBean.type eq 'Concession' and cardManagedBean.extend eq true}"/>
+                                <p:calendar id="start" value="#{cardManagedBean.startDate}" mindate="#{cardManagedBean.minDate}" required="true" rendered="#{cardManagedBean.type eq 'Concession' and cardManagedBean.extend eq false}" requiredMessage="Please select a Date." pattern="dd/MM/yyyy" yearRange="c-0:c+10">
+                                    <p:ajax event="dateSelect" update="end" listener="#{cardManagedBean.calculateEndDate}"/>
+                                </p:calendar>
+                                <h:outputText id="start1" value="#{cardManagedBean.startDate}" rendered="#{cardManagedBean.type eq 'Concession'and cardManagedBean.extend eq true}"  >
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                                <p:message for="start" rendered="#{cardManagedBean.type eq 'Concession' and cardManagedBean.extend eq false}" />
+                                <p:spacer rendered="#{cardManagedBean.type eq 'Concession' and cardManagedBean.extend eq true}"/>
+
+                                <p:outputLabel id="endLabel" for="end" value="End Date: " rendered="#{cardManagedBean.type eq 'Concession'}"/>
+                                <h:outputText id="end" value="#{cardManagedBean.endDate}" rendered="#{cardManagedBean.type eq 'Concession'}" >
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                                <p:spacer rendered="#{cardManagedBean.type eq 'Concession'}" />
+                                <p:spacer/>
+                                <p:commandButton value="Process Payment with Paypal" action="#{cardManagedBean.redirectPaypal}" />
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+

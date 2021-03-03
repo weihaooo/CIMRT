@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <ui:define name="content">
+        <h:form>
+            <p:growl severity="info,error" autoUpdate="true"/>
+        </h:form>
+        
+        <div class="card" align="center">
+            <div align="center" style="font-size: 20px; color:#003c95;"><b>Latest Announcement</b></div><br/>
+        <p:imageSwitch effect="turnDown" speed="500"  slideshowSpeed="10000">
+            <ui:repeat var="data" value="#{announcementManagedBean.getLatestAnnouncements()}">
+                <!--<p:outputPanel>#{data}</p:outputPanel>-->
+                <b><p:outputLabel value="#{data}" escape="false" /></b>
+            </ui:repeat>
+        </p:imageSwitch>
+        </div>
+
+        <p:imageSwitch effect="fade" id="fadeEffect" slideshowSpeed="6000">
+            <ui:repeat value="#{imagesView.images}" var="image" id="fadeEffectImages">
+                <p:graphicImage name="/demo/images/nature/#{image}" id="image" width="100%" />
+            </ui:repeat>
+        </p:imageSwitch>
+        <br/>
+        <div id="pricing">  
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-4 pricing-box pricing-basic">
+                    <div class="card">
+                        <div align="center"><h1 style="color:#003c95;"><b>Travel With Us</b></h1></div>
+                        <div class="pricing-content">
+                            <p:graphicImage value="resources/images/section1.jpg" width="100%" height="100%"/><br/><br/>
+                            <div align="center">CIMRT is the leading multi-modal public transport operator in Singapore. We serve millions of passengers daily by offering a safe, reliable and comprehensive transport network that consists of an extensive MRT and light rail system which connects seamlessly with its island-wide bus and taxi operations. Plan your journeys on our trains and buses here:<br/><br/>
+                                <p:button value="Find Out More" outcome="timeCalculator" style="width: 50%;" />
+                                <!--<p:commandButton type="button" value="Find Out More" action="timeCalculator" style="width: 50%;" />--></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 pricing-box pricing-standard">
+                    <div class="card">
+                        <div align="center"><h1 style="color:#003c95;"><b>Shop With Us</b></h1></div>
+                        <div class="pricing-content">
+
+                            <p:graphicImage value="resources/images/section2.jpg" width="100%" height="100%" /><br/><br/>
+                            <div align="center">
+                                Enhancing your travel experience with convenience. Find out about the exciting array of stores as well as Food and Beverages outlets that you can find when you travel with CIMRT! <br/><br/><br/><br/><br/>
+                                <p:button value="Find Out More" outcome="visitCoralIsland" style="width: 50%;" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4 pricing-box pricing-professional">
+                    <div class="card">
+                        <div align="center"><h1 style="color:#003c95;"><b>Update From Us</b></h1></div>
+                        <div class="pricing-content">
+                            <p:graphicImage value="resources/images/section3.jpg" width="100%" height="100%"/><br/><br/>
+                            <div align="center">
+                                Check out our latest announcements and news releases to get the newest updates, and browse our archives to find out more about us. <br/><br/><br/><br/><br/><br/>
+                                <p:button value="Find Out More" outcome="announcements" style="width: 50%;" /></div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="ui-g">
+            <div class="ui-g-12 ui-md-4">
+                <div class="card">
+                    <div align="center"><h1 style="color:#003c95;"><b>Announcement</b></h1></div>
+                    Content here<br/>
+                    <hr size="2"/>
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <div class="card">
+                    <div align="center"><h2 style="color:#003c95;"><b>Connect With Us</b></h2>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h:link outcome="home" >
+                                        <h:graphicImage value="resources/images/facebook.png" style="width:50%; height:50% "/>
+                                    </h:link>
+                                </td>
+                                <td>
+                                    <h:link outcome="home" >
+                                        <h:graphicImage value="resources/images/instagram.png" style="width:50%; height:50% "/>
+                                    </h:link>
+                                </td>
+                                <td>
+                                    <h:link outcome="home" >
+                                        <h:graphicImage value="resources/images/twitter.png" style="width:50%; height:50% "/>
+                                    </h:link>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </ui:define>
+
+</ui:composition>

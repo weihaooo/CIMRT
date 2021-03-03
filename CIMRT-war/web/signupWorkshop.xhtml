@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+<<<<<<< HEAD
+=======
+             <h:head>
+>>>>>>> 5a43ac514caddda0331a672f1a49492f178e7b93
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Workshop Sign-Up</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Workshop Sign-Up</h1></div>
+                    <h:form rendered="#{manpowerManagedBean.role eq 'Station Manager' or manpowerManagedBean.role eq 'Depot Manager'}">
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="workshopId" value="Workshop Id: " />        
+                            <p:inputText id="workshopId" disabled="true" value="#{manpowerManagedBean.workshopId}"/>
+                            <p:spacer/>
+
+                            <p:outputLabel for="workshopName" value="Workshop Name: " />        
+                            <p:inputText id="workshopName" disabled="true" value="#{manpowerManagedBean.workshopName}" />
+                            <p:spacer/>    
+
+                            <h:outputLabel for="staffList" value="Choose Staff: " />
+                            <p:selectCheckboxMenu id="staffList" value="#{manpowerManagedBean.selectedStaffs}" label="Cities" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" >
+                                <f:selectItems value="#{manpowerManagedBean.showStaffList}" />
+                            </p:selectCheckboxMenu>
+                            <p:message for="staffList" /> <p:spacer/>
+
+                            <h:commandButton value="Sign Up" actionListener="#{manpowerManagedBean.signupWorkshop}" />
+                        </h:panelGrid>
+                    </h:form>
+                    <h:form rendered="#{manpowerManagedBean.role eq 'HR'}">
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="workshopId" value="Workshop Id: " />        
+                            <p:inputText id="workshopId" disabled="true" value="#{manpowerManagedBean.workshopId}"/>
+                            <p:spacer/>
+
+                            <p:outputLabel for="workshopName" value="Workshop Name: " />        
+                            <p:inputText id="workshopName" disabled="true" value="#{manpowerManagedBean.workshopName}" />
+                            <p:spacer/>    
+
+                            <h:outputLabel for="staffList" value="Choose Staff: " />
+                            <p:selectCheckboxMenu id="staffList" value="#{manpowerManagedBean.selectedHRStaffs}" label="Cities" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" >
+                                <f:selectItems value="#{manpowerManagedBean.showHRStaffList}" />
+                            </p:selectCheckboxMenu>
+                            <p:message for="staffList" /> <p:spacer/>
+
+                            <h:commandButton value="Sign Up" actionListener="#{manpowerManagedBean.signupWorkshopHR}" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

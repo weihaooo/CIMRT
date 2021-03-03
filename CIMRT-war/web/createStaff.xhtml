@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Create Staff Account</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Create Staff Account</h1></div>
+
+                    <h:form>
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="firstName" value="First Name: " />        
+                            <p:inputText id="firstName" required="true" value="#{systemAdminManagedBean.firstName}" validatorMessage="Please enter alphabets only" requiredMessage="Value is required in this field">
+                                <f:validateRegex pattern="[a-zA-Z\s]*" /> 
+                            </p:inputText>
+                            <p:message for="firstName" />
+
+                            <p:outputLabel for="lastName" value="Last Name: " />        
+                            <p:inputText id="lastName" required="true" value="#{systemAdminManagedBean.lastName}" validatorMessage="Please enter alphabets only" requiredMessage="Value is required in this field">
+                                <f:validateRegex pattern="[a-zA-Z\s]*" /> 
+                            </p:inputText>
+                            <p:message for="lastName" />
+
+                            <p:outputLabel for="nric" value="NRIC: " />        
+                            <p:inputText id="nric" required="true" value="#{systemAdminManagedBean.nric}" requiredMessage="Value is required in this field"/>
+                            <p:message for="nric" /> 
+
+                            <p:outputLabel for="phoneNumber" value="Phone Number: " />        
+                            <p:inputNumber id="phoneNumber" thousandSeparator="" decimalPlaces="0" required="true" value="#{systemAdminManagedBean.phoneNumber}" validatorMessage="Allowable length is minimum of '8'" requiredMessage="Value is required in this field">
+                                <f:validateLength minimum="8"/> 
+                            </p:inputNumber>
+                            <p:message for="phoneNumber" /> 
+
+                            <p:outputLabel for="emailAddress" value="Email: " />        
+                            <p:inputText id="emailAddress" required="true" value="#{systemAdminManagedBean.emailAddress}" validatorMessage="Invalid email format" requiredMessage="Value is required in this field">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> 
+                            </p:inputText>
+                            <p:message for="emailAddress" /> 
+
+                            <p:outputLabel for="address" value="Address: " />        
+                            <p:inputText id="address" required="true" value="#{systemAdminManagedBean.address}" requiredMessage="Value is required in this field"/>
+                            <p:message for="address" />
+
+                            <p:outputLabel for="gender" value="Gender: " />
+                            <p:selectOneRadio id="gender" required="true" value="#{systemAdminManagedBean.gender}" requiredMessage="Please select a gender">
+                                <f:selectItem itemLabel="Male" itemValue="M" />
+                                <f:selectItem itemLabel="Female" itemValue="F" />
+                            </p:selectOneRadio>
+                            <p:message for="gender" />
+
+                            <p:outputLabel for="dateOfBirth" value="Date of Birth: " />
+                            <p:calendar id="dateOfBirth" required="true" value="#{systemAdminManagedBean.dateOfBirth}" locale="de" navigator="true" pattern="dd/MM/yyyy" yearRange="c-80:c+0" requiredMessage="Please select a date"/>
+                            <p:message for="dateOfBirth" />
+
+                            <p:outputLabel for="maritalStatus" value="Marital Status: " />
+                            <p:selectOneMenu id="maritalStatus" required="true" value="#{systemAdminManagedBean.maritalStatus}" style="width:125px" requiredMessage="Please select a marital status">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Single" itemValue="Single" />
+                                <f:selectItem itemLabel="Married" itemValue="Married" />
+                                <f:selectItem itemLabel="Divorced" itemValue="Divorced" />
+                                <f:selectItem itemLabel="Widowed" itemValue="Widowed" />
+                            </p:selectOneMenu>
+                            <p:message for="maritalStatus" />
+
+                            <p:outputLabel for="race" value="Race: " />
+                            <p:selectOneMenu id="race" required="true" value="#{systemAdminManagedBean.race}" style="width:125px" requiredMessage="Please select a race">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Chinese" itemValue="Chinese" />
+                                <f:selectItem itemLabel="Malay" itemValue="Malay" />
+                                <f:selectItem itemLabel="Indian" itemValue="Indian" />
+                                <f:selectItem itemLabel="Eurasian" itemValue="Eurasian" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                            </p:selectOneMenu>
+                            <p:message for="race" />
+
+                            <p:outputLabel for="nationality" value="Nationality: " />
+                            <p:selectOneMenu id="nationality" required="true" value="#{systemAdminManagedBean.nationality}" style="width:125px" requiredMessage="Please select a nationality">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Singaporean" itemValue="Singaporean" />
+                                <f:selectItem itemLabel="Coral Islander" itemValue="Coral Islander" />
+                                <f:selectItem itemLabel="Malaysian" itemValue="Malaysian" />
+                                <f:selectItem itemLabel="Thai" itemValue="Thai" />
+                                <f:selectItem itemLabel="Korean" itemValue="Korean" />
+                            </p:selectOneMenu>
+                            <p:message for="nationality" />
+
+                            <p:outputLabel for="religion" value="Religion: " />
+                            <p:selectOneMenu id="religion" required="true" value="#{systemAdminManagedBean.religion}" style="width:125px" requiredMessage="Please select a religion" >
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Buddhism" itemValue="Buddhism" />
+                                <f:selectItem itemLabel="Christianity" itemValue="Christianity" />
+                                <f:selectItem itemLabel="Catholic" itemValue="Catholic" />
+                                <f:selectItem itemLabel="Islam" itemValue="Islam" />
+                                <f:selectItem itemLabel="Hinduism" itemValue="Hinduism" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                            </p:selectOneMenu>
+                            <p:message for="religion" />
+
+                            <p:outputLabel for="educationQualification" value="Education Qualification: " />
+                            <p:selectOneMenu id="educationQualification" required="true" value="#{systemAdminManagedBean.educationQualification}" style="width:125px" requiredMessage="Please select an education qualification">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="PhD" itemValue="PhD" />
+                                <f:selectItem itemLabel="Master's Degree" itemValue="Master's Degree" />
+                                <f:selectItem itemLabel="Bachelor's Degree" itemValue="Bachelor's Degree" />
+                                <f:selectItem itemLabel="Diploma" itemValue="Diploma" />
+                                <f:selectItem itemLabel="A Levels" itemValue="A Levels" />
+                                <f:selectItem itemLabel="O Levels" itemValue="O Levels" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                            </p:selectOneMenu>
+                            <p:message for="educationQualification" />
+
+                            <p:outputLabel for="salary" value="Salary: " />        
+                            <p:inputNumber id="salary" required="true" value="#{systemAdminManagedBean.salary}" requiredMessage="Value is required in this field" validatorMessage="Please do not submit with a value of 0">
+                            <f:validateLongRange minimum="1" />
+                            </p:inputNumber>
+                            <p:message for="salary" />
+
+                            <p:outputLabel for="department" value="Department: " />
+                            <p:selectOneMenu id="department" required="true" value="#{systemAdminManagedBean.department}" style="width:125px" requiredMessage="Please select a department">  
+                            <p:ajax listener="#{systemAdminManagedBean.onLocationChange1}" update="role" />  
+                            <p:ajax listener="#{systemAdminManagedBean.onLocationChange1}" update="team" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="HQ" itemValue="HQ" />
+                                <f:selectItem itemLabel="Station" itemValue="Station" />
+                                <f:selectItem itemLabel="Depot" itemValue="Depot" />
+                            </p:selectOneMenu>
+                            <p:message for="department" />
+
+                            <p:outputLabel for="role" value="Role: " />
+                            <p:selectOneMenu id="role" required="true" value="#{systemAdminManagedBean.role}" style="width:125px" requiredMessage="Please select a role">
+                                <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                <f:selectItems value="#{systemAdminManagedBean.roleNames}" />
+                                <p:ajax update="team" listener="#{systemAdminManagedBean.getTeams}" />
+                            </p:selectOneMenu>
+                            <p:message for="role" />
+
+                            <p:outputLabel id="teamOutput" for="team" value="Team: " />
+                            <p:selectOneMenu id="team" disabled="#{(systemAdminManagedBean.department eq 'HQ')}" value="#{systemAdminManagedBean.team}" style="width:125px">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{systemAdminManagedBean.teamNumbers}" />
+                            </p:selectOneMenu>
+                            <p:message for="team" /><p:spacer/>
+
+                            <h:commandButton value="Create" actionListener="#{systemAdminManagedBean.createAccount}" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

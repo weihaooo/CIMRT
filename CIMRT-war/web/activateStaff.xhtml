@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Activate Staff</title>
+            </f:facet>
+            <f:metadata>
+                <f:viewAction action="#{attendanceManagedBean.init}" />
+            </f:metadata>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" >
+
+                    <h:form id="form" rendered="#{attendanceManagedBean.role eq 'Station Manager' or  attendanceManagedBean.role eq 'Depot Manager' or attendanceManagedBean.role eq 'Super Admin'}">
+                        <div id="list" align="center"><h2>View Standby Personnel</h2></div>
+
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <p:dataTable id="table" var="staff" value="#{attendanceManagedBean.standbyStaffs}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50" editable="true" rowIndexVar="index" paginatorPosition="bottom"
+                                     widgetVar="activateStandbyTable" filteredValue="#{attendanceManagedBean.filteredStandbyStaffs}" emptyMessage="No standby personnel is available currently">
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('activateStandbyTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Staff ID" filterBy="#{staff.staffId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.staffId}" /></div>
+                            </p:column>
+                            <p:column headerText="Staff Name" filterBy="#{staff.firstName} #{staff.lastName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.firstName} #{staff.lastName}" /></div>
+                            </p:column>
+                            <p:column headerText="Role" filterBy="#{staff.staffRole.staffRole}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.staffRole.staffRole}" /></div>
+                            </p:column>
+                            <p:column headerText="Activation">
+                                <p:commandLink action="#{attendanceManagedBean.goActivateStaff(index)}">
+                                    <div align="center"><h:graphicImage class="active" value="resources/image/activate.png" style="width: 12%" /></div>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+
+                    <!-- Activated Staff List-->
+
+                    <h:form id="form1" rendered="#{attendanceManagedBean.role eq 'Station Manager' or  attendanceManagedBean.role eq 'Depot Manager' or attendanceManagedBean.role eq 'Super Admin'}">
+                        <div id="list" align="center"><h2>Activated Standby Personnel</h2></div>
+
+                        <p:dataTable id="table1" var="staff" value="#{attendanceManagedBean.activatedStaffs}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50" editable="true" rowIndexVar="index" paginatorPosition="bottom"
+                                     widgetVar="activatedStaffsTable" filteredValue="#{attendanceManagedBean.filteredActivatedStaffs}" emptyMessage="No staffs are activated at the moment">
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('activatedStaffsTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Staff ID" filterBy="#{staff.staffId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.staffId}" /></div>
+                            </p:column>
+                            <p:column headerText="Staff Name" filterBy="#{staff.firstName} #{staff.lastName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.firstName} #{staff.lastName}" /></div>
+                            </p:column>
+                            <p:column headerText="Address" filterBy="#{staff.address}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.address}" /></div>
+                            </p:column>
+                            <p:column headerText="Contact Number" filterBy="#{staff.phoneNumber}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.phoneNumber}" /></div>
+                            </p:column>
+                            <p:column headerText="Role" filterBy="#{staff.staffRole.staffRole}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{staff.staffRole.staffRole}" /></div>
+                            </p:column>
+                            <p:column headerText="Reporting Time" filterBy="#{attendanceManagedBean.activatedTimeList.get(index)}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy / HH:mm}">
+                                        <f:param value="#{attendanceManagedBean.activatedTimeList.get(index)}" />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+                            <p:column headerText="Expected End Time" filterBy="#{attendanceManagedBean.expectedEndTimeList.get(index)}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy / HH:mm}">
+                                        <f:param value="#{attendanceManagedBean.expectedEndTimeList.get(index)}" />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+                            <p:column headerText="Acknowledgement" filterBy="#{attendanceManagedBean.acknowledgeList.get(index)}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{attendanceManagedBean.acknowledgeList.get(index)}" /></div>
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+
+            <style>
+                .active{
+                    opacity: 0.8; 
+                }
+
+                .active:hover {
+                    opacity: 1;
+                }
+            </style>
+        </h:body>
+    </f:view>
+</html>

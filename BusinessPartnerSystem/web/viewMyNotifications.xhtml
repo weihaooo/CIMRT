@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content" >
+        <table width="99.5%" style="margin-left: 2pt"><tr><td>
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="home.xhtml" />
+                            <p:menuitem value="Notification" url="viewMyNotifications.xhtml" />
+                        </p:breadCrumb>
+                    </div>
+
+                    <h:form id="form">
+                        <div class="card card-w-title">
+                            <h1 align="center"><b>Notification Board</b></h1>
+                            <p:dataTable var="NotificationEntity" value="#{bpTenderManagedBean.notificationList}" selection="#{bpTenderManagedBean.selectedNotification}" rowKey="#{NotificationEntity.notificationId}" sortBy="#{notificationEntity.dateAndTime}" expandableRowGroups="true" style="margin-bottom:20px;" rows="10" paginator="true"
+                                         paginatorPosition="bottom" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30" widgetVar="viewNotificationTable" filteredValue="#{bpTenderManagedBean.filteredNotification}" emptyMessage="No notification record found">
+
+                                <f:facet name="header">
+                                    <div align="right">
+                                        <h:panelGroup styleClass="md-inputfield">                
+                                            <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('viewNotificationTable').filter()" style="width:120px"/>
+                                            <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                        </h:panelGroup>     
+                                    </div>
+                                </f:facet>
+
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+                                <p:column rendered="#{NotificationEntity.checkRead == false}" filterBy="#{NotificationEntity.title} #{NotificationEntity.description} #{NotificationEntity.dateAndTime}" filterStyle="display:none">     
+                                    <h:outputText value="#{NotificationEntity.title}" style="font-weight: bold"/>  
+                                    <p:spacer width="7pt"/>
+
+                                    <div style="font-size: 11pt">
+                                        <i>Message: <u><h:outputText value="#{NotificationEntity.description}"/></u>,
+                                            <br/>
+                                            <div align="right" style="font-size: 10pt">
+                                                Received Date:
+                                                <h:outputFormat value="{0, date, dd-MM-yyyy / HH:mm:ss} hrs">
+                                                    <f:param id="date" value="#{NotificationEntity.dateAndTime}"/>
+                                                </h:outputFormat>
+                                            </div>
+                                        </i>
+                                    </div>
+
+                                </p:column>
+
+                                <p:column rendered="#{NotificationEntity.checkRead == true}" filterBy="#{NotificationEntity.title} #{NotificationEntity.description} #{NotificationEntity.dateAndTime}" filterStyle="display:none">     
+                                    <h:outputText value="#{NotificationEntity.title}" />  
+                                    <p:spacer width="7pt"/>
+
+                                    <div style="font-size: 11pt">
+                                        <i>Message: <u><h:outputText value="#{NotificationEntity.description}"/></u>,
+
+                                            <div align="right" style="font-size: 10pt">
+                                                Received Date:
+                                                <h:outputFormat value="{0, date, dd-MM-yyyy / HH:mm:ss} hrs">
+                                                    <f:param id="date1" value="#{NotificationEntity.dateAndTime}"/>
+                                                </h:outputFormat>
+                                            </div>
+                                        </i>
+                                    </div>
+
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:growl id="message" severity="info,error" showDetail="true" />
+                                    <p:commandLink action="#{bpTenderManagedBean.markRead(bpTenderManagedBean.selectedNotification)}" update="form menuform" style="text-decoration: none; color: white">
+                                        <p:confirm header="Confirmation" message="Mark this as read?" icon="ui-icon-alert" />
+                                        <div align="center"> <h:outputText value="Mark as Read" /></div>
+                                    </p:commandLink>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <div align="center">
+                                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div>
+                                    </p:confirmDialog>
+
+                                    <p:commandLink action="#{bpTenderManagedBean.markUnread(bpTenderManagedBean.selectedNotification)}" update="form menuform" style="text-decoration: none; color: white">
+                                        <p:confirm header="Confirmation" message="Mark this as unread?" icon="ui-icon-alert" />
+                                        <div align="center"> <h:outputText value="Mark as Unread" /></div>
+                                    </p:commandLink>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <div align="center">
+                                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div>
+                                    </p:confirmDialog>
+
+
+
+                                </f:facet>
+
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+
+                </td></tr></table>
+    </ui:define>
+
+</ui:composition>

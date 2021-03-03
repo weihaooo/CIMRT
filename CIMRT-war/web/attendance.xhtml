@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Attendances</title>
+            </f:facet>
+
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" >
+
+                    <table class="specialTable"><tr><td>
+                                <div align="center">
+                                    <b>
+                                        <h:outputText escape="false" value="CHECK ATTENDANCE FUNCTION IS UNAVAILABLE &lt;br /&gt;AS IT IS NOT YOUR SHIFT NOW" style="font-size: 30px;" rendered="#{(attendanceManagedBean.role eq 'Station Manager' or  attendanceManagedBean.role eq 'Depot Manager' or attendanceManagedBean.role eq 'Super Admin') and attendanceManagedBean.shiftNow eq false}"/>
+                                    </b>
+                                </div>
+                            </td></tr></table>
+                    
+
+                    <h:form id="form2" rendered="#{(attendanceManagedBean.role eq 'Station Manager' or  attendanceManagedBean.role eq 'Depot Manager' or attendanceManagedBean.role eq 'Super Admin') and attendanceManagedBean.shiftNow eq true}">
+                        <p:growl id="messages" severity="info,error"/>
+
+                        <div id="list" align="center"><h1>Check Attendance for #{attendanceManagedBean.todayString}</h1></div> 
+                        <p:dataTable id="table2" var="staff" value="#{attendanceManagedBean.staffs}" style="margin-bottom:20px; width: 100%; margin-right: 110px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30,40,50" editable="true" rowIndexVar="index">
+                            <p:ajax event="rowEdit" listener="#{attendanceManagedBean.onRowEdit(index)}" update=":form2:messages"/>
+
+                            <p:ajax event="rowEditCancel" listener="#{attendanceManagedBean.onRowCancel(index)}" />
+
+                            <p:column headerText="Staff" width="15%">
+                                <h:outputText value="#{staff.staffId} - #{staff.firstName} #{staff.lastName}" />
+                            </p:column>
+
+                            <p:column headerText="Attendance Type">
+                                <div align="center"><h:outputText value="#{attendanceManagedBean.attendanceType[index]}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Clock In Time">
+                                <div align="center">
+                                    <h:outputText value="#{attendanceManagedBean.clockinTime[index]}">
+                                        <f:convertDateTime type="time" pattern="HH:mm" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Clock Out Time">
+                                <div align="center">
+                                    <h:outputText value="#{attendanceManagedBean.clockoutTime[index]}">
+                                        <f:convertDateTime type="time" pattern="HH:mm" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Remark" width="25%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <div align="center"><h:outputText value="#{attendanceManagedBean.remarks[index]}" /></div>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputTextarea id="remarks" rows="3" cols="40" value="#{attendanceManagedBean.remarks[index]}" required="#{attendanceManagedBean.attendanceType[index] eq 'Others' or attendanceManagedBean.attendanceType[index] eq 'MC'}" requiredMessage="Please enter a remark!"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Not Attending" width="11%">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="Not Applicable" rendered="#{(attendanceManagedBean.attendanceType[index] != null and attendanceManagedBean.attendanceType[index] != '') and (attendanceManagedBean.attendanceType[index] == 'On Time' or attendanceManagedBean.attendanceType[index] == 'Leave' or attendanceManagedBean.attendanceType[index] == 'Late')}" />
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneRadio id="basic" value="#{attendanceManagedBean.attendanceType[index]}" disabled="#{(attendanceManagedBean.attendanceType[index] != null and attendanceManagedBean.attendanceType[index] != '') and (attendanceManagedBean.attendanceType[index] == 'On Time' or attendanceManagedBean.attendanceType[index] == 'Leave' or attendanceManagedBean.attendanceType[index] == 'Late')}">
+                                            <f:selectItem itemLabel="MC" itemValue="MC" />
+                                            <f:selectItem itemLabel="Others" itemValue="Others" />
+                                            <p:ajax event="valueChange" update="remarks"/>
+                                        </p:selectOneRadio> 
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+
+                </p:layoutUnit>
+            </p:layout>
+
+            <style type="text/css">
+                .specialTable
+                {
+                    position:absolute;
+                    top:35%;
+                    left:23%; 
+
+                    /*Alternatively you could use: */
+                    /*
+                       position: fixed;
+                        bottom: 50%;
+                        right: 50%;
+                    */
+
+
+                }
+            </style>
+
+        </h:body>
+    </f:view>
+</html>

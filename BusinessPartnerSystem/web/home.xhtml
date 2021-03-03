@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card" align="center">
+                    <p:messages id="messages" severity="info,error" showDetail="true"/>
+
+                    <p><p:outputLabel style="color:#003c95; font-size: 20pt; font-weight: bold" value="Providing the best business experiences possible"/></p>
+
+                    CIMRT handles the leasing of approximately 34,000 sqm of commercial space suited for a wide-selection of services from fashion to food. Serving 1.5 million passengers daily, we provide you with the commercial space and potential traffic to suit every business. 
+                    With our nation-wide presence and the empowerment of interactive technology, we can also provide you a strong and effective advertising platform to promote your brand and products.
+                </div>
+            </div>
+
+                <div class="ui-g-12 ui-md-4 pricing-box pricing-standard">
+                    <div class="card">
+                        <div align="center"><h1 style="color:#003c95; font-size: 15pt; font-weight: bold">Advertising Spaces</h1></div>
+
+                        <h:graphicImage value="resources/image/advertising.jpg" width="100%" />
+                        <br/>
+                        <br/>
+                        More than two million commuters are in our network daily. Engage them through your presence in our network. What are you waiting for?
+                        <br/><br/><br/>
+                        <div align="center"><p:commandButton value="Click Here For More" action="viewAvailableAdvertisement" style="width: 50%;" class="secondary"/></div>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-md-4 pricing-box pricing-standard">
+                    <div class="card">
+                        <div align="center"><h1 style="color:#003c95; font-size: 15pt; font-weight: bold">Leasing Spaces</h1></div>
+
+                        <p:graphicImage value="resources/image/leasespace.jpg" width="100%" />
+                        <br/>
+                        <br/>
+                        Located at high traffic stations, our shop spaces are ideal platforms to reach a wide consumer segment and establish a strong presence.
+                        <br/><br/><br/>
+                        <div align="center"><p:commandButton value="Click Here For More" action="viewAvailableLeasingSpace" style="width: 50%;" class="secondary"/></div>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-md-4 pricing-box pricing-standard">
+                    <div class="card">
+                        <div align="center"><h1 style="color:#003c95; font-size: 15pt; font-weight: bold">Goods Bidding</h1></div>
+
+                        <h:graphicImage value="resources/image/procurement.jpg" width="100%" />
+                        <br/>
+                        <br/>
+                        CIMRT requires strong partnerships and supports from various business partners in order to provide the best train and shopping experiences possible.
+                        <br/><br/><br/>
+                        <div align="center"><p:commandButton value="Click Here For More" action="categories" style="width: 50%;" class="secondary"/></div>
+
+                    </div>
+                </div>
+            </div>
+
+    </ui:define>
+
+</ui:composition>

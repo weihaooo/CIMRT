@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="content">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width="20%">
+                    <div class="card-w-title">
+                        <p:panelMenu>
+                            <p:submenu label="Our Business Partners" icon="ui-icon-business-center"/>  
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">          
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>Our Business Partners</b></h1>
+                        <div align="center">
+                        <p:graphicImage value="resources/images/bizPartner.jpg" width="100%" height="40%" />
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:row>
+                                <p:column>
+                                    <br/>
+                                    CIMRT handles the leasing of approximately 34,000 sqm of commercial space suited for a wide-selection of services from fashion to food. Serving 1.5 million passengers daily, we provide you with the commercial space and potential traffic to suit every business. 
+                                    With our nation-wide presence and the empowerment of interactive technology, we can also provide you a strong and effective advertising platform to promote your brand and products. We also seek for partnerships that can bring both parties to greater height through mutual supports.
+                                    If you are interested in working with us, wait no more! Head over to our Business Partner System today and sign up with us!<br/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <p:commandButton value="Go To Business Partner System" style="width: 50%;" />
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        </div>
+                    </div>
+                </td> 
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+
+

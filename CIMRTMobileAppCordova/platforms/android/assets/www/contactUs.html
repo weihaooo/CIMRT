@@ -1,0 +1,76 @@
+<html>
+
+    <head>
+        <title>CIMRT Mobile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" href="./css/jquery-ui.min.css" />
+        <link rel="stylesheet" href="./css/jquery-ui.theme.min.css" />
+        <link rel="stylesheet" href="./css/jquery-ui.structure.min.css" />
+        <link rel="stylesheet" href="./css/jquery.mobile.datepicker.css" />
+        <link rel="stylesheet" href="./css/jquery.mobile.datepicker.theme.css" />
+        <link rel="stylesheet" href="./css/theme-template.css" />
+        <script src="./js/lib/jquery-1.8.0.min.js"></script>
+        <script src="./js/lib/jquery-ui.min.js"></script>
+        <script src="./js/lib/jquery.mobile-1.4.5.min.js"></script>
+        <script src="./js/lib/jquery.mobile.datepicker.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="./js/restfulws.js"></script>
+        <script type="text/javascript" src="./js/home.js"></script>  
+        <script type="text/javascript" src="./js/calculateDistance.js"></script>  
+    </head>
+
+
+    <body background="bgImage.jpg">
+
+        <div data-role="page" id="index">
+            <div data-role="header">
+                <div align="center"><img src="img/mobileLogo.png" height="50">
+                    <!--<h1>Mobile</h1>--></div>
+                <a class="ui-nodisc-icon" href="#left-panel" data-icon="bars" data-iconpos="notext" data-iconshadow="false" data-shadow="false">Menu</a>
+                <div data-role="navbar">
+                    <ul>
+                        <li><a class="ui-btn-active" href="home.html" data-icon="home">Home</a></li>                            
+                        <li><a id="clnkAbout" href="contactUs.html" data-icon="info">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div role="main" class="ui-content">
+                <p style="text-align: center;">
+                    If you have any queries, you may contact us at:
+                    <br><br>
+                    Email: contact@cimrt.com.ci
+                    <br><br>
+                    Tel: 6411 0708
+                    <br><br><br>
+                    Follow us for more updates!<br><br>
+                    <img src="img/facebook.png" width="60" height="60"/> &nbsp; &nbsp; &nbsp; <a href="https://www.instagram.com/cimrtcoralisland" ><img src="img/instagram.png" width="60" height="60"/></a> &nbsp; &nbsp; &nbsp; <img src="img/twitter.png" width="60" height="60"/>
+                </p>
+            </div>
+
+            <div id="left-panel" data-role="panel" data-theme="b">
+                <p>Menu</p>
+                <a class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-right" href="#" data-rel="close">Close</a>
+
+                <p style="text-align: center;">
+                    <a class="ui-btn ui-corner-all" href="calculateTripTime.html">Trip Time Calculator</a>
+                    <a class="ui-btn ui-corner-all" href="calculateDistance.html">Fare Calculator</a>
+<!--                    <a class="ui-btn ui-corner-all" href="nextTwoTrainSchedule.html">Train Arrival Time</a>-->
+                    <a id="clnkPanelExit" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete" href="#">Exit</a>
+                </p>
+            </div>
+
+
+            <div data-role="footer">
+                <!--<div data-role="navbar">
+                    <ul>
+                        <li><a class="ui-btn-active" href="home.html" data-icon="home">Home</a></li>                            
+                        <li><a id="clnkAbout" href="aboutUs.html" data-icon="info">About</a></li>
+                    </ul>
+                </div>-->
+                <h6>(C) 2017 IS4103 - ES01 - All rights reserved.</h6>
+            </div>
+        </div>
+    </body>
+</html>

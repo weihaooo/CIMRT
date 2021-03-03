@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+                <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Edit Train Car</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Edit Train Car</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="assetId" value="Asset ID: " />
+                            <h:outputText id="assetId" value="#{infraAssetManagedBean.assetId}" />
+                            <p:spacer />
+
+                            <p:outputLabel for="carCode" value="Train Car Code: " />
+                            <h:outputText id="carCode" value="#{infraAssetManagedBean.carCode}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="brand" value="Brand: " />
+                            <h:outputText id="brand" value="#{infraAssetManagedBean.brand}" />
+                            <p:spacer />
+                            
+                            <p:outputLabel for="type" value="Train Car Type: "/>
+                            <h:outputText id="type" value="#{infraAssetManagedBean.type}" />
+                            <p:spacer />
+                            
+                            <p:outputLabel for="description" value="Description: " style="width:125px" />
+                            <p:inputTextarea counter="display" required="true" maxlength="1500" counterTemplate="{0} characters remaining." autoResize="false" id="description" value="#{infraAssetManagedBean.description}" style="width:900px; height:200px;"/>
+                            <p:spacer/>
+                            <p:spacer/><h:outputText id="display" /><p:spacer/> 
+
+                            <p:outputLabel for="storageLoc" value="Attached Depot: " />        
+                            <p:selectOneMenu id="storageLoc" value="#{infraAssetManagedBean.storageLoc}" style="width:200px" required="true" requiredMessage="Please select a depot to attach" rendered="#{infraAssetManagedBean.carStatus == 'Available'}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{infraAssetManagedBean.depotList1}" />
+                            </p:selectOneMenu>
+                            <p:message for="storageLoc" />
+
+                            <p:outputLabel for="status" value="Status: " />        
+                            <h:outputText id="status" value="#{infraAssetManagedBean.carStatus}"/>
+                            <p:spacer/>
+
+                            <h:commandButton value="Update" action="#{infraAssetManagedBean.updateTrainCar}" style="width: 80px" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

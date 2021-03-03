@@ -1,0 +1,291 @@
+<!DOCTYPE html> 
+<html>
+
+    <head>
+        <title>Lecture 12 Mobile App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/jquery.mobile-1.4.5.min.css" />
+        <link rel="stylesheet" href="./css/jquery-ui.min.css" />
+        <link rel="stylesheet" href="./css/jquery-ui.theme.min.css" />
+        <link rel="stylesheet" href="./css/jquery-ui.structure.min.css" />
+        <link rel="stylesheet" href="./css/jquery.mobile.datepicker.css" />
+        <link rel="stylesheet" href="./css/jquery.mobile.datepicker.theme.css" />
+        <link rel="stylesheet" href="./css/theme-template.css" />
+        <script src="./js/lib/jquery-1.8.0.min.js"></script>
+        <script src="./js/lib/jquery-ui.min.js"></script>
+        <script src="./js/lib/jquery.mobile-1.4.5.min.js"></script>
+        <script src="./js/lib/jquery.mobile.datepicker.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="./js/restfulws.js"></script>
+        <script type="text/javascript" src="./js/home.js"></script>        
+    </head>
+
+    <body>
+
+        <div data-role="page" id="index">
+            <div data-role="header">
+                <h1>Cordova Demo App</h1>
+                <a class="ui-nodisc-icon" href="#left-panel" data-icon="bars" data-iconpos="notext" data-iconshadow="false" data-shadow="false">Menu</a>
+            </div>
+
+            <div role="main" class="ui-content">
+                <p style="text-align: center;">
+
+                </p>
+            </div>
+
+            <div id="left-panel" data-role="panel" data-theme="b">
+                <p>Menu</p>
+                <a class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-right" href="#" data-rel="close">Close</a>
+
+                <p style="text-align: center;">
+                    <a class="ui-btn ui-corner-all" href="#input">Demo Input</a>
+                    <a class="ui-btn ui-corner-all" href="#output">Demo Output</a>
+                    <a id="clnkPanelExit" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete" href="#">Exit</a>
+                </p>
+            </div>
+
+
+            <div data-role="footer">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a class="ui-btn-active" href="#index" data-icon="home">Home</a></li>                            
+                        <li><a href="#" data-icon="gear">Settings</a></li>
+                        <li><a id="clnkAbout" href="#" data-icon="info">About</a></li>
+                        <li><a id="clnkExit" href="#" data-icon="delete">Exit</a></li>
+                    </ul>
+                </div>
+                <h6>(C) 2017 IS4103 - Enterprise Systems Development Project. All rights reserved.</h6>
+            </div>
+        </div>
+
+        <div data-role="page" id="input">
+            <div data-role="header">
+                <h1>Cordova Demo App</h1>
+                <a class="ui-nodisc-icon" href="#left-panel" data-icon="bars" data-iconpos="notext" data-iconshadow="false" data-shadow="false">Menu</a>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>Demo Input</h2>
+                <form>
+
+                    <div class="ui-field-contain">
+                        <label for="textbox">Text input:</label>
+                        <input name="textbox" id="textbox" type="text" value="">
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <label for="password">Password:</label>
+                        <input name="password" id="password" type="password" value="" autocomplete="off">
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <label for="textarea">Textarea:</label>
+                        <textarea name="textarea" id="textarea" rows="8" cols="40"></textarea>
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <fieldset data-role="controlgroup">
+                            <legend>Checkboxes:</legend>
+                            <input name="checkboxes" id="checkbox-1" type="checkbox" value="Checkbox One">
+                            <label for="checkbox-1">Checkbox One</label>
+                            <input name="checkboxes" id="checkbox-2" type="checkbox" value="Checkbox Two">
+                            <label for="checkbox-2">Checkbox Two</label>
+                            <input name="checkboxes" id="checkbox-3" type="checkbox" value="Checkbox Three">
+                            <label for="checkbox-3">Checkbox Three</label>
+                        </fieldset>
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <fieldset data-role="controlgroup">
+                            <legend>Radio buttons:</legend>
+                            <input name="radiobuttons" id="radio-choice-1" type="radio" value="Radio Button One">
+                            <label for="radio-choice-1">Radio Button One</label>
+                            <input name="radiobuttons" id="radio-choice-2" type="radio" value="Radio Button Two">
+                            <label for="radio-choice-2">Radio Button Two</label>
+                            <input name="radiobuttons" id="radio-choice-3" type="radio" value="Radio Button Three">
+                            <label for="radio-choice-3">Radio Button Three</label>                        
+                        </fieldset>
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <label class="select" for="select-one-menu">Select one menu:</label>
+                        <select name="select-one-menu" id="select-one-menu">
+                            <option value="standard">Standard: 7 day</option>
+                            <option value="rush">Rush: 3 days</option>
+                            <option value="express">Express: next day</option>
+                            <option value="overnight">Overnight</option>
+                        </select>
+                    </div>
+
+
+                    <div class="ui-field-contain">
+                        <label class="select" for="select-many-menu">Select many menu:</label>
+                        <select name="select-many-menu" id="select-many-menu" multiple="multiple" data-icon="grid" data-iconpos="left" data-native-menu="false">
+                            <option>Choose a few options:</option>
+                            <optgroup label="USPS">
+                                <option value="standard">Standard: 7 day</option>
+                                <option value="rush">Rush: 3 days</option>
+                                <option value="express">Express: next day</option>
+                                <option value="overnight">Overnight</option>
+                            </optgroup>
+                            <optgroup label="FedEx">
+                                <option value="firstOvernight">First Overnight</option>
+                                <option value="expressSaver">Express Saver</option>
+                                <option value="ground">Ground</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <label for="slider">Date picker:</label>
+                        <input name="datepicker" id="datepicker" type="text" data-role="date">
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <label for="slider">Slider:</label>
+                        <input name="slider" id="slider" type="range" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <label for="flipswitch">Flip switch:</label>
+                        <select name="flipswitch" id="flipswitch" data-role="flipswitch">
+                            <option value="off">Off</option>
+                            <option value="on">On</option>
+                        </select>
+
+                    </div>
+
+                    <input name="btnSubmit" id="btnSubmit" type="button" value="Submit" data-theme="a" data-icon="check">
+                </form>
+
+            </div>
+
+            <div id="left-panel" data-role="panel" data-theme="b">
+                <p>Menu</p>
+                <a class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-right" href="#" data-rel="close">Close</a>
+
+                <p style="text-align: center;">
+                    <a class="ui-btn ui-corner-all" href="#input">Demo Input</a>
+                    <a class="ui-btn ui-corner-all" href="#output">Demo Output</a>
+                    <a id="clnkPanelExit" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete" href="#">Exit</a>
+                </p>
+            </div>
+
+
+            <div data-role="footer">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#index" data-icon="home">Home</a></li>                            
+                        <li><a href="#" data-icon="gear">Settings</a></li>
+                        <li><a id="clnkAbout" href="#" data-icon="info">About</a></li>
+                        <li><a id="clnkExit" href="#" data-icon="delete">Exit</a></li>
+                    </ul>
+                </div>
+                <h6>(C) 2017 IS4103 - Enterprise Systems Development Project. All rights reserved.</h6>
+            </div>
+        </div>
+        
+        <div data-role="page" id="output">
+            <div data-role="header">
+                <h1>Cordova Demo App</h1>
+                <a class="ui-nodisc-icon" href="#left-panel" data-icon="bars" data-iconpos="notext" data-iconshadow="false" data-shadow="false">Menu</a>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>Demo Output</h2>
+                <h3>All Venues</h3>
+                
+                <div role="main" class="ui-content">
+                    <ul data-role="listview" id="venues">                      
+                    </ul>
+		</div>
+
+            </div>
+
+            <div id="left-panel" data-role="panel" data-theme="b">
+                <p>Menu</p>
+                <a class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-right" href="#" data-rel="close">Close</a>
+
+                <p style="text-align: center;">
+                    <a class="ui-btn ui-corner-all" href="#input">Demo Input</a>
+                    <a class="ui-btn ui-corner-all" href="#output">Demo Output</a>
+                    <a id="clnkPanelExit" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete" href="#">Exit</a>
+                </p>
+            </div>
+
+
+            <div data-role="footer">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#index" data-icon="home">Home</a></li>                            
+                        <li><a href="#" data-icon="gear">Settings</a></li>
+                        <li><a id="clnkAbout" href="#" data-icon="info">About</a></li>
+                        <li><a id="clnkExit" href="#" data-icon="delete">Exit</a></li>
+                    </ul>
+                </div>
+                <h6>(C) 2017 IS4103 - Enterprise Systems Development Project. All rights reserved.</h6>
+            </div>
+        </div>
+        
+        <div data-role="page" id="events">
+            <div data-role="header">
+                <h1>Lecture 12 Mobile App</h1>
+                <a class="ui-nodisc-icon" href="#left-panel" data-icon="bars" data-iconpos="notext" data-iconshadow="false" data-shadow="false">Menu</a>
+            </div>
+
+            <div role="main" class="ui-content">
+                <h2>Demo Output</h2>
+                <h3>Events in Selected Venue</h3>
+                
+                <div role="main" class="ui-content">
+                    
+                    <table data-role="table" data-mode="column" id="eventstable">
+                        <thead>
+                            <tr>                         
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Venue</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                        </tbody>
+                    </table>
+                    
+                    <a class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-back" href="#output">Back</a>
+                    
+		</div>
+
+            </div>
+
+            <div id="left-panel" data-role="panel" data-theme="b">
+                <p>Menu</p>
+                <a class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-right" href="#" data-rel="close">Close</a>
+
+                <p style="text-align: center;">
+                    <a class="ui-btn ui-corner-all" href="#input">Demo Input</a>
+                    <a class="ui-btn ui-corner-all" href="#output">Demo Output</a>
+                    <a id="clnkPanelExit" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-delete" href="#">Exit</a>
+                </p>
+            </div>
+
+
+            <div data-role="footer">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#index" data-icon="home">Home</a></li>                            
+                        <li><a href="#" data-icon="gear">Settings</a></li>
+                        <li><a id="clnkAbout" href="#" data-icon="info">About</a></li>
+                        <li><a id="clnkExit" href="#" data-icon="delete">Exit</a></li>
+                    </ul>
+                </div>
+                <h6>(C) 2017 IS4103 - Enterprise Systems Development Project. All rights reserved.</h6>
+            </div>
+        </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Depots</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>#{loginManagedBean.firstName} #{loginManagedBean.lastName}'s Announcements</h1></div>
+                    <h:form id="form">
+                        <p:dataTable var="AnnouncementEntity" value="#{announcementManagedBean.individualList}" sortBy="#{announcementEntity.dateAndTime}" style="margin-bottom:20px; width: 99%; margin-right: 5px" rows="5" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" widgetVar="announcementTable" filteredValue="#{announcementManagedBean.filteredAnnouncement}" emptyMessage="No announcement record found">
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <div align="right">
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('announcementTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </div>
+                                </p:outputPanel>
+                            </f:facet>
+                            <p:column headerText="Title" width="11%" filterBy="#{AnnouncementEntity.title}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AnnouncementEntity.title}" /></div>
+                            </p:column>
+                            <p:column headerText="Type" width="7%" filterBy="#{AnnouncementEntity.announcementType}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AnnouncementEntity.announcementType}" /></div>
+                            </p:column>
+                            <p:column headerText="Recipient" width="9%" filterBy="#{AnnouncementEntity.recepientType}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AnnouncementEntity.recepientType}" /></div>
+                            </p:column>
+                            <p:column headerText="Content" width="20%" filterBy="#{AnnouncementEntity.description}" filterStyle="display:none">
+                                <div align="justify"><h:outputText value="#{AnnouncementEntity.description}" escape="false" /></div>
+                            </p:column>
+                            <p:column headerText="Date" width="6%" filterBy="#{AnnouncementEntity.dateAndTime}" filterStyle="display:none">
+                                <div align="center">
+                                <h:outputText value="#{AnnouncementEntity.dateAndTime}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" />
+                                </h:outputText>
+                                </div>
+                            </p:column>
+                            <p:column headerText="Time" width="5%" filterBy="#{AnnouncementEntity.dateAndTime}" filterStyle="display:none">
+                                <div align="center">
+                                <h:outputText value="#{AnnouncementEntity.dateAndTime}">
+                                    <f:convertDateTime pattern="HH:mm" />
+                                </h:outputText>
+                                </div>
+                            </p:column>
+                            <p:column headerText="Edit" style="width:50px">
+                                <p:commandLink action="#{announcementManagedBean.goEdit(AnnouncementEntity.announcementId)}">
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 40%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <!--                            <p:column headerText="Delete" style="width:10%">
+                                                            <p:growl id="message" severity="error" showDetail="true"/>
+                                                            <p:commandLink action="{announcementManagedBean.deleteAction(AnnouncementEntity.announcementId)}" update="message">
+                                                                <p:confirm header="Confirmation" message="Are you sure you want to delete?" icon="ui-icon-alert" />
+                                                                <div align="center"><h:graphicImage value="resources/image/delete.png" style="width: 30%" /></div>
+                                                            </p:commandLink>
+                            
+                                                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                                <div align="center">
+                                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                                </div>
+                                                            </p:confirmDialog>
+                                                        </p:column>-->
+                        </p:dataTable>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

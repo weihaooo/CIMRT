@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="99.5%" style="margin-left: 2pt"><tr><td>
+
+                    <h:form id="form">
+                        <div class="card" id="breadcrumbList"></div>
+
+                        <div class="card card-w-title">
+                            <h2><b>Total Bids: <p:spacer/></b>#{bpTenderManagedBean.bidCount}</h2>
+                            <h2><b>Time Left: <p:spacer/></b>#{bpTenderManagedBean.timeLeft}</h2>
+                            <p:growl id="growl" severity="info,error" showDetail="true"/>
+
+                            <p:dataTable var="BidEntity" value="#{bpTenderManagedBean.getBidList(bpTenderManagedBean.purchaseRequestId)}" style="margin-bottom:20px" rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30" widgetVar="assetRequestListTable" emptyMessage="No bid record" rowIndexVar="rowIndex">
+
+                                <f:facet name="header">
+                                    List of Bidders Table
+                                </f:facet>
+                                
+                                <p:column headerText="Id" style="width: 11%" >
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="B#{rowIndex+1}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Bid Amount" style="width: 11%" >
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="$#{BidEntity.bidPrice}" />
+                                    </div>
+                                </p:column>
+
+
+                                <p:column headerText="Bid Date Time" width="22%">
+                                    <div align="center"> 
+                                        <h:outputFormat value="{0, date, dd-MM-yyyy HH:mm:ss}">
+                                            <f:param value="#{BidEntity.bidDate}"  />
+                                        </h:outputFormat>
+                                    </div>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+
+
+                </td></tr></table>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Add Train Schedule</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Add Train Schedule Period</h1></div>
+                    <p:messages id="messages" severity="info"/>
+                    <h:form>       
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="periodType" value="Period Type: " />
+                            <p:selectOneMenu id="periodType" value="#{editTrainScheduleManagedBean.newPeriodType}" style="width:200px" required="true" requiredMessage="Please select a period type">
+                                <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                <f:selectItem itemLabel="Peak" itemValue="Peak" />  
+                                <f:selectItem itemLabel="Off Peak" itemValue="Off Peak" />   
+                                <f:selectItem itemLabel="Last Hour" itemValue="Last Hour" />
+                            </p:selectOneMenu>
+                            <p:message for="periodType" />
+
+                            <p:outputLabel for="periodStart" value="Period Start:" />
+                            <h:outputLink id="pStart" value="#">
+                                <p:calendar id="periodStart" value="#{editTrainScheduleManagedBean.newPeriodStart}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Please indicate the start time"/>
+                                <p:tooltip for="pStart" value="Start period must be before end period" trackMouse="true" />    
+                            </h:outputLink>
+                            <p:message for="periodStart" />
+
+                            <p:outputLabel for="periodEnd" value="Period End:" />
+                            <h:outputLink id="pEnd" value="#">
+                                <p:calendar id="periodEnd" value="#{editTrainScheduleManagedBean.newPeriodEnd}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Please indicate the end time" />
+                                <p:tooltip for="pEnd" value="End period must be after start period" trackMouse="true" />
+                            </h:outputLink>
+                            <p:message for="periodEnd" />
+
+                            <p:outputLabel for="headway" value="Headway: (min) " />
+                            <p:inputNumber id="headway" value="#{editTrainScheduleManagedBean.newHeadway}" required="true" requiredMessage="Value is required" validatorMessage="Please submit a value of more than 0.00">
+                                <f:validateDoubleRange minimum="0.01" />
+                            </p:inputNumber>
+                            <p:message for="headway" />
+
+                            <p:outputLabel for="waitingTime" value="Waiting Time: (s) " />
+                            <p:inputText id="waitingTime" value="#{editTrainScheduleManagedBean.newWaitingTime}" required="true" requiredMessage="Value is required" validatorMessage="Please do not submit with a value of 0">
+                                <f:convertNumber integerOnly="true" type="number" />
+                                <f:validateLongRange minimum="1" />
+                            </p:inputText>
+                            <p:message for="waitingTime" /><p:spacer/>
+
+                            <h:commandButton value="Add" action="#{editTrainScheduleManagedBean.addAction()}" style="width: 80px" />
+
+                        </h:panelGrid>
+
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

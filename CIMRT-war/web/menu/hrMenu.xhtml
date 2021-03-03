@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+
+
+    <p:panelMenu style="font-size: 11pt; icon">
+        <p:submenu label="Admin Control">
+            <p:menuitem value="Dashboard" outcome="home" icon="fa fa-dashboard"/>
+        </p:submenu>
+        <p:submenu label="Manpower Management">
+            <p:menuitem value="Recruitment" outcome="recruitment" icon="fa fa-child"/>
+            <p:menuitem value="Rostering" outcome="roster" icon="fa fa-table"/>
+            <p:menuitem value="Entitlement" outcome="leaveApplication" icon="fa fa-smile-o"/>
+            <p:menuitem value="Leave Approval" outcome="leaveApproval" icon="fa fa-thumbs-o-up"/>
+            <p:menuitem value="View Available Workshop" outcome="viewWorkshop" icon="fa fa-leanpub"/>
+            <p:menuitem value="View Enrolled Workshops" outcome="workshop" icon="fa fa-user"/>
+            <p:menuitem value="View Team's Enrolled Workshop" outcome="viewOwnTeamAttendedWorkshop" icon="fa fa-users"/>
+            <p:menuitem value="View Safety Training Validity" outcome="viewSafetyValidity" icon="fa fa-lightbulb-o"/>
+            <p:menuitem value="Assign Staff To Team" outcome="assignStaffToTeam" icon="fa fa-lightbulb-o"/>
+            <p:menuitem value="View Staff Attendance" outcome="viewStaffAttendance" icon="fa fa-street-view" />
+        </p:submenu>
+        <p:submenu label="Operation">
+            <p:menuitem value="View Passenger Feedback" outcome="viewPassengerFeedback" icon="fa fa-comments-o"/>
+            <p:menuitem value="Announcement" outcome="createAnnouncement" icon="fa fa-volume-down"/>
+        </p:submenu>
+    </p:panelMenu>
+</html>

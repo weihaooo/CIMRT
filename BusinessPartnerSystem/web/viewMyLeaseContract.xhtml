@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card" id="breadcrumbList"></div>
+
+                <h:form id="form">
+                    <div class="card">
+                        <h1>Leasing Space Process</h1>
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <p:steps activeIndex="#{bpTenderManagedBean.menu}" styleClass="custom" readonly="false">
+                            <p:menuitem value="Tenancy Agreement"  action="#{bpTenderManagedBean.goIndex(0)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="Fitting Request"  action="#{bpTenderManagedBean.goIndex(1)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="Pre Joint Inspection"  action="#{bpTenderManagedBean.goIndex(2)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="Post Joint Inspection"  action="#{bpTenderManagedBean.goIndex(3)}" update="form,form1,form2,form3,form4,form5"/>
+                            <p:menuitem value="End of Contract"  action="#{tenderManagedBean.goIndex(4)}" update="form,form1,form2,form3,form4,form5"/>
+                        </p:steps>
+                    </div>
+                </h:form>
+
+                <h:form id="form1"  rendered="#{bpTenderManagedBean.index == 0 }">
+                    <div class="card">
+
+                        <ul align="center">        
+                            <h:outputText value="Signing of Tenancy Agreement" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center"> 
+                            Important Note: When signing the Tenancy Agreement, a security deposit will have to be handed over to CIMRT. 
+                            The security deposit to be worth about three month’s rent.
+                            The purpose of the security deposit is essentially twofold. Firstly, and most prominently, it serves as a safeguard for the CIMRT,
+                            in case the property will suffer damages due to the negligence of the tenant. 
+                            Secondly, if the lease term is terminated prematurely (and no clause was included in the Tenancy Agreement conditioning this), 
+                            then the security deposit can be withheld to cover for the CIMRT's inconvenience.
+                        </ul>
+
+                        <ul align="center">
+                            Please note that your contract will start on:
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="startDate" value="#{bpTenderManagedBean.leasingContract.startDate}"  />
+                            </h:outputFormat> 
+                            and end on:
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="endDate" value="#{bpTenderManagedBean.leasingContract.endDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+
+                        <ul align="center">
+                            The following are the details of the appointment:
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate" value="Date: " /> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="reqDate" value="#{bpTenderManagedBean.leasingContract.signedDate}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate1" value="Time: " /> 
+                            <h:outputFormat value="{0, date, HH.mm}" style="font-weight:bold">
+                                <f:param id="reqDate1" value="#{bpTenderManagedBean.leasingContract.signedDate}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            Before the appointment, please
+                        </ul> 
+
+                        <ul align="center">
+                            (1)
+                            <p:outputLabel for="deposit" value="Prepare the deposit to be submitted: " />             
+                            <h:outputText id="deposit" value="$#{bpTenderManagedBean.leasingContract.deposit}0" style="font-weight:bold"/>
+                        </ul>
+
+                        <ul align="center">  
+                            (2)
+                            <h:outputText value="Read the document: "/>
+                            <p:commandLink value="Tenancy Agreement" ajax="false">
+                                <p:fileDownload value="#{bpTenderManagedBean.file}" />
+                            </p:commandLink>
+                        </ul>
+
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%" rendered="#{bpTenderManagedBean.leasingContract.signingOfAgreement == true}" />
+                        </ul>
+                    </div>
+                </h:form> 
+
+                <h:form id="form2"  rendered="#{bpTenderManagedBean.index == 1 }">
+                    <div class="card">
+                        <ul align="center">        
+                            <h:outputText value="Fitting Request Options" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center"> 
+                            Important Note: CIMRT provides rent-free period to tenant for the purpose of renovating and fitting out the premises, typically
+                            between two weeks to one month. Fitting Out Deposit is to be paid by the tenant before any kind of renovations or fitting-out works to the leasing space can be done. 
+                            The deposit, held by CIMRT as security for making good any kind of damage to the common spaces within
+                            the building, removal of all waste materials and debris etc, is refunded upon completion of renovations once the condition of the affected 
+                            common spaces are in satisfactory condition. The standard cost of Fitting Out Deposit is $3000.
+
+                            <br/><br/><br/>
+                            Document must be <b>fully completed</b> and mail to 
+                            CIMRT Pte.Ltd, CIMRT Headquarters, Reception Block A, 251 North Bridge Road Singapore 179102 <b>within one week of your requested date</b>.
+                            <p:commandLink value=" Click Here " ajax="false">
+                                <p:fileDownload value="#{bpTenderManagedBean.fittingRequest}" />
+                            </p:commandLink>
+                            to download fitting out form.
+                        </ul>
+
+                        <ul align="center">
+                            <br/>
+                            <div align="center"> <p:selectOneRadio id="decision" value="#{bpTenderManagedBean.decision}" required="true" rendered="#{bpTenderManagedBean.leasingContract.fittingRequest == null}">
+                                    <f:selectItem itemLabel="Yes, I need it !" itemValue="Yes" />
+                                    <f:selectItem itemLabel="No, thank you !" itemValue="No" />
+                                </p:selectOneRadio></div>
+
+                            <h:outputText value="Fitting Out Request Details as Follow:" style="font-weight:bold; text-decoration: underline" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}"/>
+                            <h:outputText value="Do not Require Fitting Out !" style="font-weight:bold; text-decoration: underline" rendered="#{bpTenderManagedBean.fittingOut == null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}"/>
+                        </ul>  
+
+                        <ul align="center"> 
+                            <p:outputLabel for="reqDate3" value="Requested Date: " rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}">
+                                <f:param id="reqDate3" value="#{bpTenderManagedBean.fittingOut.requestedDate}"  />
+                            </h:outputFormat>                           
+                        </ul>  
+
+                        <ul align="center">    
+                            <p:selectOneMenu  id="duration" value="#{bpTenderManagedBean.duration}" style="width:150px" rendered="#{bpTenderManagedBean.decision == 'Yes' and bpTenderManagedBean.leasingContract.fittingRequest == null}">
+                                <f:selectItem itemLabel="Select Duration" itemValue="" noSelectionOption="true" />
+                                <f:selectItem itemLabel="2 Weeks" itemValue="2 Weeks" />
+                                <f:selectItem itemLabel="3 Weeks" itemValue="3 Weeks" />
+                                <f:selectItem itemLabel="One Month" itemValue="One Month" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="duration" value="Duration: " rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                            <h:outputText value="#{bpTenderManagedBean.fittingOut.duration}" style="font-weight:bold" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}"/>
+                        </ul>  
+
+
+                        <ul align="center"> 
+                            <p:outputLabel for="reqDate" value="Fitting Out Start Date: " rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}">
+                                <f:param id="reqDate" value="#{bpTenderManagedBean.fittingOut.startDate}"  />
+                            </h:outputFormat>                           
+                        </ul>  
+
+                        <ul align="center"> 
+                            <p:outputLabel for="reqDate1" value="Fitting Out End Date: " rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}">
+                                <f:param id="reqDate1" value="#{bpTenderManagedBean.fittingOut.endDate}"  />
+                            </h:outputFormat>                           
+                        </ul> 
+
+                        <ul align="center"> 
+                            <p:outputLabel value="Deposit: " rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                            <h:outputText value="$#{bpTenderManagedBean.fittingOut.deposit}0" style="font-weight:bold" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}"/>
+                        </ul>  
+
+                        <ul align="center"> 
+                            <p:outputLabel value="Status: " rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}" />
+                            <h:outputText value="#{bpTenderManagedBean.fittingOut.status}" style="font-weight:bold" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed')}"/>
+                        </ul>   
+
+                        <ul align="center"> 
+                            <p:outputLabel value="Remarks: " rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.fittingOut.remarks != null)}" />
+                            <h:outputText value="#{bpTenderManagedBean.fittingOut.remarks}" style="font-weight:bold" rendered="#{bpTenderManagedBean.fittingOut != null and (bpTenderManagedBean.fittingOut.remarks != null)}"/>
+                        </ul> 
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%" rendered="#{(bpTenderManagedBean.leasingContract.fittingRequest == 'Completed' and bpTenderManagedBean.fittingOut.status == 'Approved') or (bpTenderManagedBean.leasingContract.fittingRequest == 'Completed' and bpTenderManagedBean.fittingOut == null) }" />
+
+                            <p:commandButton value="Confirm" action="#{bpTenderManagedBean.confirmFittingRequest(bpTenderManagedBean.leasingContract.leasingContractId)}" rendered="#{bpTenderManagedBean.leasingContract.fittingRequest == null and bpTenderManagedBean.decision == null}" update=":form2"/> 
+                            <p:commandButton value="Submit" action="#{bpTenderManagedBean.confirmFittingRequest1(bpTenderManagedBean.leasingContract.leasingContractId)}" rendered="#{bpTenderManagedBean.leasingContract.fittingRequest == null and bpTenderManagedBean.decision != null}" update=":form2"/> 
+                        </ul>
+
+                    </div>
+                </h:form>
+
+
+
+                <h:form id="form3"  rendered="#{bpTenderManagedBean.index == 2 }">
+                    <div class="card">
+
+                        <ul align="center">        
+                            <h:outputText value="Pre Joint Inspection Details" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center"> 
+                            Important Note: CIMRT will arrange an appointment for a pre-joint inspection at least one week before the contract start date. 
+                            The joint inspection is designed to ensure that all specifications as per the Tenancy Agreement are provided and to identify any defects or complaints. 
+                            Any defects or complaints will be attended by CIMRT throughout the defects liability period.
+                            The tenants are responsible for using the property as per conditions of the contract or otherwise are liable to pay for the damage made on their part.                        
+                        </ul>
+                        <br/>
+
+                        <ul align="center">
+                            Please note that your contract will start on:
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold; text-decoration: underline">
+                                <f:param id="startDate" value="#{bpTenderManagedBean.leasingContract.startDate}"  />
+                            </h:outputFormat> 
+                            and end on:
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold; text-decoration: underline">
+                                <f:param id="endDate" value="#{bpTenderManagedBean.leasingContract.endDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+
+                        <ul align="center"> 
+                            <h:outputText value="It will take 3-5 working days for CIMRT to schedule a date for pre joint inspection" style="font-weight:bold"  rendered="#{bpTenderManagedBean.leasingContract.jointInspection == null }"/>
+                        </ul>
+
+                        <ul align="center">
+                            <h:outputText value=" The following are the details of the appointment:" style="font-weight:bold"  rendered="#{bpTenderManagedBean.leasingContract.jointInspection != null }"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate" value="Date: " rendered="#{bpTenderManagedBean.leasingContract.jointInspection != null }"/> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{bpTenderManagedBean.leasingContract.jointInspection != null }">
+                                <f:param id="reqDate" value="#{bpTenderManagedBean.leasingContract.jointInspection.entryInspection}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate1" value="Time: " rendered="#{bpTenderManagedBean.leasingContract.jointInspection != null }"/> 
+                            <h:outputFormat value="{0, date, HH:mm}" style="font-weight:bold" rendered="#{bpTenderManagedBean.leasingContract.jointInspection != null }">
+                                <f:param id="reqDate1" value="#{bpTenderManagedBean.leasingContract.jointInspection.entryInspection}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">  
+                            <h:outputText value="Take a look at the Pre Joint Inspection Report before the appointment: "/>
+                            <p:commandLink value="Joint Inspection" ajax="false" >
+                                <p:fileDownload value="#{bpTenderManagedBean.jointInspection}" />
+                            </p:commandLink>
+                        </ul>
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%" rendered="#{bpTenderManagedBean.leasingContract.jointInspection.entryStatus == 'Completed'}" />
+                        </ul>
+
+                    </div>
+                </h:form>
+
+
+                <h:form id="form4"  rendered="#{bpTenderManagedBean.index == 3 }">
+                    <div class="card">
+
+                        <ul align="center">        
+                            <h:outputText value="Post Joint Inspection" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center"> 
+                            Important Note: CIMRT will arrange an appointment for a post-joint inspection before the contract end date. 
+                            The joint inspection is designed to ensure that all specifications as per the Tenancy Agreement are provided and to identify any defects or complaints. 
+                            Any defects or complaints will be attended by CIMRT throughout the defects liability period.
+                            The tenants are responsible for using the property as per conditions of the contract or otherwise are liable to pay for the damage made on their part.                        
+                        </ul>
+
+                        <ul align="center">
+                            Please note that your contract is ending on:
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="endDate" value="#{bpTenderManagedBean.leasingContract.endDate}"  />
+                            </h:outputFormat> 
+                        </ul>
+
+                        <ul align="center"> 
+                            <h:outputText value="Please wait for CIMRT to schedule a date for post joint inspection" style="font-weight:bold"  rendered="#{bpTenderManagedBean.leasingContract.jointInspection.exitStatus == null }"/>
+                        </ul>
+
+                        <ul align="center">
+                            <h:outputText value=" The following are the details of the appointment:" style="font-weight:bold"  rendered="#{bpTenderManagedBean.leasingContract.jointInspection.exitStatus != null }"/>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate" value="Date: " rendered="#{bpTenderManagedBean.leasingContract.jointInspection.exitStatus != null }"/> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold" rendered="#{bpTenderManagedBean.leasingContract.jointInspection.exitStatus != null }">
+                                <f:param id="reqDate" value="#{bpTenderManagedBean.leasingContract.jointInspection.exitInspection}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">
+                            <p:outputLabel for="reqDate1" value="Time: " rendered="#{bpTenderManagedBean.leasingContract.jointInspection.exitStatus != null }"/> 
+                            <h:outputFormat value="{0, date, HH.mm}" style="font-weight:bold" rendered="#{bpTenderManagedBean.leasingContract.jointInspection.exitStatus != null }">
+                                <f:param id="reqDate1" value="#{bpTenderManagedBean.leasingContract.jointInspection.exitInspection}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center">  
+                            <h:outputText value="Download and take a look at the Post Joint Inspection Report before the appointment: "/>
+                            <p:commandLink value="Joint Inspection" ajax="false">
+                                <p:fileDownload value="#{bpTenderManagedBean.jointInspection}" />
+                            </p:commandLink>
+                        </ul>
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%" rendered="#{bpTenderManagedBean.leasingContract.jointInspection.exitStatus == 'Completed'}" />
+                        </ul>
+                    </div>
+                </h:form>
+
+
+                <h:form id="form5"  rendered="#{bpTenderManagedBean.index == 4 }">
+                    <div class="card">
+                        <ul align="center">        
+                            <h:outputText value="End of Contract Details" style="font-weight:bold; font-size: 15pt" />
+                        </ul>
+
+                        <ul align="center">
+                            Dear precious business partner, your contract that started on <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="sd" value="#{bpTenderManagedBean.leasingContract.startDate}"  />
+                            </h:outputFormat> has ended at <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="ed" value="#{bpTenderManagedBean.leasingContract.endDate}"  />
+                            </h:outputFormat>
+                        </ul>
+
+                        <ul align="center"> 
+                            Thank you for the partnership. We Look forward to work with you again.                        
+                        </ul>
+
+                        <ul align="center" >
+                            <h:graphicImage value="resources/image/completed.png" style="width: 10%"  />
+                        </ul>
+
+                    </div> 
+                </h:form>
+
+            </div>
+        </div>
+
+        <style type="text/css">
+            .ui-steps .ui-steps-item {
+                width: 20%;
+            }
+
+        </style>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <table width="99.5%" style="margin-left: 2pt"><tr><td>
+
+                    <h:form>
+                        <div class="card" id="breadcrumbList"></div>
+
+                        <div class="card card-w-title">
+                            <h:panelGrid columns="3" cellpadding="5">
+
+                                <p:outputLabel for="assetRequestType" value="Category: "/>
+                                <h:outputLabel id="assetRequestType" value="#{bpTenderManagedBean.assetRequestType}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="assetName" value="Item: "/>
+                                <h:outputLabel id="assetName" value="#{bpTenderManagedBean.assetName}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="description" value="Description: "/>
+                                <h:outputLabel id="description" value="#{bpTenderManagedBean.description}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="qty" value="Qty: " />        
+                                <h:outputLabel id="qty" value="#{bpTenderManagedBean.qty}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="location" value="Delivery Location: " />
+                                <h:outputLabel id="location" value="#{bpTenderManagedBean.location}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="timeLeft" value="Time Left: " />
+                                <h:outputLabel id="timeLeft" value="#{bpTenderManagedBean.timeLeft}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="maxBidAmount" value="Current Bid:" />
+                                <h:outputLabel id="maxBidAmount" value="$#{bpTenderManagedBean.maxBidAmount}" />
+                                <p:spacer/>
+
+                                <p:outputLabel value="Place Bid:" />
+                                <p:inputNumber id="currentBid" required="true" value="#{bpTenderManagedBean.currentBid}" requiredMessage="Enter the current bid amount or less" validatorMessage="Enter the current bid amount or less" >
+                                    <f:validateDoubleRange maximum="#{bpTenderManagedBean.maxBidAmount}" minimum="1.00" />
+                                </p:inputNumber>
+                                <p:message for="currentBid" />
+                                
+                                <p:outputLabel for="remark" value="Remark: " /> 
+                                <p:inputTextarea counter="display" required="true" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="remark" value="#{bpTenderManagedBean.remarks}" style="width:500px; height:100px;" requiredMessage="Please input a remark" />
+                                <p:spacer/>                         
+                                <p:spacer/><h:outputText id="display" />
+                                <p:message for="remark" />
+
+                                <p:spacer/>
+                                <h:commandButton value="Update" action="#{bpTenderManagedBean.updateBid()}" style="width: 80px" />
+                                <p:messages id="messages" severity="info" showDetail="true"/>
+                            </h:panelGrid> 
+                        </div>
+                    </h:form>
+                </td></tr></table>
+    </ui:define>
+
+</ui:composition>

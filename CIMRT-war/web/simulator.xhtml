@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Simulator</title>
+            </f:facet>
+            <style>
+                .Green {
+                    color: green;
+                }
+
+                .Yellow {
+                    color: yellow;
+                } 
+                .Red {
+                    color: red;
+                } 
+            </style>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" >
+                    <p:spacer/>
+                    <br/>
+
+                    <!-- Content -->
+                    <h:form id="form">
+                        <p:messages severity="info" id="messages" />
+                        <p:poll interval="1" listener="#{simulatorManagedBean.retrieveTracks}" update="table" />
+                        <p:poll interval="1" listener="#{simulatorManagedBean.retrieveTrains}" update="table" />
+                        <p:poll interval="1" listener="#{simulatorManagedBean.retrieveTime}" update="time" />
+                        <p:outputLabel for="time" value="Time Elapsed: " />
+                        <h:outputText value="#{simulatorManagedBean.timeElapsed}" id="time" >
+                            <f:convertDateTime pattern="HH:mm:ss" timeZone="GMT+0" />
+                        </h:outputText> <p:spacer width="50px"/>
+                        <p:commandButton value="Start" actionListener="#{simulatorManagedBean.startSimulator}" update="messages"/><p:spacer width="50px"/>
+                        <p:commandButton value="Pause" actionListener="#{simulatorManagedBean.pauseSimulator}" update="messages"/><p:spacer width="50px"/>
+                        <p:commandButton value="Stop" actionListener="#{simulatorManagedBean.stopSimulator}" update="messages"/><p:spacer width="50px"/> 
+                        <h:form>
+                            <p:outputLabel value="Speed: " for="speed" />
+                            <p:inputNumber value="#{simulatorManagedBean.speed}" decimalPlaces="0" minValue="0"/>
+                            <p:commandButton id="speed" value="Set Speed" actionListener="#{simulatorManagedBean.setSimulatorSpeed}" update=":form:messages"/><p:spacer width="50px"/> 
+                        <br/>
+                            <p:outputLabel value="Force Deploy: " for="force" />
+                            <p:commandButton id="force" value="Force Deploy" immediate="true" actionListener="#{simulatorManagedBean.forceDeploy}" update=":form:messages"/><p:spacer width="50px"/> 
+                        </h:form>
+
+                        <p:dataTable id="table" var="tracks" value="#{simulatorManagedBean.tracks}" style="font-size:12px;margin-bottom:20px; width: 100%; margin-right: 110px">
+                            <p:column headerText="Track ID" width="5%">
+                                <h:outputText value="#{tracks.trackId}" />
+                            </p:column>
+                            <p:column headerText="Track Name" width="12%">
+                                <h:outputText value="#{tracks.trackName}" />
+                            </p:column>
+                            <p:column headerText="Track Status" width="8%">
+                                <h:outputText value="#{tracks.status}" styleClass="#{tracks.status}"/>
+                            </p:column>
+                            <p:column headerText="Occupying Train" width="8%">
+                                <h:outputText value="#{tracks.train.trainId}" />
+                            </p:column>
+                            <p:column headerText="Not Moving" width="5%">
+                                <h:outputText value="#{tracks.train.isStop}" />
+                            </p:column>
+                            <p:column headerText="Train Waiting Time" width="5%">
+                                <h:outputText value="#{tracks.train.waitTime}" />
+                            </p:column>
+                            <p:column headerText="Track Distance" width="8%">
+                                <h:outputText value="#{tracks.distance}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+
+                    <p:dataTable id="table" var="trips" value="#{simulatorManagedBean.trips}" style="font-size:8px;margin-bottom:20px; width: 100%; margin-right: 110px">
+                        <p:column headerText="Trips Departure Time" width="5%">
+                            <h:outputText value="#{trips.departureTime}" />
+                        </p:column>
+                        <p:column headerText="Trips node code" width="12%">
+                            <h:outputText value="#{trips.node.code}" />
+                        </p:column>
+                        <p:column headerText="Trips rolling stock id" width="12%">
+                            <h:outputText value="#{trips.rollingStock.infraId}" />
+                        </p:column>
+
+
+                    </p:dataTable>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

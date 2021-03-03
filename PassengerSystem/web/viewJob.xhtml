@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="joinUs" label="Join Us" icon="ui-icon-people" expanded="true">
+                                <p:menuitem id="recruitment" value="CIMRT Recruitment" icon="ui-icon-work" outcome="/recruitment" />
+                                <p:menuitem id="lifeCIMRT" value="Life at CIMRT" icon="ui-icon-star" outcome="/index"  />   
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>Job Details</b></h1> 
+                        <h:form id="form">
+                            <p:growl id="growl" severity="info,error" showDetail="true"/>
+                            <table cellpadding="5">
+
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Title:"/></b>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel value="#{careerManagedBean.jobTitle}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Department:"/></b>
+
+                                    </td>
+                                    <td>
+                                        <p:outputLabel value="#{careerManagedBean.location}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Position:"/></b>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel value="#{careerManagedBean.jobPosition}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Type:"/></b>
+                                    </td><td>
+                                        <p:outputLabel value="#{careerManagedBean.jobType}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Salary:"/></b>
+                                    </td><td>
+                                        <p:outputLabel value="$#{careerManagedBean.jobSalary}/mth." />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Description:"/></b>
+                                    </td><td>
+                                        <p:outputLabel value="#{careerManagedBean.jobDescription}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Qualification:"/></b>
+                                    </td><td>
+                                        <p:outputLabel value="#{careerManagedBean.jobQualifications}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Posted Date:"/></b>
+                                    </td><td>
+                                        <h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                            <f:param value="#{careerManagedBean.postedDate}" />
+                                        </h:outputFormat>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b><p:outputLabel value="Close Date:"/></b>
+                                    </td><td>
+                                        <h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                            <f:param value="#{careerManagedBean.jobDeadline}" />
+                                        </h:outputFormat>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><p:button value="Apply" outcome="applyJob" /></td>
+                                </tr>
+                            </table>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

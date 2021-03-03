@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/myCards" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">               
+                    <div class="card card-w-title">
+                        <h:form>
+                            <p:messages severity="error,info" />
+                            <h1 style="color:#003c95;"><b>My Profile</b></h1>
+                            <p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent; width: 370pt">
+                                <p:outputLabel for="username" value="Username:"/>
+                                <p:outputLabel id="username" value="#{accountManagedBean.firstName}"/>
+                                <p:spacer/>
+
+                                <p:outputLabel for="pwd" value="Password:"/>
+                                <p:outputLabel id="pwd" value="*************"/>
+                                <p:spacer/>
+
+                                <p:outputLabel for="firstName" value="First Name:"/>
+                                <p:outputLabel id="firstName" value="#{accountManagedBean.firstName}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="lastName" value="Last Name:"/>
+                                <p:outputLabel id="lastName" value="#{accountManagedBean.lastName}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="gender" value="Gender:" />
+                                <p:outputLabel id="gender" value="#{accountManagedBean.gender}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="nric" value="NRIC:"/>
+                                <p:outputLabel id="nric" value="#{accountManagedBean.nric}"/>
+                                <p:spacer/>    
+
+                                <p:outputLabel for="dob" value="Date of Birth:"/>
+                                <h:outputText id="dob" value="#{accountManagedBean.dob}">
+                                    <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                                <p:spacer/>
+
+                                <p:outputLabel for="email" value="Email Address:"/>
+                                <p:outputLabel id="email" value="#{accountManagedBean.email}"/>
+                                <p:spacer/>
+
+                                <p:outputLabel for="phoneNum" value="Phone Number:"/>
+                                <p:outputLabel id="phoneNum" value="#{accountManagedBean.phoneNumber}"/>
+                                <p:spacer/>
+
+                                <p:outputLabel for="address" value="Address:"/>
+                                <p:outputLabel id="address" value="#{accountManagedBean.address}" />
+                                <p:spacer/>
+
+                                <p:spacer/>
+                                <p:commandButton value="Edit My Profile" action="editProfile" style="width:125pt"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+

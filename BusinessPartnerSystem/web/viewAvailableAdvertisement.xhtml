@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <h:form id="form">
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="home.xhtml" />
+                            <p:menuitem value="Commercial Space" url="#" />
+                            <p:menuitem value="Advertising Information" url="#" />
+                            <p:menuitem value="Advertising Space" url="viewAvailableAdvertisement.xhtml" />
+                        </p:breadCrumb>
+                    </div>
+
+                    <p:growl id="messages" severity="info,error"/>
+
+                    <div class="card card-w-title">
+                        <div align="center"><h1><b>Advertisement On Possible Locations</b></h1></div>
+                        <p:contentFlow value="#{bpTenderManagedBean.images}" var="image" style="border:0px none; background-color:transparent">
+                            <p:graphicImage value="resources/image/#{image}" styleClass="content" />
+                            <div class="caption" style="font-size: 11pt; font-weight: bold; color: black">#{image}</div>
+                        </p:contentFlow>
+                        <br/>
+                        <div align="center">       
+                            <p:outputLabel for="assetName" value="Venue: " />
+                            <p:selectOneMenu id="assetName" value="#{bpTenderManagedBean.assetName}" style="width:200px" required="true" requiredMessage="Please select a location">
+                                <p:ajax listener="#{bpTenderManagedBean.onSelectionChange1}" update="form" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Station" itemValue="Station" />
+                                <f:selectItem itemLabel="Rolling Stock" itemValue="RollingStock" />
+                            </p:selectOneMenu>
+
+
+                            <br/><br/>
+
+
+                            <p:outputLabel for="location" value="Code: " rendered="#{bpTenderManagedBean.showOption}"/>
+                            <p:selectOneMenu id="location" value="#{bpTenderManagedBean.location}" style="width:200px;" required="true" requiredMessage="Please select a station" rendered="#{bpTenderManagedBean.showOption}">
+                                <f:selectItem itemLabel="Select a Station to View" itemValue="" />
+                                <f:selectItems value="#{bpTenderManagedBean.stationList}" />
+                                <p:ajax listener="#{bpTenderManagedBean.onSelectionChange2}" update="form" />
+                            </p:selectOneMenu>
+                        </div>
+                        <br/>
+
+                        <p:dataTable paginatorPosition="bottom" var="AdvertisementSpaceEntity" value="#{bpTenderManagedBean.advertisingList }"  expandableRowGroups="true" style="margin-bottom:20px;" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="leasingSpaceTable"  emptyMessage="No record found with given criteria" rendered="#{bpTenderManagedBean.showDatatable}"
+                                     filteredValue="#{bpTenderManagedBean.filteredAdvertSpace}"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('leasingSpaceTable').filter()" style="width:120px"/>
+                                        <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                    </h:panelGroup>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Location" style="width: 15%" filterBy="#{AdvertisementSpaceEntity.location}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.location}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Type" style="width: 130px" filterBy="#{AdvertisementSpaceEntity.type}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.type}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Identifier" style="width: 70px" filterBy="#{AdvertisementSpaceEntity.numberCode}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.numberCode}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Peak Period Fee" style="width: 100px" filterBy="$#{AdvertisementSpaceEntity.peakPeriodFee}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="$#{AdvertisementSpaceEntity.peakPeriodFee}/mth."/></div>
+                            </p:column>
+
+                            <p:column headerText="Non Peak Period Fee" style="width: 100px" filterBy="$#{AdvertisementSpaceEntity.nonpeakPeriodFee}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="$#{AdvertisementSpaceEntity.nonpeakPeriodFee}/mth." /></div>
+                            </p:column>
+
+                            <p:column headerText="Closed Date" style="width:80px" filterBy="#{AdvertisementSpaceEntity.deadline}" filterStyle="display:none">
+                                <div align="center"><h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}" rendered="#{AdvertisementSpaceEntity.deadline != null}">
+                                        <f:param id="deadline" value="#{AdvertisementSpaceEntity.deadline}"  />
+                                    </h:outputFormat>
+                                </div>
+                                <div align="center"><h:outputText value="NIL" rendered="#{AdvertisementSpaceEntity.deadline == null}"/></div>
+                            </p:column>
+
+
+                            <p:column headerText="Request" style="width:60px">
+                                <p:commandLink action="#{bpTenderManagedBean.goRequestAdvertising(AdvertisementSpaceEntity.assetId)}" >
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 35%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

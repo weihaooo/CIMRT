@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - View Bids</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>View List of Bids</h1></div>
+
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+
+                        <p:dataTable id="table" var="BidEntity" value="#{tenderManagedBean.bidList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="bidListTable" emptyMessage="No bid record" 
+                                     filteredValue="#{tenderManagedBean.filteredBidList}" rowStyleClass="#{AssetRequestEntity.qty le 0 ? 'colored' : ''}">
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('bidListTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <f:facet name="footer">
+                                <div align="right">
+                                    <p:commandButton value="Reject All" action="#{tenderManagedBean.goRejectAll()}" update="table" style="background-color: #ECECEC; height: 25pt" rendered="#{tenderManagedBean.checkReject}">
+                                        <p:confirm header="Confirmation" message="Are you sure to reject all??" icon="ui-icon-alert" />
+                                        <div align="center"></div>
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <div align="center">
+                                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </div>
+                                    </p:confirmDialog>                                  
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Company" style="width: 11%" filterBy="#{BidEntity.businessPartner.company}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{BidEntity.businessPartner.company}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Bid Amount" style="width: 11%" filterBy="#{BidEntity.bidPrice}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="$#{BidEntity.bidPrice}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Bid Date / Time" style="width: 15%" filterBy="#{BidEntity.bidDate}" filterStyle="display:none">
+                                <div align="center"> 
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy / HH:mm:ss}">
+                                        <f:param value="#{BidEntity.bidDate}"  />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+                            
+                            <p:column headerText="Remarks" style="width: 25%" filterBy="#{BidEntity.remarks}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{BidEntity.remarks}" />
+                                </div>
+                            </p:column>
+                            
+                            <p:column headerText="Bid Status" style="width: 10%" filterBy="#{BidEntity.status}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{BidEntity.status}" />
+                                </div>
+                            </p:column>
+                            
+                             <p:column headerText="Company Details" style="width:12%">
+                                <p:commandLink action="#{tenderManagedBean.goViewBusinessPartner(BidEntity.bidId)}">
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 21%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Select Winner" style="width:10%">
+                                <p:growl id="message" severity="info,error" showDetail="true" />
+
+                                <p:commandLink action="#{tenderManagedBean.goChooseBid(BidEntity.bidId)}" update="table" rendered="#{BidEntity.status=='Pending' and tenderManagedBean.role=='I&amp;A Manager'}">
+                                    <p:confirm header="Confirmation" message="Are you sure to choose #{BidEntity.businessPartner.company} as the winner?" icon="ui-icon-alert" />
+                                    <div align="center"><h:graphicImage value="resources/image/select.png" style="width: 25%" /></div>
+                                </p:commandLink>
+
+                                <p:commandLink action="#{tenderManagedBean.goChooseBid(BidEntity.bidId)}" update="table" rendered="#{BidEntity.status=='Pending' and tenderManagedBean.role == 'I&amp;A Staff' and BidEntity.bidPrice le 1000}">
+                                    <p:confirm header="Confirmation" message="Are you sure to choose #{BidEntity.businessPartner.company} as the winner?" icon="ui-icon-alert" />
+                                    <div align="center"><h:graphicImage value="resources/image/select.png" style="width: 25%" /></div>
+                                </p:commandLink>
+
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <div align="center">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </div>
+                                </p:confirmDialog>
+                            </p:column> 
+
+                        </p:dataTable>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

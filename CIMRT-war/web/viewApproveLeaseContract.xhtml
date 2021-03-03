@@ -1,0 +1,143 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Select Tender</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>Approve Lease Contract</h1></div>
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+
+                        <p:dataTable id="table" var="LeasingContractEntity" value="#{tenderManagedBean.getApproveLeaseRequest()}" style="margin-bottom:20px" rows="10"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" emptyMessage="No record found with given criteria" 
+                                     widgetVar="renewLeaseTable" filteredValue="#{tenderManagedBean.filteredLeasingSpaceContract}"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('renewLeaseTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Company" style="width: 10%" filterBy="#{LeasingContractEntity.getPartner().getCompany()}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{LeasingContractEntity.getPartner().getCompany()}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Years Of Contract" style="width: 11%" filterBy="#{LeasingContractEntity.yearsOfContract}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{LeasingContractEntity.yearsOfContract}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Submitted Date" style="width: 20%" filterBy="#{LeasingContractEntity.submittedDate}" filterStyle="display:none">
+                                <div align="center"> 
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy HH:mm:ss}">
+                                        <f:param value="#{LeasingContractEntity.submittedDate}"  />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Location" width="10%" filterBy="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{LeasingContractEntity.getLeasingSpace().getInfrastructure().getCode()}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Unit Number" style="width:13%" filterBy="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}" filterStyle="display:none">     
+                                <div align="center"><h:outputText value="#{LeasingContractEntity.getLeasingSpace().getUnitNumber()}"  /></div>
+                            </p:column>
+
+                            <p:column headerText="Status" style="width: 9%" filterBy="#{LeasingContractEntity.status}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{LeasingContractEntity.status}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Company Details" style="width:10%">
+                                <p:commandLink action="#{tenderManagedBean.goViewBusinessPartner1(LeasingContractEntity.getPartner())}">
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 30%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Approve" style="width:10%">
+                                <p:growl id="message" severity="info,error" showDetail="true" />
+
+                                <p:commandLink  action="#{tenderManagedBean.goApproveLeaseContract(LeasingContractEntity.leasingContractId)}" update="table" >
+                                    <p:confirm header="Confirmation" message="Are you sure to approve #{LeasingContractEntity.getPartner().getCompany()} for the renewal?" icon="ui-icon-alert" />
+                                    <div align="center"><h:graphicImage value="resources/image/tick.png" style="width: 30%" /></div>
+                                </p:commandLink>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <div align="center">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </div>
+                                </p:confirmDialog>
+                            </p:column> 
+
+                            <p:column headerText="Reject" style="width:10%">
+                                <p:growl id="message1" severity="info,error" showDetail="true" />
+
+                                <p:commandLink  action="#{tenderManagedBean.goRejectLeaseContract(LeasingContractEntity.leasingContractId)}" update="table" >
+                                    <p:confirm header="Confirmation" message="Are you sure to reject #{LeasingContractEntity.getPartner().getCompany()} for the renewal?" icon="ui-icon-alert" />
+                                    <div align="center"><h:graphicImage value="resources/image/delete.png" style="width: 30%" /></div>
+                                </p:commandLink>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <div align="center">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </div>
+                                </p:confirmDialog>
+                            </p:column> 
+
+                        </p:dataTable>
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

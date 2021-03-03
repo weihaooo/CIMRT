@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - View Tender Request</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>List of Tender Requests</h1></div>
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+
+                        <p:dataTable id="table" var="LeasingSpaceEntity" value="#{tenderManagedBean.leasingList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30"  emptyMessage="No record found"
+                                     widgetVar="requestTable" filteredValue="#{tenderManagedBean.filteredLeasingSpace}"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('leasingSpaceTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Asset ID"  style="width:10%" filterBy="#{LeasingSpaceEntity.assetId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.assetId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Station" style="width:60px" filterBy="#{LeasingSpaceEntity.getInfrastructure().getCode()}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.getInfrastructure().getCode()}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Unit Number" style="width:13%" filterBy="#{LeasingSpaceEntity.unitNumber}" filterStyle="display:none">     
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.unitNumber}"  /></div>
+                            </p:column>
+
+                            <p:column headerText="Usage" style="width:15%" filterBy="#{LeasingSpaceEntity.assetName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.assetName}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Floor Area" style="width:15%" filterBy="#{LeasingSpaceEntity.floorArea}sqm" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.floorArea}sqm" /></div>
+                            </p:column>
+
+                            <p:column headerText="Water Provision" style="width:15%" filterBy="#{LeasingSpaceEntity.waterProvision}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputText value="Yes" rendered="#{LeasingSpaceEntity.waterProvision == 'true'}" />
+                                    <h:outputText value="No" rendered="#{LeasingSpaceEntity.waterProvision == 'false'}" />
+                                </div>
+                            </p:column>                           
+
+                            <p:column headerText="Lease Year" style="width:100px" filterBy="#{LeasingSpaceEntity.leaseYear} years" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{LeasingSpaceEntity.leaseYear} years" /></div>
+                            </p:column>
+
+                            <p:column headerText="Rental Fee" style="width:100px" filterBy="$#{LeasingSpaceEntity.rentalFee}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="$#{LeasingSpaceEntity.rentalFee}/mth." /></div>
+                            </p:column>
+
+                            <p:column headerText="Closed Date" style="width:100px" filterBy="#{LeasingSpaceEntity.deadline}" filterStyle="display:none">
+                                <div align="center"><h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}" rendered="#{LeasingSpaceEntity.deadline != null}">
+                                        <f:param id="deadline" value="#{LeasingSpaceEntity.deadline}"  />
+                                    </h:outputFormat>
+                                </div>
+                                <div align="center"><h:outputText value="NIL" rendered="#{LeasingSpaceEntity.deadline == null}"/></div>
+                            </p:column>
+
+                            <p:column headerText="Status" style="width: 11%" filterBy="#{LeasingSpaceEntity.status}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{LeasingSpaceEntity.status}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Submitter" style="width:11%">
+                                <p:commandLink action="#{tenderManagedBean.goViewLeaseSubmitter(LeasingSpaceEntity.assetId)}">
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 35%" /></div>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>    
+
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

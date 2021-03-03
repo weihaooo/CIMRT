@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pu="http://primefaces.org/ultima">
+
+
+    <div class="topbar clearfix">
+        <div class="topbar-left">            
+            <div class="logo" />
+        </div>
+
+       <div class="topbar-right">
+            <a id="menu-button" href="#">
+                <i></i>
+            </a>
+            
+            <!--<a id="topbar-menu-button" href="#">
+                <i class="material-icons">&#xE5D4;</i>
+            </a>-->
+
+            <ui:fragment rendered="#{sessionScope['username'] == null}">
+                <ul class="topbar-items fadeInDown animated">
+                    <p:commandButton id="dialog2" value="Member Login" icon="ui-icon-person" type="button" onclick="PF('dlg').show()" style="max-width:150px;"/>
+                    <p:dialog header="Member Login" widgetVar="dlg" resizable="false" draggable="false" responsive="true" hideEffect="scale">
+                        <div class="ui-g form-group" style="margin-bottom: 16px;">
+                            <div class="ui-g-12">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <h:form>
+                                                        <table><tr><td>
+                                                                    <p:inputText id="username" required="true" requiredMessage="Username: Value input is required!" value="#{accountManagedBean.username}" placeholder="Username" >
+                                                                        <p:ajax event="blur" update="captcha" listener="#{accountManagedBean.checkCaptcha}"/>
+                                                                    </p:inputText>
+                                                                    <br/><br/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <p:password id="password" required="true" requiredMessage="Password: Value input is required!" value="#{accountManagedBean.password}" placeholder="Password">
+                                                                        <p:ajax event="blur" update="captcha" listener="#{accountManagedBean.checkCaptcha}"/>
+                                                                    </p:password>
+                                                                    <br/> 
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"></p:spacer><p:captcha id="captcha" label="Captcha"  rendered="#{accountManagedBean.ableCaptcha == true}" />
+                                                                    <br/>
+                                                                    <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"></p:spacer>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center">
+                                                                    <p:commandButton value="Login" ajax="false" action="#{accountManagedBean.doLogin}" icon="ui-icon-check" style="width: 100%"/><p:spacer/></td></tr>
+                                                        </table>
+                                                    </h:form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <h:form><td align="center">
+                                                        <p:commandButton value="Register Account" ajax="false" action="register" icon="ui-icon-person" style="width: 100%"/><br/>
+                                                        <br/><hr size="1"/><br/>
+                                                        <p:button value="Forget Password" outcome="forgetPassword" icon="ui-icon-help" styleClass="secondary" style="width: 100%"/><br/><br/>
+                                                        <p:button value="Forget Username" outcome="forgetUsername" icon="ui-icon-person" styleClass="secondary" style="width: 100%"/><br/>
+                                                    </td></h:form>
+                                            </tr>
+                                        </table>   
+                                    </h:panelGrid>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                    </p:dialog>
+                </ul>
+            </ui:fragment>
+
+            <ul class="topbar-items fadeInDown animated">
+                <ui:fragment rendered="#{sessionScope['username'] != null}">
+                    <li style="float: left;display: block;width: auto;height: 100%; vertical-align: bottom">
+                        <h3 style="color: white">Welcome, #{sessionScope['username']}</h3>
+                    </li>
+                    <li class="profile-item" style="float: left;display: block;width: auto;height: 100%; vertical-align: middle">
+                        <a href="#">  
+                            <div class="profile-image" />
+                        </a>
+
+                        <ul class="ultima-menu animated">
+                            <li role="menuitem">
+                                <a href="#">
+                                    <h:form><h:commandLink action="myProfile">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <i class="material-icons">&#xE7FD;</i>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="&#160;&#160;&#160;&#160;" />My Profile
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </h:commandLink></h:form>
+                                    <h:form><h:commandLink action="myCards">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <i class="material-icons">&#xe870;</i>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="&#160;&#160;&#160;&#160;" />My CIT Card
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </h:commandLink></h:form>
+                                    <h:form>
+                                        <h:commandLink action="#{accountManagedBean.doLogout}">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <i class="material-icons">&#xE8AC;</i>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="&#160;&#160;&#160;&#160;" />Logout
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </h:commandLink>
+                                    </h:form>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ui:fragment>
+            </ul>
+        </div>
+    </div>
+
+</ui:composition>

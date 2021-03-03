@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+
+    <p:panelMenu style="font-size: 11pt; icon">
+        <p:submenu label="Admin Control">
+            <p:menuitem value="Dashboard" outcome="home" icon="fa fa-dashboard"/>
+        </p:submenu>
+        <p:submenu label="Manpower Management">
+            <p:menuitem value="Entitlement" outcome="leaveApplication" icon="fa fa-smile-o"/>
+            <p:menuitem value="Workshop" outcome="viewWorkshop" icon="fa fa-leanpub"/>
+            <p:menuitem value="View My Workshops Enrolled" outcome="workshop" icon="fa fa-leanpub"/>
+        </p:submenu>
+        <p:submenu label="Route &amp; Fare Planning">
+            <p:menuitem value="Train Scheduling" outcome="viewTrainSchedule" icon="fa fa-list-alt"/>
+            <p:menuitem value="Fare Structuring" outcome="viewFareStructure" icon="fa fa-money"/>
+            <p:menuitem value="Data Analytics" outcome="viewFareStructure" icon="fa fa-money"/>
+            <p:menuitem value="Network Map" outcome="networkMap" icon="fa fa-map-marker"/>
+        </p:submenu>
+        <p:submenu label="Operation">
+            <p:menuitem value="Announcement" outcome="createAnnouncement" icon="fa fa-volume-down"/>
+        </p:submenu>
+    </p:panelMenu>
+</html>

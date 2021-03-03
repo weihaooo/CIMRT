@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                    <h:form>
+                    <div class="card">
+                        <p:breadCrumb>
+                            <p:menuitem value="Categories" url="home.xhtml" />
+                            <p:menuitem value="Procurement" url="#" />
+                            <p:menuitem value="Categories" url="#" />
+                            <p:menuitem value="Goods to Bid" url="#" />
+                            <p:menuitem value="Bidding Goods" url="#" />
+                        </p:breadCrumb>
+                    </div>
+
+                        <div class="card card-w-title">
+                            <h:panelGrid columns="3" cellpadding="5">
+
+                                <p:outputLabel for="assetRequestType" value="Category: "/>
+                                <h:outputLabel id="assetRequestType" value="#{bpTenderManagedBean.assetRequestType}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="assetName" value="Item: "/>
+                                <h:outputLabel id="assetName" value="#{bpTenderManagedBean.assetName}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="description" value="Description: "/>
+                                <h:outputLabel id="description" value="#{bpTenderManagedBean.description}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="qty" value="Qty: " />        
+                                <h:outputLabel id="qty" value="#{bpTenderManagedBean.qty}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="location" value="Delivery Location: " />
+                                <h:outputLabel id="location" value="#{bpTenderManagedBean.location}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="timeLeft" value="Time Left: " />
+                                <h:outputLabel id="timeLeft" value="#{bpTenderManagedBean.timeLeft}" />
+                                <p:spacer/>
+
+                                <p:outputLabel for="maxBidAmount" value="Current Bid:" />
+                                <h:outputLabel id="maxBidAmount" value="$#{bpTenderManagedBean.maxBidAmount}" />
+                                <p:spacer/>
+
+                                <p:outputLabel value="Place Bid:" rendered="#{bpTenderManagedBean.canRequest}"/>
+                                <p:inputNumber id="currentBid" required="true" value="#{bpTenderManagedBean.currentBid}" requiredMessage="Enter the current bid amount or less" validatorMessage="Enter the current bid amount or less" rendered="#{bpTenderManagedBean.canRequest}">
+                                    <f:validateDoubleRange maximum="#{bpTenderManagedBean.maxBidAmount}" minimum="1.00" />
+                                </p:inputNumber>
+                                <p:message for="currentBid" rendered="#{bpTenderManagedBean.canRequest}"/>
+                            
+                                
+                                <p:outputLabel for="remark" value="Remark: " rendered="#{bpTenderManagedBean.canRequest}"/> 
+                                <p:inputTextarea counter="display" required="true" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="remark" value="#{bpTenderManagedBean.remarks}" style="width:500px; height:100px;" requiredMessage="Please input a remark" rendered="#{bpTenderManagedBean.canRequest}"/>
+                                <p:spacer/>                         
+                                <p:spacer/><h:outputText id="display" />
+                                <p:message for="remark" rendered="#{bpTenderManagedBean.canRequest}"/>
+                                <p:spacer/>
+
+                                <p:link id="track" outcome="bidHistory" value="[#{bpTenderManagedBean.calculateBidNumber(bpTenderManagedBean.purchaseRequestId)}]">
+                                    <f:param name="purchaseRequestId" value="#{bpTenderManagedBean.purchaseRequestId}"/>
+                                </p:link>
+                                <p:tooltip id="toolTipTrack" for="track" value="click to view list of bidders" trackMouse="true" />
+
+                                <p:spacer/>
+                                <h:commandButton value="Place Bid" action="#{bpTenderManagedBean.addBid}" style="width: 80px" rendered="#{bpTenderManagedBean.canRequest}"/>
+                                <p:messages id="messages" severity="info" showDetail="true"/>
+                            </h:panelGrid> 
+                        </div>
+                    </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

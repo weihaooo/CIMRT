@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Update Purchase Requests</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h1>Update Purchase Requests</h1>
+
+                    <h:form>
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="purchaseRequestId" value="Request ID: " />        
+                            <p:outputLabel id="purchaseRequestId" value="#{tenderManagedBean.purchaseRequestId}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="assetRequestType" value="Category: " /> 
+                            <h:outputLabel id="assetRequestType" value="#{tenderManagedBean.assetRequestType}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="assetName" value="Item Name: " />
+                            <h:outputLabel id="assetName" value="#{tenderManagedBean.assetName}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="description" value="Description: " /> 
+                            <p:inputTextarea counter="display" required="true" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="description" value="#{tenderManagedBean.description}" style="width:500px; height:100px;" requiredMessage="Please input a description"/>
+                            <p:spacer/>                         
+                            <p:spacer/><h:outputText id="display" />
+                            <p:message for="description" />
+                            <p:outputLabel for="qty" value="Qty: " />        
+                            <h:outputLabel id="qty" value="#{tenderManagedBean.qty}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="maxBidAmount" value="Max Bid: ($)" />        
+                            <p:inputText id="maxBidAmount" value="#{tenderManagedBean.maxBidAmount}" required="true" requiredMessage="Value is required in this field" validatorMessage="Please do not submit with a value of 0">
+                                <f:convertNumber integerOnly="true" type="number" />
+                                <f:validateLongRange minimum="1" />
+                            </p:inputText>
+                            <p:message for="maxBidAmount" />
+
+                            <p:outputLabel for="reqDeadline" value="Close Date: " />
+                            <p:calendar required="true" id="reqDeadline" value="#{tenderManagedBean.reqDeadline}" mindate="#{tenderManagedBean.todayDate}" locale="de" navigator="true" pattern="dd/MM/yyyy HH.mm" yearRange="c-80:c+0" requiredMessage="Please select a date"/>
+                            <p:message for="reqDeadline" /><p:spacer/>
+
+                            <h:commandButton value="Post" action="#{tenderManagedBean.updatePurchaseRequest}" />
+                        </h:panelGrid> 
+                    </h:form>
+
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

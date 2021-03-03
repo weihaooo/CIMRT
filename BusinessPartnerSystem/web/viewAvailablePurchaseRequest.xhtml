@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <h:form id="form">
+                    <div class="card" id="breadcrumbList"></div>
+                    <p:growl id="growl" severity="info,error" showDetail="true"/>
+                    <div class="card card-w-title">
+                        <h1 align="center"><b>List of Available Goods to Bid</b></h1>
+                        <p:dataTable var="PurchaseRequestEntity" value="#{bpTenderManagedBean.purchaseRequestList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="viewAvailablePurchaseRequestTable" filteredValue="#{bpTenderManagedBean.filteredAvailablePurchaseRequest}"  emptyMessage="No record found with given criteria" >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('viewAvailablePurchaseRequestTable').filter()" style="width:120px"/>
+                                        <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                    </h:panelGroup>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Item Name" style="width: 11%" filterBy="#{PurchaseRequestEntity.itemName}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{PurchaseRequestEntity.itemName}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Qty" style="width: 5%" filterBy="#{PurchaseRequestEntity.qty}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{PurchaseRequestEntity.qty}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Description" style="width: 20%" filterBy="#{PurchaseRequestEntity.description}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{PurchaseRequestEntity.description}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Delivery Location" style="width: 15%" filterBy="#{bpTenderManagedBean.deliveryLocation(PurchaseRequestEntity.purchaseRequestId)}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{bpTenderManagedBean.deliveryLocation(PurchaseRequestEntity.purchaseRequestId)}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Max Bid" style="width: 10%" filterBy="#{PurchaseRequestEntity.maxBidAmount}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="$#{PurchaseRequestEntity.maxBidAmount}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Request Date" style="width: 13%" filterBy="#{PurchaseRequestEntity.reqDate}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy HH:mm:ss}">
+                                        <f:param value="#{PurchaseRequestEntity.reqDate}"  />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+
+
+                            <p:column headerText="Close date" style="width: 13%" filterBy="#{PurchaseRequestEntity.reqDeadline}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy HH:mm:ss}">
+                                        <f:param value="#{PurchaseRequestEntity.reqDeadline}"  />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Bid" style="width:60px">
+                                <p:commandLink action="#{bpTenderManagedBean.goBidPR(PurchaseRequestEntity.purchaseRequestId)}" >         
+                                    <div align="center"><h:graphicImage value="resources/image/edit.png" style="width: 48%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

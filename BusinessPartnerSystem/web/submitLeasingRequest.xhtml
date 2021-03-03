@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="home.xhtml" />
+                        <p:menuitem value="Leasing Information" url="#" />
+                        <p:menuitem value="Leasing Space" url="viewAvailableLeasingSpace.xhtml" />
+                        <p:menuitem value="Request Leasing Space" url="#" />
+                    </p:breadCrumb>
+                </div>
+
+                <div class="card card-w-title">
+                    <div id="page"><h1><b>Request Leasing Space</b></h1></div>
+
+
+                    <h:form>  
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="code" value="Station: " />
+                            <h:outputText id="code" value="#{bpTenderManagedBean.code}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="unitNumber" value="Unit Number: " />
+                            <h:outputText id="unitNumber" value="#{bpTenderManagedBean.unitNumber}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="assetName" value="Usage: " />
+                            <h:outputText id="assetName" value="#{bpTenderManagedBean.assetName}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="floorArea" value="Floor Area: (sqm)" />        
+                            <h:outputText id="floorArea" value="#{bpTenderManagedBean.floorArea}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="waterProvision" value="Water Provision: " />
+                            <h:outputText id="waterProvision" value="Yes" rendered="#{bpTenderManagedBean.waterProvision == 'true'}" />
+                            <h:outputText id="waterProvision1" value="No" rendered="#{bpTenderManagedBean.waterProvision == 'false'}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="leaseDescription" value="Description: " /> 
+                            <h:outputText id="leaseDescription" value="#{bpTenderManagedBean.leaseDescription}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="leaseYear" value="Lease Year: " rendered="#{bpTenderManagedBean.canRequest}"/>     
+                            <h:outputLink id="ltv" value="#" rendered="#{bpTenderManagedBean.canRequest}">
+                                <p:selectOneMenu id="leaseYear" value="#{bpTenderManagedBean.leaseYear}" style="width:150px" required="true" requiredMessage="Value is required in this field" rendered="#{bpTenderManagedBean.canRequest}">
+                                    <f:selectItem itemLabel="Select Duration" itemValue="" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="1 year" itemValue="1"  />
+                                    <f:selectItem itemLabel="2 years" itemValue="2" />
+                                    <f:selectItem itemLabel="3 years" itemValue="3" />
+                                </p:selectOneMenu>
+                                <p:tooltip for="ltv" value="Lease Year means a period of twelve (12) full consecutive calendar months" trackMouse="true" />
+                            </h:outputLink>
+                            <p:message for="leaseYear" rendered="#{bpTenderManagedBean.canRequest}"/>
+
+                            <h:outputText style="font-weight:bold" value="Fee charged by per month" /><p:spacer/><p:spacer/>
+
+                            <p:outputLabel for="rentalFee" value="Rental Fee: ($) " />        
+                            <h:outputText id="rentalFee" value="#{bpTenderManagedBean.rentalFee}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="timeLeft" value="Time Left: " />
+                            <h:outputLabel id="timeLeft" value="#{bpTenderManagedBean.timeLeft}" />
+                            <p:spacer/><p:spacer/>
+
+                            <h:outputText value="[#{bpTenderManagedBean.calculateLeaseNumber(bpTenderManagedBean.assetId)}]" />
+                            <p:spacer/>
+                            <p:spacer/>
+
+                            <p:commandButton value="Request" action="#{bpTenderManagedBean.requestLeasing}" ajax="false" style="width: 80px" rendered="#{bpTenderManagedBean.canRequest}" update="growl"/>
+
+                        </h:panelGrid>
+                    </h:form>
+
+                    <br/><br/>
+
+                    <h:form>      
+                        <div><b>Document must be fully completed and mailed to 
+                                CIMRT Pte.Ltd, CIMRT Headquarters, Reception Block A, Coral Island 122333 within one week of your requested date. <p:commandLink value="Click here" ajax="false" >
+                                    <p:fileDownload value="#{bpTenderManagedBean.tenderSubmission}" />
+                                </p:commandLink> to download the document. Please read up business transaction CIMRT policy before accepting any deals or request, if require any additional information do contact our hotline 67552232.
+
+                            </b></div>
+                    </h:form>
+                </div>
+
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

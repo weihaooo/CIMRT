@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Welcome to CIMRT Passenger System</title>
+        <h:outputScript name="js/ripple.js" library="ultima-layout" />
+        <h:outputScript name="js/layout.js" library="ultima-layout" />
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <div class="card login-panel ui-fluid">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:graphicImage name="images/logo-ultima.svg" library="ultima-layout" />
+                </div>
+                <div class="ui-g-12">
+                    <p:growl id="messages" severity="error,info"/>
+                    <h:panelGroup styleClass="md-inputfield">
+                        <h:form>
+
+                            <p:inputText id="username" required="true" value="#{accountManagedBean.username}" requiredMessage="Value for username is required!">
+                                <p:ajax event="blur" update="captcha" listener="#{accountManagedBean.checkCaptcha}"/>
+                            </p:inputText>
+
+                            <label>Username</label>
+
+                            <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"/>
+                            <p:captcha id="captcha" label="Captcha"  rendered="#{accountManagedBean.ableCaptcha == true}" />
+                            <br/>
+                            <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"/>
+                        </h:form>
+                    </h:panelGroup>
+                    <br/>
+                    <h:panelGroup styleClass="md-inputfield">
+                        <h:form>
+                            <p:password id="password" required="true" value="#{accountManagedBean.password}" requiredMessage="Value for password is required!">
+                                <p:ajax event="blur" update="captcha" listener="#{accountManagedBean.checkCaptcha}"/>
+                            </p:password>
+
+                            <label>Password</label>
+
+                            <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"/>
+                            <p:captcha id="captcha" label="Captcha"  rendered="#{accountManagedBean.ableCaptcha == true}" />
+                            <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"/>
+                            <p:spacer/>
+                            <p:commandButton value="Login" ajax="false" action="#{accountManagedBean.doLogin}" icon="ui-icon-check"/>
+                            <p:button value="Register an Account" outcome="register" icon="ui-icon-help"/>
+                        </h:form>
+                    </h:panelGroup>
+                </div>        
+                <div class="ui-g-12">
+                    <h:form>
+                        <p:button value="Forget Password" outcome="forgetPassword" icon="ui-icon-person" styleClass="secondary"/>
+                        <p:button value="Forget Username" outcome="forgetUsername" icon="ui-icon-help" styleClass="secondary"/>
+                    </h:form>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="login-footer">CIMRT Passenger System</div>
+
+        <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/layout-blue.css" library="ultima-layout" />
+    </h:body>
+
+</html>

@@ -1,0 +1,29 @@
+#list h1 {
+    font-size: 35px;
+    font-weight: 650; 
+    line-height: 120%; 
+    font-family: 'Open sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center 
+}
+
+#page h1 {
+    font-size: 35px;
+    font-weight: 650; 
+    line-height: 120%; 
+    font-family: 'Open sans', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start; 
+}
+
+.ui-layout-north.ui-widget-content{
+    margin: 0px;
+    padding: 0px;
+}
+
+.ui-layout-south.ui-widget-content{
+    margin: 0px;
+    padding: 0px;
+}

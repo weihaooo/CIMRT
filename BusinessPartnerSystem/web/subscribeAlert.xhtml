@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="home.xhtml" />
+                        <p:menuitem value="Commercial Space" url="#" />
+                        <p:menuitem value="Tenders" url="#" />
+                        <p:menuitem value="Subscribe to Alerts" url="subscribeAlert.xhtml" />
+                    </p:breadCrumb>
+                </div>
+
+                <div class="card card-w-title">
+                    <h:form id="form"> 
+                        <p:growl id="messages" severity="info,error"/>
+                        <h1><u>Subscribe to Tender Alerts</u></h1>
+                        <p>
+                            CIMRT provides an alert feature specially to our premium business partners. 
+                            Upon subscribing to this feature, you will receive email with regards to <b>new available Goods to Bid</b> 
+                            <br/><br/>
+                            as well as <b>newly build leasing or advertising space</b>.
+                            This feature is absolutely free, all you have to do is check on the "I want to subscribe" button, follow by clicking the submit button and 
+                            <br/><br/>
+                            you will get to enjoy having this feature
+                            as a business partner of CIMRT.
+                        </p>
+                        <br/><br/>
+
+                        <p:selectBooleanButton id="value1" value="#{accountManagedBean.value1}" onLabel="Yes, I want to Subscribe to CIMRT Tender Alert!" offLabel="No, I am fine without it, thank you!" onIcon="ui-icon-check" offIcon="ui-icon-close" >
+                            <p:ajax update="messages,form" listener="#{accountManagedBean.addMessage}" />
+                        </p:selectBooleanButton>
+                        <br/><br/><br/>
+                        <p:commandButton value="Subscribe Now" action="#{accountManagedBean.editSubscription}" update="messages" rendered="#{accountManagedBean.value1 == true}"/>
+                        <p:commandButton  value="Unsubscribe Now" action="#{accountManagedBean.editSubscription}" update="messages" rendered="#{accountManagedBean.value1 == false}"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

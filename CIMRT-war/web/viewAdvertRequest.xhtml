@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Asset Management</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>List of Requests</h1></div>
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+
+                        <p:dataTable id="table" var="AdvertisementSpaceEntity" value="#{tenderManagedBean.advertisingList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30"  emptyMessage="No record found"
+                                     widgetVar="requestTable" filteredValue="#{tenderManagedBean.filteredAdvertisingContract}"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('requestTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Asset ID" style="width: 60px" filterBy="#{AdvertisementSpaceEntity.assetId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.assetId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Venue" style="width: 11%" filterBy="#{AdvertisementSpaceEntity.assetName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.assetName}" /></div>
+                            </p:column>
+
+
+                            <p:column headerText="Code" style="width: 10%"  filterBy="#{AdvertisementSpaceEntity.getInfrastructure().getCode()} #{AdvertisementSpaceEntity.getInfrastructure().getInfraId()}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputText value="#{AdvertisementSpaceEntity.getInfrastructure().getCode()}" rendered="#{AdvertisementSpaceEntity.assetName == 'Station'}" /> 
+                                    <h:outputText value="#{AdvertisementSpaceEntity.getInfrastructure().getInfraId()}" rendered="#{AdvertisementSpaceEntity.assetName == 'RollingStock'}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Location" style="width: 12%" filterBy="#{AdvertisementSpaceEntity.location}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.location}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Type" style="width: 16%" filterBy="#{AdvertisementSpaceEntity.type}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.type}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Identifier" style="width: 65px" filterBy="#{AdvertisementSpaceEntity.numberCode}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisementSpaceEntity.numberCode}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Peak Period Fee" style="width: 100px" filterBy="$#{AdvertisementSpaceEntity.peakPeriodFee}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="$#{AdvertisementSpaceEntity.peakPeriodFee}/mth."/></div>
+                            </p:column>
+
+                            <p:column headerText="Non Peak Period Fee" style="width: 100px" filterBy="$#{AdvertisementSpaceEntity.nonpeakPeriodFee}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="$#{AdvertisementSpaceEntity.nonpeakPeriodFee}/mth." /></div>
+                            </p:column>
+
+                            <p:column headerText="Closed Date" style="width:100px" filterBy="#{AdvertisementSpaceEntity.deadline}" filterStyle="display:none">
+                                <div align="center"><h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}" rendered="#{AdvertisementSpaceEntity.deadline != null}">
+                                        <f:param id="deadline" value="#{AdvertisementSpaceEntity.deadline}"  />
+                                    </h:outputFormat>
+                                </div>
+                                <div align="center"><h:outputText value="NIL" rendered="#{AdvertisementSpaceEntity.deadline == null}"/></div>
+                            </p:column>
+
+                            <p:column headerText="Status" style="width:70px" filterBy="#{AdvertisementSpaceEntity.status}" filterStyle="display:none">
+                                <div align='center'><h:outputText value="#{AdvertisementSpaceEntity.status}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Submitter" style="width:95px">
+                                <p:commandLink action="#{tenderManagedBean.goViewAdvertSubmitter(AdvertisementSpaceEntity.assetId)}">
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 30%" /></div>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>    
+
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

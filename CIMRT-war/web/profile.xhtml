@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - My Profile</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <h1>My Profile</h1>
+
+                    <h:form>
+                        <p:messages id="messages" severity="info,error" showDetail="true"/>
+                        <h3>Account Information    <h:outputLink value="changePassword.xhtml" id="changePass"><h:graphicImage value="resources/image/edit2.png" style="width: 1.9%"/></h:outputLink></h3>
+                        <p:tooltip id="toolTipGrow" for="changePass" value="Change Password"
+                                   showEffect="clip" hideEffect="explode" position="right" style="font-size: 9pt"/>
+
+                        <h:panelGrid columns="3" cellpadding="5" style="width: 30%">
+                            <p:outputLabel for="staffId" value="Staff ID: " />        
+                            <h:outputText id="staffId" value="#{sessionScope['staffId']}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="password" value="Password: " />        
+                            <h:outputText id="password" value="*************" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="salary" value="Salary: " />        
+                            <h:outputText id="salary"  value="#{commonManagedBean.salary}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="role" value="Role: " />
+                            <h:outputText id="role" value="#{commonManagedBean.role}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="team" value="Team: " />
+                            <h:outputText id="team" rendered="#{commonManagedBean.team != null}" value="#{commonManagedBean.team}" />
+                            <p:spacer/>
+                            <p:spacer rendered="#{commonManagedBean.team == null}"/>
+
+                            <p:outputLabel for="mcEntitlement" value="MC Entitlement: " />
+                            <h:outputText id="mcEntitlement" value="#{commonManagedBean.mcEntitlement}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="leaveEntitlement" value="Leave Entitlement: " />
+                            <h:outputText id="leaveEntitlement" value="#{commonManagedBean.leaveEntitlement}" />
+                        </h:panelGrid>
+
+                        <h3>Personal Information    <h:outputLink value="editProfile.xhtml" id="editProf"><h:graphicImage value="resources/image/edit2.png" style="width: 1.9%"/></h:outputLink></h3>
+                        <p:tooltip id="toolTipGrow2" for="editProf" value="Edit Profile"
+                                   showEffect="clip" hideEffect="explode" position="right" style="font-size: 9pt"/>
+                        <h:panelGrid columns="3" cellpadding="5" style="width: 33%">
+                            <p:outputLabel for="firstName" value="First Name: " />        
+                            <h:outputText id="firstName" value="#{commonManagedBean.firstName}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="lastName" value="Last Name: " />        
+                            <h:outputText id="lastName" value="#{commonManagedBean.lastName}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="nric" value="NRIC: " />        
+                            <h:outputText id="nric" value="#{commonManagedBean.nric}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="phoneNumber" value="Phone Number: " />        
+                            <h:outputText id="phoneNumber" value="#{commonManagedBean.phoneNumber}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="emailAddress" value="Email: " />        
+                            <h:outputText id="emailAddress" value="#{commonManagedBean.emailAddress}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="address" value="Address: " />        
+                            <h:outputText id="address" value="#{commonManagedBean.address}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="gender" value="Gender: " />
+                            <h:outputText id="gender" value="#{commonManagedBean.gender}"/>
+                            <p:spacer/>
+
+                            <p:outputLabel for="dateOfBirth" value="Date of Birth: " />
+                            <h:outputText id="dateOfBirth" value="#{commonManagedBean.dateOfBirth}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="maritalStatus" value="Marital Status: " />
+                            <h:outputText id="maritalStatus" value="#{commonManagedBean.maritalStatus}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="race" value="Race: " />
+                            <h:outputText id="race" value="#{commonManagedBean.race}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="nationality" value="Nationality: " />
+                            <h:outputText id="nationality" value="#{commonManagedBean.nationality}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="religion" value="Religion: " />
+                            <h:outputText id="religion" value="#{commonManagedBean.religion}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="educationQualification" value="Highest Qualification: " />
+                            <h:outputText id="educationQualification" value="#{commonManagedBean.educationQualification}"/>
+                        </h:panelGrid>
+
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

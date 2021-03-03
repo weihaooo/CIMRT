@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Add Announcement</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <!--                    <div id="page"><h1>Add Announcement</h1></div>-->
+                    <p:growl id="messages" severity="error, info" showDetail="true"/>
+                    <h:form id='form'>
+                        <div align='center'><h2>Data Analytics on Passenger Volume By Station</h2></div>
+
+                        <!--                        <p:commandButton value="Generate Chart" actionListener="{dataAnalyticsManagedBean.createMeterGaugeModels()}" update="chart"/>-->
+                        <div align='center'>
+                            <h:panelGrid columns="2" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                <p:chart id="chart" type="line" model="#{dataAnalyticsManagedBean.passengerVolumeStation}" style="width:620px;height:450px" >
+                                    <p:ajax event="itemSelect" listener="#{dataAnalyticsManagedBean.itemSelect}" update="chart1" />
+                                </p:chart>
+
+                                <p:chart type="bar" id="chart1" model="#{dataAnalyticsManagedBean.passengerVolumeStationTime}" style="width:620px;height:450px"  />
+                                <!--                        <p:chart type="bar" model="{dataAnalyticsManagedBean.passengerVolumeTime}" style="width:1200px;" />-->
+                                <!--                        rendered="{dataAnalyticsManagedBean.showChart}"-->
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                <p:outputLabel for="routes" value="Route: " />
+                                <p:selectOneMenu id="routes" value="#{dataAnalyticsManagedBean.theRoute}" style="width:186px"  required="true" requiredMessage="Please Select a Route">
+                                    <p:ajax listener="#{dataAnalyticsManagedBean.updateVolumeStationLine}" update="chart form" />
+                                    <f:selectItem itemLabel="Select One" itemValue="" />                                
+                                    <f:selectItems value="#{dataAnalyticsManagedBean.routes}" />
+                                </p:selectOneMenu>
+
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

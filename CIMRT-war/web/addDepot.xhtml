@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Add Depot</title>
+            </f:facet>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJivq1EhndHjNZSmfNvNrxcwxLPiyx8C4" type="text/javascript"/>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Add Depot</h1></div>
+
+                    <table><tr><td width='650pt'>
+                                <h:form>
+                                    <p:messages id="messages" severity="info" showDetail="true"/>
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <p:outputLabel for="trainLine" value="Train Line: " />
+                                        <p:selectOneMenu id="trainLine"  required="true" value="#{infraAssetManagedBean.trainLine}" style="width:125px" requiredMessage="Please select a train line">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                            <p:ajax listener="#{infraAssetManagedBean.selectLine}" update="previousStation" />
+                                            <p:ajax listener="#{infraAssetManagedBean.selectLine}" update="nextStation" />
+                                            <p:ajax listener="#{infraAssetManagedBean.selectLine}" update="code" />
+                                            <f:selectItem itemLabel="NSL" itemValue="NSL" />
+                                            <f:selectItem itemLabel="EWL" itemValue="EWL" />
+                                        </p:selectOneMenu>
+                                        <p:message for="trainLine" />
+
+                                        <p:outputLabel for="code" value="Depot Code: " />        
+                                        <h:outputText id="code" value="#{infraAssetManagedBean.code}" />
+                                        <p:spacer />
+
+                                        <p:outputLabel for="infraName" value="Depot Name: " />        
+                                        <p:inputText id="infraName" value="#{infraAssetManagedBean.infraName}" required="true" requiredMessage="Value is required in this field"/>
+                                        <p:message for="infraName" /> 
+
+                                        <p:outputLabel for="address" value="Address: " />        
+                                        <p:inputText id="address" value="#{infraAssetManagedBean.infraAddress}" required="true" requiredMessage="Value is required in this field"/>
+                                        <p:message for="address" /> 
+
+                                        <p:outputLabel for="previousStation" value="Previous Station Code: " />
+                                        <p:selectOneMenu id="previousStation" required="true" value="#{infraAssetManagedBean.previousStation}" style="width:125px" requiredMessage="Please select a previous station" >
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                             
+                                            <f:selectItems value="#{infraAssetManagedBean.result}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="previousStation" />
+
+                                        <p:outputLabel for="nextStation" value="Next Station Code: " />        
+                                        <p:selectOneMenu id="nextStation" required="true" value="#{infraAssetManagedBean.nextStation}" style="width:125px" requiredMessage="Please select a next station">
+                                            <f:selectItem itemLabel="Select One" itemValue="" />                                                          
+                                            <f:selectItems value="#{infraAssetManagedBean.result}" />
+                                        </p:selectOneMenu>
+                                        <p:message for="nextStation" /> 
+
+                                        <p:outputLabel for="distanceToFirstStation" value="Distance To First Station (m): " />        
+                                        <p:inputNumber id="distanceToFirstStation" value="#{infraAssetManagedBean.distanceToFirstStation}" required="true" requiredMessage="Value is required in this field"/>
+                                        <p:message for="distanceToFirstStation" />
+
+                                        <p:outputLabel for="latitude" value="Latitude: " />        
+                                        <p:inputNumber id="latitude" value="#{infraAssetManagedBean.latitude}" decimalPlaces="6" required="true" requiredMessage="Value is required in this field"/> 
+                                        <p:message for="latitude" /> 
+
+                                        <p:outputLabel for="longitude" value="Longitude: " />        
+                                        <p:inputNumber id="longitude" value="#{infraAssetManagedBean.longitude}" decimalPlaces="6" required="true" requiredMessage="Value is required in this field"/> 
+                                        <p:spacer/><p:message for="longitude" /> 
+
+                                        <h:commandButton value="Add" action="#{infraAssetManagedBean.addDepot}" />
+                                    </h:panelGrid> 
+                                </h:form>
+                            </td>
+
+                            <td width="600pt">
+
+                                <h:form>
+                                    <p:growl id="growl" severity="info,error" showDetail="true" />
+                                    <p:gmap center="-10.491852, 105.630134" zoom="12" type="HYBRID" style="width:100%;height:325px" model="#{networkMap.simpleModel}" >
+                                        <p:ajax event="overlaySelect" listener="#{networkMap.onMarkerSelect}" update="growl" />
+                                        <p:ajax event="pointSelect" listener="#{networkMap.onPointSelect}" update="growl" />
+                                    </p:gmap>    
+                                </h:form>
+
+                            </td></tr></table>
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+    </f:view>
+</html>

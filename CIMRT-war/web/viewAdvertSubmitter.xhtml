@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Select Advert Tender</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>Select Tender for Advertising Space</h1></div>
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+
+                        <p:dataTable id="table" var="AdvertisingContractEntity" value="#{tenderManagedBean.advertContractList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" emptyMessage="No Purchase Request record" 
+                                     widgetVar="selectAdvertTable" filteredValue="#{tenderManagedBean.filteredAdvertisingContract}"
+                                     >
+
+                            <f:facet name="header">
+                                <div align="right">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('selectAdvertTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </div>
+                            </f:facet>
+
+                            <p:column headerText="Company" style="width: 70px" filterBy="#{AdvertisingContractEntity.getPartner().getCompany()}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{AdvertisingContractEntity.getPartner().getCompany()}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Duration" style="width: 65px" filterBy="#{AdvertisingContractEntity.yearsOfContract}mth" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{AdvertisingContractEntity.yearsOfContract}mth" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Submitted Date" style="width: 90px" filterBy="#{AdvertisingContractEntity.submittedDate}" filterStyle="display:none">
+                                <div align="center"> 
+                                    <h:outputFormat value="{0, date, dd-MM-yyyy HH:mm:ss}">
+                                        <f:param value="#{AdvertisingContractEntity.submittedDate}"  />
+                                    </h:outputFormat>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Station" style="width: 60px" filterBy="#{AdvertisingContractEntity.advertisement.getInfrastructure().getCode()}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{AdvertisingContractEntity.advertisement.getInfrastructure().getCode()}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Venue" style="width: 70px" filterBy="#{AdvertisingContractEntity.advertisement.assetName}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisingContractEntity.advertisement.assetName}" /></div>
+                            </p:column>
+
+
+                            <p:column headerText="Code" style="width: 60px"  filterBy="#{AdvertisingContractEntity.advertisement.getInfrastructure().getCode()} #{AdvertisingContractEntity.advertisement.getInfrastructure().getInfraId()}" filterStyle="display:none">
+                                <div align="center">
+                                    <h:outputText value="#{AdvertisingContractEntity.advertisement.getInfrastructure().getCode()}" rendered="#{AdvertisingContractEntity.advertisement.assetName == 'Station'}" /> 
+                                    <h:outputText value="#{AdvertisingContractEntity.advertisement.getInfrastructure().getInfraId()}" rendered="#{AdvertisingContractEntity.advertisement.assetName == 'RollingStock'}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Location" style="width: 80px" filterBy="#{AdvertisingContractEntity.advertisement.location}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisingContractEntity.advertisement.location}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Type" style="width: 90px" filterBy="#{AdvertisingContractEntity.advertisement.type}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisingContractEntity.advertisement.type}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Identifier" style="width: 70px" filterBy="#{AdvertisingContractEntity.advertisement.numberCode}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{AdvertisingContractEntity.advertisement.numberCode}" /></div>
+                            </p:column>
+
+
+                            <p:column headerText="Status" style="width: 7%" filterBy="#{AdvertisingContractEntity.status}" filterStyle="display:none">
+                                <div align="center" style='font-size: 11.5pt'>
+                                    <h:outputText value="#{AdvertisingContractEntity.status}" />
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="Company Details" style="width:7%">
+                                <p:commandLink action="#{tenderManagedBean.goViewBusinessPartner1(AdvertisingContractEntity.getPartner())}">
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 40%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column headerText="Select Winner" style="width:7%">
+                                <p:growl id="message" severity="info,error" showDetail="true" />
+
+                                <p:commandLink  action="#{tenderManagedBean.goChooseAdvertSpace1(AdvertisingContractEntity.advertisingId)}" update="table" rendered="#{AdvertisingContractEntity.status=='Pending'}" >
+                                    <p:confirm header="Confirmation" message="Are you sure to choose #{AdvertisingContractEntity.getPartner().getCompany()} as the winner?" icon="ui-icon-alert" />
+                                    <div align="center"><h:graphicImage value="resources/image/select.png" style="width: 40%" /></div>
+                                </p:commandLink>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <div align="center">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </div>
+                                </p:confirmDialog>
+                            </p:column> 
+
+                            <p:column headerText="View Contract" style="width:7%">
+                                <p:commandLink  action="#{tenderManagedBean.goViewAdvertContract1(AdvertisingContractEntity.advertisingId)}"  rendered="#{AdvertisingContractEntity.status != 'Unsuccessful' and AdvertisingContractEntity.status != 'Submitted' and AdvertisingContractEntity.status != 'Terminated' and AdvertisingContractEntity.status != 'Pending'}" >
+                                    <div align="center"><h:graphicImage value="resources/image/viewpage.png" style="width: 40%" /></div>
+                                </p:commandLink>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

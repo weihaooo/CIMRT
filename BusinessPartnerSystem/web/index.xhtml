@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Welcome to CIMRT Business Partner System</title>
+        <h:outputScript name="js/ripple.js" library="ultima-layout" />
+        <h:outputScript name="js/layout.js" library="ultima-layout" />
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <div class="card login-panel ui-fluid">
+            <div class="ui-g">
+                    <p:graphicImage name="images/bizPartner.png" library="ultima-layout" width="100%" height="100%" />
+                <div class="ui-g-12">
+                    <h:panelGroup styleClass="md-inputfield">
+                        <h:form>     
+                            <p:growl severity="error,info" life="8000" autoUpdate="true"/>
+                            <p:inputText id="partnerId" required="true" requiredMessage="Username: Value input is required!" value="#{accountManagedBean.partnerId}" placeholder="Username" >
+                                <p:ajax event="blur" update="captcha" listener="#{accountManagedBean.checkCaptcha}"/>
+                            </p:inputText>
+                            <p:spacer/>
+
+                            <p:password id="password" required="true" requiredMessage="Password: Value input is required!" value="#{accountManagedBean.password}" placeholder="Password">
+                                <p:ajax event="blur" update="captcha" listener="#{accountManagedBean.checkCaptcha}"/>
+                            </p:password>
+                            <p:spacer/>
+
+                            <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"></p:spacer><p:captcha id="captcha" label="Captcha"  rendered="#{accountManagedBean.ableCaptcha == true}" />
+                            <br/>
+                            <p:spacer rendered="#{accountManagedBean.ableCaptcha == true}"></p:spacer><br/>
+                            <p:commandButton value="Login" ajax="false" action="#{accountManagedBean.doLogin}" icon="ui-icon-check"/>
+                        </h:form>
+                        <h:form>
+                            <p:commandButton value="Register Account" ajax="false" action="register" icon="ui-icon-person"/>
+                        </h:form>
+                        
+                        <hr size="1" color="black"/><br/>
+                        <h:form>
+
+                            <p:commandButton value="Forget Password" ajax="false" action="forgetPassword" icon="ui-icon-help" styleClass="secondary"/>
+
+                            <p:commandButton value="Forget Partner ID" ajax="false" action="forgetPartnerId" icon="ui-icon-help" styleClass="secondary"/>
+
+                        </h:form>
+                    </h:panelGroup>
+                </div>        
+            </div>
+        </div>
+
+        <!--<div class="login-footer">CIMRT Business Partner System</div>-->
+
+        <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/layout-indigo.css" library="ultima-layout" />
+    </h:body>
+
+</html>

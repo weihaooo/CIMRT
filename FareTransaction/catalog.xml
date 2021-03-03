@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/LoginWebService/LoginWebService?wsdl" uri="xml-resources/web-service-references/LoginWebService/wsdl/localhost_8080/LoginWebService/LoginWebService.wsdl"/>
+    <system systemId="http://localhost:8080/LoginWebService/LoginWebService?xsd=1" uri="xml-resources/web-service-references/LoginWebService/wsdl/localhost_8080/LoginWebService/LoginWebService.xsd_1.xsd"/>
+    <system systemId="http://is41031718es01.southeastasia.cloudapp.azure.com:8080/LoginWebService/LoginWebService?wsdl" uri="xml-resources/web-service-references/LoginWebService_1/wsdl/is41031718es01.southeastasia.cloudapp.azure.com_8080/LoginWebService/LoginWebService.wsdl"/>
+    <system systemId="http://is41031718es01.southeastasia.cloudapp.azure.com:8080/LoginWebService/LoginWebService?xsd=1" uri="xml-resources/web-service-references/LoginWebService_1/wsdl/is41031718es01.southeastasia.cloudapp.azure.com_8080/LoginWebService/LoginWebService.xsd_1.xsd"/>
+</catalog>

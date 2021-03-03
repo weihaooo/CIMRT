@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="card">
+            <p:breadCrumb>
+                <p:menuitem value="Categories" url="home.xhtml" />
+                <p:menuitem value="Profile" url="profile.xhtml" />
+                <p:menuitem value="Edit Profile" url="editProfile.xhtml" />
+            </p:breadCrumb>
+        </div>
+
+        <table width="1247pt" style="margin-left: 3pt"><tr><td>
+                    <h:form id="form">
+                        <div class="card card-w-title">
+                            <h1>Edit Profile</h1>
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                <p:outputLabel for="partnerId" value="Partner ID: " />        
+                                <h:outputText id="partnerId" value="#{sessionScope['partnerId']}" />
+                                <p:spacer></p:spacer>
+
+                                <p:outputLabel for="company" value="Company: " />        
+                                <p:inputText id="company" value="#{accountManagedBean.company}" required="true" requiredMessage="Value is required in this field!" />
+                                <p:message for="company" />
+
+                                <p:outputLabel for="phoneNumber" value="Office Number: " />        
+                                <p:inputMask mask="99999999" id="phoneNumber" required="true" value="#{accountManagedBean.phoneNumber}" validatorMessage="Allowable length is minimum of '8'" requiredMessage="Value is required in this field!">
+                                    <f:validateLength minimum="8"/> 
+                                </p:inputMask>
+                                <p:message for="phoneNumber" />
+                                
+                                <p:outputLabel for="faxNumber" value="Fax Number: " />        
+                                <p:inputMask mask="99999999" id="faxNumber" required="true" value="#{accountManagedBean.faxNumber}" validatorMessage="Allowable length is minimum of '8'" requiredMessage="Value is required in this field!">
+                                    <f:validateLength minimum="8"/> 
+                                </p:inputMask>
+                                <p:message for="faxNumber" />
+
+                                <p:outputLabel for="emailAddress" value="Email: " />        
+                                <p:inputText id="emailAddress" required="true" value="#{accountManagedBean.email}" validatorMessage="Invalid email format (e.g. cimrt@gmail.com)" requiredMessage="Value is required in this field!">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                                <p:message for="emailAddress" />
+
+                                <p:outputLabel for="address" value="Address: " />        
+                                <p:inputTextarea id="address" value="#{accountManagedBean.address}" required="true" requiredMessage="Value is required in this field!" style="width: 210pt; height: 50pt"/>
+                                <p:message for="address" />
+
+                                <p:outputLabel for="companyProfile" value="Company profile: "/> 
+                                <p:inputTextarea counter="display" required="true" maxlength="500" counterTemplate="{0} characters remaining." autoResize="false" id="companyProfile" value="#{accountManagedBean.companyProfile}" style="width:500px; height:100px;" requiredMessage="Please input company profile" />
+                                <p:spacer/>                         
+                                <p:spacer/><h:outputText id="display" />
+                                <p:message for="companyProfile" />
+                                <p:spacer/>
+
+                                <p:commandButton value="Update" action="#{accountManagedBean.editProfile}" style="width: 70pt" update=":form"/>
+                            </h:panelGrid>
+                        </div>
+                    </h:form>
+                </td></tr></table>
+    </ui:define>
+
+</ui:composition>

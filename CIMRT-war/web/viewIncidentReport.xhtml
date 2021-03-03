@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:outputStylesheet library="css" name="style.css"  />
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - View Incident Report</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>View Incident Report</h1></div>
+                    <h:form>
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <table cellpadding="10" border="2" bordercolor="black">
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="incidentRepId" value="Incident Report ID: " />  
+                                </td>
+                                <td>
+                                    <h:outputText id="incidentRepId" value="#{reportManagedBean.incidentRepId}" />
+                                </td>
+                                <td>
+                                    <p:outputLabel for="submitter" value="Submitter: " />
+                                </td>
+                                <td>
+                                    <h:outputText id="submitter" value="#{reportManagedBean.submitter}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="date" value="Date of Incident: " />
+                                </td>
+                                <td>
+                                     <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}">
+                                    <f:param id="date" value="#{reportManagedBean.date}" />
+                                    </h:outputFormat>
+                                </td>
+                                <td>
+                                    <p:outputLabel for="location" value="Location: " />
+                                </td>
+                                <td>
+                                    <h:outputText id="location" value="#{reportManagedBean.location}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="subject" value="Subject: " /> 
+                                </td>
+                                <td colspan="3">
+                                    <h:outputText id="subject" value="#{reportManagedBean.subject}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="content" value="Description: "/>
+                                </td>
+                                <td colspan="3">
+                                    <h:outputText id="content" value="#{reportManagedBean.content}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="status" value="Status: "/>
+                                </td>
+                                <td colspan="3">
+                                    <h:outputText id="status" value="#{reportManagedBean.status}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="endorser" value="Endorser: "/>
+                                </td>
+                                <td colspan="3">
+                                    <h:outputText id="endorser" value="#{reportManagedBean.endorser}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:outputLabel for="signature" value="Signature: "/>
+                                </td>
+                                <td colspan="3">
+                                    <p:outputPanel>
+                                        <h:outputText id="signature" rendered="#{not empty reportManagedBean.signature}" style="font-size:24px;display:block" />
+                                        <p:signature style="width:400px;height:200px;" value="#{reportManagedBean.signature}" readonly="true"
+                                                     rendered="#{not empty reportManagedBean.signature}" backgroundColor="#eaeaea" color="#03a9f4"/>
+                                    </p:outputPanel>
+                                </td>
+                            </tr>
+                        </table> 
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

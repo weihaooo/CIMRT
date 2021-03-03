@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="home.xhtml" />
+                        <p:menuitem value="Tenders" url="#" />
+                        <p:menuitem value="Tender Documents" url="#" />
+                    </p:breadCrumb>
+                </div>
+
+                <div class="card">
+                    <h1>Tender Submission Documents</h1>
+                    <p><b>Leasing of MRT Shop Space</b></p>
+                    <p>All tenders must be fully completed and returned to SMRT Trains Ltd, SMRT Headquarters, Reception Block A, 251 North Bridge Road Singapore 179102 by 17 November 2017, 2.00pm</p>
+
+                    <br/>
+                    <h:form>
+                        <p:commandLink value="Conditions of Tender" ajax="false">
+                            <p:fileDownload value="#{bpTenderManagedBean.conditions}" />
+                        </p:commandLink>
+                    </h:form>
+                    <br/>
+
+                    <h:form>
+                        <p:commandLink value="Tender Approved Trades" ajax="false">
+                            <p:fileDownload value="#{bpTenderManagedBean.tenderApproveTrades}" />
+                        </p:commandLink>
+                    </h:form>
+                    <br/>
+
+                    <h:form>
+                        <p:commandLink value="Frequently Asked Questions" ajax="false">
+                            <p:fileDownload value="#{bpTenderManagedBean.tenderFAQ}" />
+                        </p:commandLink>
+                    </h:form>
+                    <br/>
+
+                    <h:form>
+                        <p:commandLink value="Notes and Examples" ajax="false">
+                            <p:fileDownload value="#{bpTenderManagedBean.tenderNotesExample}" />
+                        </p:commandLink>
+                    </h:form>
+                    <br/>
+
+                    <h1>CIMRT Terms &amp; Conditions</h1>
+                    <p>The accompanying Terms and Conditions to Purchase Orders (“POs”) are as follows:
+
+                        <h:form>
+                            <p:commandLink value="Short Term Form" ajax="false">
+                                <p:fileDownload value="#{bpTenderManagedBean.shortForm}" />
+                            </p:commandLink>
+                        </h:form>   
+                        <br/>
+
+                        <h:form>
+                            <p:commandLink value="Long Term Form" ajax="false">
+                                <p:fileDownload value="#{bpTenderManagedBean.longForm}" />
+                            </p:commandLink>
+                        </h:form>
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/myCards" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">               
+                    <div class="card card-w-title">
+                        <h:form>
+                            <p:growl severity="error,info" autoUpdate="true" />
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                            <h1 style="color:#003c95;"><b>Add CIT Card</b></h1>
+                             Please enter your CIT Card ID, which can be found on the back of the card.<br/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="3" cellpadding="6" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">                            
+                                <p:outputLabel for="cardId" value="Card ID: " />
+                                <p:inputText id="cardId" maxlength="12" value="#{cardManagedBean.cardId}" required="true" requiredMessage="Please enter a value." >
+                                    <f:validateLength minimum="12" />
+                                </p:inputText>
+                                <p:message for="cardId" />
+                                <p:spacer/><p:spacer/><p:spacer/><p:spacer/>
+                                
+                                <p:commandButton value="Add Card" action="#{cardManagedBean.addCard}" />
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+

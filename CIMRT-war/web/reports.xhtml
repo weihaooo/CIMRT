@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Reports</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <table align="center" width="550pt" height="250pt">
+                        <tr height="30pt">
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table align="center"><tr align="center">
+                                        <td width="15%"></td>
+                                        <td width="15%">
+                                            <h:form rendered="#{reportManagedBean.role =='Train Driver' or reportManagedBean.role == 'Depot Manager'}">
+                                                <h:outputLink value="tripReport.xhtml" id="grow">
+                                                    <h:graphicImage value="resources/image/trip.png" style="width: 78%" />
+                                                </h:outputLink>
+                                            </h:form>
+                                        </td>
+                                        <td width="15%"></td>
+                                    </tr>
+                                    <tr align="center">
+                                        <td></td>
+                                        <td><b><p:outputLabel value="Trip Report" rendered="#{reportManagedBean.role =='Train Driver' or reportManagedBean.role == 'Depot Manager'}"/></b></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr align="center">
+                                        <td width="15%">
+                                            <h:form rendered="#{reportManagedBean.role =='Maintenance Staff' or reportManagedBean.role == 'Depot Manager'}">
+                                                <h:outputLink value="inspectionReport.xhtml" id="grow">
+                                                    <h:graphicImage value="resources/image/inspection.png" style="width: 73%" />
+                                                </h:outputLink>
+                                            </h:form>
+                                        </td>
+                                        <td width="15%"></td>
+                                        <td width="15%">
+                                            <h:form rendered="#{reportManagedBean.role =='Station Staff' or reportManagedBean.role == 'Depot Manager' or  reportManagedBean.role == 'Station Manager' or  reportManagedBean.role == 'Maintenance Staff'}">
+                                                <h:outputLink value="incidentReport.xhtml" id="grow">
+                                                    <h:graphicImage value="resources/image/incident.png" style="width: 78%" />
+                                                </h:outputLink>
+                                            </h:form>
+                                        </td>
+                                    </tr>
+                                    <tr align="center" >
+                                        <td><b><p:outputLabel value="Inspection Report" rendered="#{reportManagedBean.role =='Maintenance Staff' or reportManagedBean.role == 'Depot Manager'}"/></b></td>
+                                        <td></td>
+                                        <td><b><p:outputLabel value="Incident Report" rendered="#{reportManagedBean.role =='Station Staff' or reportManagedBean.role == 'Depot Manager' or  reportManagedBean.role == 'Station Manager' or  reportManagedBean.role == 'Maintenance Staff'}"/></b></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <h:form>
+                        <p:growl id="messages" severity="info,error" showDetail="true"/>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+

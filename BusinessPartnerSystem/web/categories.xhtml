@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Categories" url="home.xhtml" />
+                        <p:menuitem value="Procurement" url="#" />
+                        <p:menuitem value="Categories" url="categories.xhtml" />
+                    </p:breadCrumb>
+                </div>
+
+                <div class="card card-w-title">
+
+                    <h:form>
+                        <p:panelGrid columns="4" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Maintenance Equipments')}" >         
+                                        <h:graphicImage value="resources/image/maintenanceEquip.jpg" width="100%" alt="maintenance equipment" />
+                                    </p:commandLink>
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Medicine Supplies')}">         
+                                        <h:graphicImage value="resources/image/medicineSupplies.jpg" width="100%" alt="medicine supplies" />
+                                    </p:commandLink>
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Office Equipments')}">         
+                                        <h:graphicImage value="resources/image/officeEquip.jpg" width="100%" alt="office equipment" />
+                                    </p:commandLink>
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Operating Equipments')}">         
+                                        <h:graphicImage value="resources/image/operatingEquip.jpg" width="100%" alt="operating equip" />
+                                    </p:commandLink>
+
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Audio Visual Equipments')}" >         
+                                        <h:graphicImage value="resources/image/audioVisual.jpg" width="100%" alt="audio visual" />
+                                    </p:commandLink>
+                               <p:commandLink action="#{bpTenderManagedBean.goViewPR('Cleaning Supplies')}">         
+                                        <h:graphicImage value="resources/image/cleaningSupplies.jpg" width="100%" alt="cleaning supplies" />
+                                    </p:commandLink>
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Computer Equipments')}">         
+                                        <h:graphicImage value="resources/image/computerEquip.jpg" width="100%" alt="computer equipment" />
+                                    </p:commandLink>
+                              <p:commandLink action="#{bpTenderManagedBean.goViewPR('Food &amp; Beverage Supplies')}">         
+                                        <h:graphicImage value="resources/image/foodDrink.jpg" width="100%" alt="food drink" />
+                                    </p:commandLink>
+
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('System Equipements')}" >         
+                                        <h:graphicImage value="resources/image/systemEquip.jpg" width="100%" alt="system equipment" />
+                                    </p:commandLink>
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Photographic Equipments')}">         
+                                        <h:graphicImage value="resources/image/photoEquip.jpg" width="100%" alt="photo equipment" />
+                                    </p:commandLink>
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Decorations')}">         
+                                        <h:graphicImage value="resources/image/decorations.jpg" width="100%" alt="decorations" />
+                                    </p:commandLink>
+                                <p:commandLink action="#{bpTenderManagedBean.goViewPR('Others')}">         
+                                        <h:graphicImage value="resources/image/others.jpg" width="100%" alt="others" />
+                                    </p:commandLink>
+
+
+                  </p:panelGrid>
+                    </h:form>
+                </div>
+
+            </div>
+        </div>
+
+        <style>
+            img{
+                opacity: 0.8; 
+            }
+
+            img:hover {
+                opacity: 1;
+            }
+        </style>
+
+    </ui:define>
+
+</ui:composition>

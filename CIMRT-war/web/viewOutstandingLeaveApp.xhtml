@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Leave Application History</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <p:messages id="messages" severity="error,info" showDetail="true"/>
+                     <div id="list"><h1>Leave Application History</h1></div>
+                    <h:form>
+
+                        <p:dataTable paginatorPosition="bottom" id="applications" var="LeaveApplicationEntity" value="#{leaveManagedBean.applications}" style="width:1050px; margin-bottom:20px; width: 99%; margin-right: 5px"
+                                     rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" widgetVar="leaveTable" filteredValue="#{leaveManagedBean.filteredLeave}" emptyMessage="No leave record found in database">
+                             <f:facet name="header">
+                                <p:outputPanel>
+                                    <div align="right">
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('leaveTable').filter()" style="width:200px; margin-left: 10px;" placeholder="Enter keyword"/>
+                                    </div>
+                                </p:outputPanel>
+                            </f:facet>
+                            
+                            <p:column headerText="Leave Type" style="width: 16%" filterBy="#{LeaveApplicationEntity.type}" filterStyle="display:none" sortBy="#{LeaveApplicationEntity.type}">
+                                <div align="center"><h:outputText value="#{LeaveApplicationEntity.type}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Start Date" style="width: 12%" filterBy="#{LeaveApplicationEntity.startDate}" filterStyle="display:none" sortBy="#{LeaveApplicationEntity.startDate}">
+                                <div align="center">
+                                    <h:outputText value="#{LeaveApplicationEntity.startDate}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+
+                            <p:column headerText="End Date" style="width: 12%" filterBy="#{LeaveApplicationEntity.endDate}" filterStyle="display:none" sortBy="#{LeaveApplicationEntity.endDate}">
+                                <div align="center">
+                                    <h:outputText value="#{LeaveApplicationEntity.endDate}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:outputText>
+                                </div>
+                            </p:column>
+                            <p:column headerText="Description" width="26%" filterBy="#{LeaveApplicationEntity.description}" filterStyle="display:none" sortBy="#{LeaveApplicationEntity.description}">
+                                <div align="center"><h:outputText value="#{LeaveApplicationEntity.description}" /></div>
+                            </p:column>
+                            <p:column headerText="Status" width="8%" filterBy="#{LeaveApplicationEntity.status}" filterStyle="display:none" sortBy="#{LeaveApplicationEntity.status}">
+                                <div align="center"><h:outputText value="#{LeaveApplicationEntity.status}" /></div>
+                            </p:column>
+                            <p:column headerText="Approver" width="20%" filterBy="#{LeaveApplicationEntity.approver.firstName} #{LeaveApplicationEntity.approver.lastName}" filterStyle="display:none" sortBy="#{LeaveApplicationEntity.approver.firstName} #{LeaveApplicationEntity.approver.lastName}">
+                                <div align="center"><h:outputText value="#{LeaveApplicationEntity.approver.firstName} #{LeaveApplicationEntity.approver.lastName}" /></div>
+                            </p:column>
+
+                        </p:dataTable>
+                        <!--                        <ui:include src="btmMenu.xhtml"/>-->
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+               <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Edit Rolling Stock</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Edit Rolling Stock</h1></div>
+                    <p:messages id="messages" severity="info" showDetail="true"/>
+                    <h:form>
+
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="infraId" value="InfraID: " />
+                            <h:outputText id="infraId" value="#{infraAssetManagedBean.infraId}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="infraName" value="Rolling Stock Name: " />      
+                            <p:inputText id="infraName" value="#{infraAssetManagedBean.infraName}" required="true" style="width:200px" requiredMessage="Value is required in this field"/>
+                            <p:message for="infraName" />
+
+                            <p:outputLabel for="brand" value="Brand: " />        
+                            <h:outputText id="brand" value="#{infraAssetManagedBean.brand}" />
+                            <p:spacer/>
+
+                            <p:outputLabel for="attachedCars" value="Attached Cars: " />
+                            <h:outputText id="attachedCars" value="#{infraAssetManagedBean.getTrainCarList(infraAssetManagedBean.infraId)}" />
+                            <p:spacer />
+
+                            <p:outputLabel for="selectedDepot" value="Attached Depot: " />
+                            <p:selectOneMenu id="selectedDepot" value="#{infraAssetManagedBean.selectedDepot}" style="width:200px" required="true" requiredMessage="Please select a depot to attach" rendered="#{infraAssetManagedBean.role == 'I&amp;A Manager' or infraAssetManagedBean.role == 'I&amp;A Staff'}">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{infraAssetManagedBean.depotList1}" />
+                            </p:selectOneMenu>
+                            <p:message for="selectedDepot" />
+
+                            <p:outputLabel for="rsStatus" value="Rolling Stock Status: " />        
+                            <p:selectOneMenu id="rsStatus" value="#{infraAssetManagedBean.rsStatus}" style="width:200px" required="true" requiredMessage="Please select a rolling stock status">
+                                <p:ajax event="change" listener="#{infraAssetManagedBean.selectStatus(infraAssetManagedBean.infraId)}" update="@form, selectedTrainCar" />
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Available" itemValue="Available" />
+                                <f:selectItem itemLabel="In Operation" itemValue="In Operation" />
+                                <f:selectItem itemLabel="Under Maintenance" itemValue="Under Maintenance" />
+                            </p:selectOneMenu>
+                            <p:message for="rsStatus" />
+
+                            <p:outputLabel for="selectedTrainCar" value="Car(s) to be repaired: " />
+                            <p:selectCheckboxMenu id="selectedTrainCar" required="true" value="#{infraAssetManagedBean.selectedTrainCar}" label="trainCar" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" requiredMessage="Please select the faulty car(s)" rendered="#{infraAssetManagedBean.rsStatus == 'Under Maintenance'}">
+                                <f:selectItems value="#{infraAssetManagedBean.trainCarResult}" />
+                            </p:selectCheckboxMenu>
+                            <p:message for="selectedTrainCar" />
+                            <p:spacer />
+
+                            <h:commandButton value="Update" action="#{infraAssetManagedBean.updateRollingStock}" style="width: 80px" />
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <div class="card">
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="home.xhtml" />
+                        <p:menuitem value="Procurement" url="#" />
+                        <p:menuitem value="Delivery" url="viewMyDelivery.xhtml" />
+                    </p:breadCrumb>
+
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <div class="card card-w-title">
+                            <h1 align="center"><b>View Delivery</b></h1>
+                            <p:dataTable var="DeliveryEntity" value="#{bpTenderManagedBean.deliveryList}" style="margin-bottom:20px" rows="10"
+                                         paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30"  widgetVar="viewDeliveryTable" filteredValue="#{bpTenderManagedBean.filteredViewDelivery}" emptyMessage="No delivery record" >
+
+                                <f:facet name="header">
+                                    <div align="right">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                            <p:inputText id="globalFilter" onkeyup="PF('viewDeliveryTable').filter()" style="width:120px"/>
+                                            <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                        </h:panelGroup>
+                                    </div>
+                                </f:facet>
+
+                                <p:column headerText="Item Name" style="width: 11%" filterBy="#{DeliveryEntity.bid.purchaseRequest.itemName}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{DeliveryEntity.bid.purchaseRequest.itemName}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Qty" style="width: 5%" filterBy="#{DeliveryEntity.bid.purchaseRequest.qty}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{DeliveryEntity.bid.purchaseRequest.qty}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Delivery Location" style="width: 15%" filterBy="#{bpTenderManagedBean.deliveryLocation(DeliveryEntity.bid.purchaseRequest.purchaseRequestId)}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{bpTenderManagedBean.deliveryLocation(DeliveryEntity.bid.purchaseRequest.purchaseRequestId)}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Bid Amount" style="width: 10%" filterBy="#{DeliveryEntity.bid.bidPrice}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="$#{DeliveryEntity.bid.bidPrice}" />
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Delivery Date" style="width: 10%" filterBy="#{DeliveryEntity.dateAndTime}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm.ss}" rendered="#{DeliveryEntity.dateAndTime != null}">
+                                            <f:param value="#{DeliveryEntity.dateAndTime}"  />
+                                        </h:outputFormat>
+                                        <h:outputText value="N.A" rendered="#{DeliveryEntity.dateAndTime == null}"/>
+                                    </div>
+                                </p:column>
+
+                                <p:column headerText="Status" style="width: 8%" filterBy="#{DeliveryEntity.status}" filterStyle="display:none">
+                                    <div align="center" style='font-size: 11.5pt'>
+                                        <h:outputText value="#{DeliveryEntity.status}" />
+                                    </div>
+                                </p:column>
+
+
+                                <p:column headerText="Schedule Delivery" style="width:8%">
+                                    <p:commandLink action="#{bpTenderManagedBean.goSchedule1(DeliveryEntity.deliveryId)}" rendered="#{bpTenderManagedBean.checkDelivery(DeliveryEntity.dateAndTime)}" >
+                                        <div align="center">
+                                            <h:graphicImage value="resources/image/edit.png" style="width: 26%" />
+                                        </div>
+                                    </p:commandLink>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+                    </h:form>
+
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

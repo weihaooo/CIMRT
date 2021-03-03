@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <p:panelMenu style="font-size: 11pt; icon">
+        <p:submenu label="Admin Control">
+            <p:menuitem value="Dashboard" outcome="home" icon="fa fa-dashboard"/>
+        </p:submenu>
+        <p:submenu label="Manpower Management">
+            <p:menuitem value="Rostering" outcome="roster" icon="fa fa-table"/>
+            <p:menuitem value="Entitlement" outcome="leaveApplication" icon="fa fa-smile-o"/>
+            <p:menuitem value="View My Workshops Enrolled" outcome="workshop" icon="fa fa-leanpub"/>
+        </p:submenu>
+        <p:submenu label="Operation">
+            <p:menuitem value="View Assets" outcome="assetManagement" icon="fa fa-adn"/>
+            <p:menuitem value="View Asset Request" outcome="assetRequest" icon="fa fa-eye"/>
+            <p:menuitem value="Report" outcome="reports" icon="fa fa-list-alt"/>
+            <p:menuitem value="Clock In &amp; Out" outcome="viewMyAttendance" icon="fa fa-clock-o"/>
+            <p:menuitem value="Maintenance Request" outcome="viewMaintenanceRequest1" icon="fa fa-search"/>
+            <p:menuitem value="Announcement" outcome="createAnnouncement" icon="fa fa-volume-down"/>
+        </p:submenu>
+        <p:submenu label="Maintenance">
+            <p:menuitem value="View Requests" outcome="viewMaintenanceRequest" icon="fa fa-wrench"/>
+            <p:menuitem value="View Reports" outcome="viewMaintenanceReportList" icon="fa fa-file-text"/>
+        </p:submenu>
+    </p:panelMenu>
+</html>

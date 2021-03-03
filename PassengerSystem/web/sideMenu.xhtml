@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <div align="center" style="font-size: 11pt">
+        <h:graphicImage value="resources/image/profile_1.png" style="width: 40%"/>
+    </div>
+
+    <table style="font-size: 10pt"  align="center">
+        <tr><td width='50pt'>ID:</td><td>
+                #{sessionScope['staffId']}
+            </td></tr>
+        <tr><td>Name:</td><td>
+                #{loginManagedBean.firstName} #{loginManagedBean.lastName}
+            </td></tr>
+        <tr><td>Role:</td><td>
+                #{loginManagedBean.role}
+            </td></tr>
+        <tr><td><h:outputText value="Node:" rendered="#{loginManagedBean.nodeCode != null}"/></td><td>
+                <h:outputText value="#{loginManagedBean.nodeCode}" rendered="#{loginManagedBean.nodeCode != null}" />
+            </td></tr>
+    </table>
+
+    <div align="center">
+        <h:outputLink value="profile.xhtml" id="grow">
+            <h:graphicImage value="resources/image/user.png" style="width: 17pt"/>
+        </h:outputLink>
+        <p:tooltip id="toolTipGrow" for="grow" value="View Profile"
+                   showEffect="clip" hideEffect="explode" position="left" style="font-size: 9pt"/>
+
+        <p:spacer width="16"/>
+
+        <h:outputLink value="sendMessages.xhtml" id="grow2">
+            <h:graphicImage value="resources/image/message.png" style="width: 17pt"/>
+        </h:outputLink>
+        <p:tooltip id="toolTipGrow2" for="grow2" value="Send Message"
+                   showEffect="clip" hideEffect="explode" position="left" style="font-size: 9pt"/>
+
+        <p:spacer width="16"/>
+
+        <h:outputLink value="viewOutstandingLeaveApp.xhtml" id="grow3">
+            <h:graphicImage value="resources/image/entitlement.png" style="width: 17pt"/>
+        </h:outputLink>
+        <p:tooltip id="toolTipGrow3" for="grow3" value="My Entitlement"
+                   showEffect="clip" hideEffect="explode" position="left" style="font-size: 9pt"/>
+
+        <p:spacer width="16"/>
+
+        <h:outputLink value="viewIndividualAnnouncement.xhtml" id="grow4">
+            <h:graphicImage value="resources/image/announcement.png" style="width: 17pt"/>
+        </h:outputLink>
+        <p:tooltip id="toolTipGrow4" for="grow4" value="My Announcement"
+                   showEffect="clip" hideEffect="explode" position="right" style="font-size: 9pt"/>
+
+        <p:spacer width="16"/>
+
+        <p:commandLink action="#{loginManagedBean.doLogout}" id="grow5">
+            <h:graphicImage value="resources/image/logout.png" style="width: 16pt"/>
+            <p:tooltip id="toolTipGrow5" for="grow5" value="Logout"
+                       showEffect="clip" hideEffect="explode" position="right" style="font-size: 9pt"/>
+        </p:commandLink>
+    </div>
+
+    <p:separator style="margin-top: 0pt; margin-bottom: 0pt"/>
+
+    <p:panelMenu style="font-size: 11pt; icon" rendered="#{loginManagedBean.role eq 'Super Admin'}">
+        <p:submenu label="Admin Control">
+            <p:menuitem value="Dashboard" outcome="home" icon="fa fa-dashboard"/>
+            <p:menuitem value="Create Staff" outcome="createStaff" icon="fa fa-user-plus" />
+            <p:menuitem value="Create Role" outcome="createRole" icon="fa fa-user"/>
+            <p:menuitem value="Create Team" outcome="createTeam" icon="fa fa-group"/>
+            <p:menuitem value="Delete Staff" outcome="deleteStaff" icon="fa fa-user-times"/>
+            <p:menuitem value="Access Rights Control" outcome="accessRights" icon="fa fa-users"/>
+        </p:submenu>
+        <p:submenu label="Manpower Management">
+            <p:menuitem value="Recruitment" outcome="recruitment" icon="fa fa-child"/>
+            <p:menuitem value="Rostering" outcome="roster" icon="fa fa-table"/>
+            <p:menuitem value="Entitlement" outcome="leaveApplication" icon="fa fa-smile-o"/>
+            <p:menuitem value="Leave Approval" outcome="leaveApproval" icon="fa fa-thumbs-o-up"/>
+            <p:menuitem value="View Available Workshop" outcome="viewWorkshop" icon="fa fa-leanpub"/>
+            <p:menuitem value="View Enrolled Workshops" outcome="workshop" icon="fa fa-user"/>
+            <p:menuitem value="View Team's Enrolled Workshop" outcome="viewOwnTeamAttendedWorkshop" icon="fa fa-users"/>
+            <p:menuitem value="View Safety Training Validity" outcome="viewSafetyValidity" icon="fa fa-lightbulb-o"/>
+        </p:submenu>
+        <p:submenu label="Infrastructure &amp; Asset">
+            <p:submenu label="Infrastructure" expanded="true">
+                <p:menuitem value="Depot" outcome="depot" icon="fa fa-simplybuilt"/>
+                <p:menuitem value="Station" outcome="station" icon="fa fa-subway"/>
+                <p:menuitem value="Rolling Stock" outcome="rollingStock" icon="fa fa-train"/>
+                <p:menuitem value="Train Car" outcome="trainCar" icon="fa fa-train"/>
+                <p:menuitem value="Track" outcome="track" icon="fa fa-road"/>
+                <p:menuitem value="Network Map" outcome="networkMap" icon="fa fa-map-marker"/>
+            </p:submenu>
+            <p:submenu label="Assets">
+                <p:menuitem value="Advertising Space" outcome="advertSpace" icon="fa fa-buysellads"/>
+                <p:menuitem value="Leasing Space" outcome="leasingSpace" icon="fa fa-th-large"/>
+                <p:menuitem value="Rolling Stock" outcome="rollStockAsset" icon="fa fa-building-o"/>
+                <p:menuitem value="Station/Depot" outcome="stationDepotAsset" icon="fa fa-building"/>
+                <p:menuitem value="Consumable" outcome="consumAsset" icon="fa fa-cart-plus"/>
+                <p:menuitem value="View Asset Request" outcome="assetRequest" icon="fa fa-eye"/>
+                <p:menuitem value="Submit Asset Request" outcome="submitAssetRequest" icon="fa fa-hdd-o"/>
+                <p:menuitem value="View Purchase Request" outcome="viewPurchaseRequest" icon="fa fa-eye"/>
+            </p:submenu>
+        </p:submenu>
+        <p:submenu label="Route &amp; Fare Planning">
+            <p:submenu label="Train Scheduling" expanded="true">
+                <p:menuitem value="View Train Schedule" outcome="viewTrainSchedule" icon="fa fa-list-alt"/>
+                <p:menuitem value="Edit Schedule Structure" outcome="viewTrainStructure" icon="fa fa-edit"/>
+                <p:menuitem value="Add Special Day" outcome="viewSpecialDayStructure" icon="fa fa-star"/>
+            </p:submenu>
+            <p:submenu label="Fare Structuring" expanded="true">
+                <p:menuitem value="View Fare Structure" outcome="viewFareStructure" icon="fa fa-money"/>
+                <p:menuitem value="Update Fare Structure" outcome="updateFare" icon="fa fa-edit"/>
+            </p:submenu>
+        </p:submenu>
+        <p:submenu label="Operation">
+            <p:menuitem value="View Assets" outcome="assetManagement" icon="fa fa-adn"/>
+            <p:menuitem value="Report" outcome="viewTrainSchedule" icon="fa fa-file-text"/>
+            <p:menuitem value="Attendance" outcome="attendance" icon="fa fa-clock-o"/>
+            <p:menuitem value="Activation" outcome="activateStaff" icon="fa fa-power-off"/>
+            <p:menuitem value="Service Log" outcome="serviceLog" icon="fa fa-book"/>
+            <p:menuitem value="Report" outcome="reports" icon="fa fa-file-text"/>
+            <p:menuitem value="Train Schedule" outcome="viewNodeTrainSchedule" icon="fa fa-th-list"/>
+            <p:menuitem value="Announcement" outcome="createAnnouncement" icon="fa fa-volume-down"/>
+            <p:menuitem value="View Requests" outcome="viewMaintenanceRequest1" icon="fa fa-search"/>
+        </p:submenu>
+        <p:submenu label="Maintenance">
+            <p:menuitem value="View Requests" outcome="viewMaintenanceRequest" icon="fa fa-wrench"/>
+        </p:submenu>
+    </p:panelMenu>
+    <c:if test="#{loginManagedBean.role eq 'Advertising Manager'}">
+        <ui:include src="menu/advertManagerMenu.xhtml" />
+    </c:if>
+
+    <c:if test="#{loginManagedBean.role eq 'Advertising Staff'}">
+        <ui:include src="menu/advertStaffMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Commercial Manager'}">
+        <ui:include src="menu/commercialManagerMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Commercial Staff'}">
+        <ui:include src="menu/commercialStaffMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Data Analyst'}">
+        <ui:include src="menu/dataAnalystMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Depot Manager'}">
+        <ui:include src="menu/depotManagerMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'HR'}">
+        <ui:include src="menu/hrMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'I&amp;A Manager'}">
+        <ui:include src="menu/infraAssetManagerMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'I&amp;A Staff'}">
+        <ui:include src="menu/infraAssetStaffMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Maintenance Staff'}">
+        <ui:include src="menu/maintenanceStaffMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Route &amp; Fare Manager'}">
+        <ui:include src="menu/rfManagerMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Station Manager'}">
+        <ui:include src="menu/stationManagerMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Station Staff'}">
+        <ui:include src="menu/stationStaffMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'System Admin'}">
+        <ui:include src="menu/systemAdminMenu.xhtml"  />
+
+    </c:if>
+    <c:if test="#{loginManagedBean.role eq 'Train Driver'}">
+        <ui:include src="menu/trainDriverMenu.xhtml" />
+    </c:if>
+</html>

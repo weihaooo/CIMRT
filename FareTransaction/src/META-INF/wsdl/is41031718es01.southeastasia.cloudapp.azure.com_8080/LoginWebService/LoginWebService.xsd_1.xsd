@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://ws.sessionbean.passenger/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.sessionbean.passenger/">
+
+<xs:element name="addValueTransaction" type="tns:addValueTransaction"/>
+
+<xs:element name="addValueTransactionResponse" type="tns:addValueTransactionResponse"/>
+
+<xs:element name="createFareTransaction" type="tns:createFareTransaction"/>
+
+<xs:element name="createFareTransactionResponse" type="tns:createFareTransactionResponse"/>
+
+<xs:element name="createTransaction" type="tns:createTransaction"/>
+
+<xs:element name="createTransactionResponse" type="tns:createTransactionResponse"/>
+
+<xs:element name="getAmount" type="tns:getAmount"/>
+
+<xs:element name="getAmountResponse" type="tns:getAmountResponse"/>
+
+<xs:element name="getConcessionEnd" type="tns:getConcessionEnd"/>
+
+<xs:element name="getConcessionEndResponse" type="tns:getConcessionEndResponse"/>
+
+<xs:element name="getRefundAmt" type="tns:getRefundAmt"/>
+
+<xs:element name="getRefundAmtResponse" type="tns:getRefundAmtResponse"/>
+
+<xs:element name="getStations" type="tns:getStations"/>
+
+<xs:element name="getStationsResponse" type="tns:getStationsResponse"/>
+
+<xs:element name="isExpired" type="tns:isExpired"/>
+
+<xs:element name="isExpiredResponse" type="tns:isExpiredResponse"/>
+
+<xs:element name="login" type="tns:login"/>
+
+<xs:element name="loginResponse" type="tns:loginResponse"/>
+
+<xs:element name="refund" type="tns:refund"/>
+
+<xs:element name="refundResponse" type="tns:refundResponse"/>
+
+<xs:complexType name="addValueTransaction">
+<xs:sequence>
+<xs:element name="type" type="xs:string" minOccurs="0"/>
+<xs:element name="amount" type="xs:double"/>
+<xs:element name="transDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="staffId" type="xs:string" minOccurs="0"/>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addValueTransactionResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getRefundAmt">
+<xs:sequence>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRefundAmtResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createFareTransaction">
+<xs:sequence>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+<xs:element name="startStation" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createFareTransactionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getStations">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getStationsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="login">
+<xs:sequence>
+<xs:element name="username" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loginResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getConcessionEnd">
+<xs:sequence>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getConcessionEndResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="isExpired">
+<xs:sequence>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="isExpiredResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createTransaction">
+<xs:sequence>
+<xs:element name="type" type="xs:string" minOccurs="0"/>
+<xs:element name="amount" type="xs:double"/>
+<xs:element name="transDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="staffId" type="xs:string" minOccurs="0"/>
+<xs:element name="start" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createTransactionResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getAmount">
+<xs:sequence>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAmountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="refund">
+<xs:sequence>
+<xs:element name="amount" type="xs:double"/>
+<xs:element name="transDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="staffId" type="xs:string" minOccurs="0"/>
+<xs:element name="cardId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="refundResponse">
+<xs:sequence/>
+</xs:complexType>
+</xs:schema>

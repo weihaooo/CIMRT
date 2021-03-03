@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="passenger" label="Our Passengers" icon="ui-icon-people" expanded="true">
+                                <p:submenu id="trainInfo" label="Train Information" icon="ui-icon-train">
+                                    <p:menuitem id="journeyPlanner" value="Journey Planner" icon="ui-icon-map" outcome="/timeCalculator" />
+                                    <p:menuitem id="fareCalculator" value="Train Fare Information" icon="ui-icon-attach-money " outcome="/fareCalculator" />
+                                    <p:menuitem id="arrivalTime" value="Train Arrival Time" icon="ui-icon-access-time" outcome="/nextTwoTrainSchedule" />
+                                    <p:menuitem id="firstLastTrain" value="First and Last Train" icon="ui-icon-train" outcome="/firstTrainLastTrain" />
+                                </p:submenu>
+                                <p:submenu id="travelInfo" label="Travel Information" icon="ui-icon-info-outline">
+                                    <p:menuitem id="um_lnk112" value="Accessibility" icon="ui-icon-accessibility" outcome="/accessibility" />
+                                    <p:menuitem id="um_lnk113" value="Visit Coral Island" icon="ui-icon-streetview" outcome="/visitCoralIsland" />
+                                </p:submenu>
+                                <p:menuitem id="safety" value="Safety Guideline" icon="ui-icon-subject" outcome="/safetyGuideline" />
+                                <p:menuitem id="faq" value="FAQs" icon="ui-icon-question-answer" outcome="/faqs" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                        <h1 style="color:#003c95;"><b>Accessibility at CIMRT</b></h1><br/>
+                        The following is a list of features that make it easy for the elderly and persons with disabilities to travel by train.
+                        </p:panelGrid>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>To assist visually impaired commuters: </b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    - Train stations have tactile ground surface indicators to guide visually impaired commuters from the ramp entrance to the station, past the wider fare gates, to the lift that leads to the platform. There are also indicators that lead to the Passenger Service Counter and the disabled-friendly toilet located at the station. These tiles can be detected with a cane or foot.<br/><br/>
+                                    - At the platform, these indicators warn visually impaired passengers that they are close to the platform edge.<br/><br/>
+                                    - All station lift buttons have Braille plates.<br/><br/>
+                                    - Station names are announced as the train pulls into the station. There will also be audio instructions for transfers at Interchange station. As the train departs, the name of the next station will be announced.<br/><br/>
+                                    - Visually impaired commuters can approach our staff to guide them to the platform. When they alight, our staff will be on hand to facilitate their exit.<br/><br/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/blind.png" width="50%" /></div>
+                                </p:column>
+                            </p:row>
+
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>To assist hearing impaired commuters: </b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    - Our Travel Information System (TIS) on platforms indicate the arrival time and destination of the approaching train.<br/><br/>
+                                    - Trains on the North-South and East-West lines feature the CIMRT Route Map Information System (CIRIS). This dynamic route-map located above train doors provides journey information such as the station the train is approaching, and the side of the train door that will open when it arrives at the station. In addition, a Fluorescent Display mounted on the ceiling of the carriage provides multi-language transcripts of audio announcements.<br/><br/>
+                                    - Train doors are equipped with visually prominent flashing red ‘Door Closing’ lights to warn passengers.<br/><br/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/hearingImpairment.png" width="60%" /></div>
+                                </p:column>
+                            </p:row>
+
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    <h3><b>To assist commuters in wheelchairs: </b></h3>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                            <p:row>
+                                <p:column colspan="2">
+                                    - There is at least one barrier-free entrance in every train station and wider fare gates.<br/><br/>
+                                    - There is accessible elevator service to all levels in the stations.<br/><br/>
+                                    - Wheelchair-accessible train carriages feature two wheelchair spaces per train. To locate them, look for wheelchair indicators on the platform floor or screen doors. These indicators are usually near lifts.<br/><br/>
+                                    - Inside the train carriage, look for wheelchair indicator stickers on the train doors beside the wheelchair spaces.<br/><br/>
+                                    - Do not hesitate to approach our station staff for assistance when boarding and alighting. Our staff can escort the passenger to the platform and arrange for assistance at the destination station.<br/><br/>
+                                    - For the convenience of pregnant, elderly or young passengers, there are designated priority seats near the doors in all train carriages.<br/><br/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column rowspan="1" style="align-content: center ">
+                                    <div align="center"><p:graphicImage value="resources/images/wheelchair.png" width="50%" /></div>
+                                </p:column>
+                            </p:row>
+                            <p:spacer/>
+
+                        </p:panelGrid>        
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

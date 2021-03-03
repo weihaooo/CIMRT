@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <f:metadata>
+            <f:viewAction action="#{cardManagedBean.retrieveUserCards}" />
+            <f:viewAction action="#{cardManagedBean.retrievePoints}" />
+        </f:metadata>
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="mySpace" label="My Space" expanded="true">
+                                <p:menuitem id="profile" value="My Profile" icon="ui-icon-person" outcome="/myProfile" />    
+                                <p:menuitem id="citCard" value="My CIT Card" icon="ui-icon-credit-card" outcome="/myCards" />     
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">               
+                    <div class="card card-w-title">
+                        <h:form>
+                            <p:messages severity="error,info" />
+                            <h1 style="color:#003c95;"><b>Transaction Details for Card ID: #{cardManagedBean.selectedCard.cardId}</b></h1>
+                            <p:tabView>
+
+                                <!-- Purchase Transactions-->    
+                                <p:tab title="Purchase Transactions" >
+                                    <p:dataTable id="table1" var="purchase" value="#{cardManagedBean.purchases}" style="margin-bottom:20px" rows="10"
+                                                 paginator="true" paginatorPosition="bottom"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30" emptyMessage="No record found" rowIndexVar="index"
+                                                 widgetVar="purchaseTransactions" filteredValue="#{cardManagedBean.filteredPurchaseTransactions}"
+                                                 >
+
+                                        <f:facet name="header">
+                                            <div align="right">
+                                                <h:panelGroup styleClass="md-inputfield">
+                                                    <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                    <p:inputText id="globalFilter1" onkeyup="PF('purchaseTransactions').filter()" style="width:120px"/>
+                                                    <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                                </h:panelGroup>
+                                            </div>
+                                        </f:facet>
+
+                                        <p:column headerText="Transaction ID" style="width: 12%" filterBy="#{purchase.purchaseTransactionId}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{purchase.purchaseTransactionId}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Amount($)" style="width: 12%" filterBy="#{purchase.amount}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{purchase.amount}" >
+                                                    <f:convertNumber pattern="#0.00" />
+                                                </h:outputText>
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Vendor" style="width: 12%" filterBy="#{purchase.bPartner.company}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{purchase.bPartner.company}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Date" style="width: 12%" filterBy="#{purchase.transactionDate}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm}">           
+                                                    <f:param id="deadline1" value="#{purchase.transactionDate}"  />
+                                                </h:outputFormat>
+                                            </div>
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:tab>  
+                                <!-- Points Transactions-->  
+                                <p:tab title="Points Transactions" >
+                                    <p:dataTable id="table2" var="point" value="#{cardManagedBean.points}" style="margin-bottom:20px" rows="10"
+                                                 paginator="true" paginatorPosition="bottom"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30" emptyMessage="No record found" rowIndexVar="index"
+                                                 widgetVar="PointsTransactionTable" filteredValue="#{cardManagedBean.filteredPointsTransactions}"
+                                                 >
+
+                                        <f:facet name="header">
+                                            <div align="right">
+                                                <h:panelGroup styleClass="md-inputfield">
+                                                    <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                    <p:inputText id="globalFilter2" onkeyup="PF('PointsTransactionTable').filter()" style="width:120px"/>
+                                                    <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                                </h:panelGroup>
+                                            </div>
+                                        </f:facet>
+
+                                        <p:column headerText="Transaction ID" style="width: 12%" filterBy="#{point.pointTransId}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{point.pointTransId}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Amount in Points" style="width: 12%" filterBy="#{point.amount}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{point.amount}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Date" style="width: 12%" filterBy="#{point.transDateTime}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm}">           
+                                                    <f:param id="deadline2" value="#{point.transDateTime}"/>
+                                                </h:outputFormat>
+                                            </div>
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:tab>  
+                                <!-- Fare Transactions-->  
+                                <p:tab title="Fare Transactions" >
+                                    <p:dataTable id="table3" var="fare" value="#{cardManagedBean.fares}" style="margin-bottom:20px" rows="10"
+                                                 paginator="true" paginatorPosition="bottom"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30" emptyMessage="No record found" rowIndexVar="index"
+                                                 widgetVar="fareTransactionsTable" filteredValue="#{cardManagedBean.filteredFareTrainsactions}"
+                                                 >
+
+                                        <f:facet name="header">
+                                            <div align="right">
+                                                <h:panelGroup styleClass="md-inputfield">
+                                                    <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                    <p:inputText id="globalFilter3" onkeyup="PF('fareTransactionsTable').filter()" style="width:120px"/>
+                                                    <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                                </h:panelGroup>
+                                            </div>
+                                        </f:facet>
+
+                                        <p:column headerText="Transaction ID" style="width: 12%" filterBy="#{fare.transactionId}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{fare.transactionId}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Amount($)" style="width: 12%" filterBy="#{fare.amount}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{fare.amount}">
+                                                    <f:convertNumber pattern="#0.00" />
+                                                </h:outputText>
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Boarding Station" style="width: 12%" filterBy="#{fare.startStation}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{fare.startStation.infraName}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Boarding Date Time" style="width: 12%" filterBy="#{fare.startTime}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm}">           
+                                                    <f:param id="deadline3" value="#{fare.startTime}"  />
+                                                </h:outputFormat>
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Alighting Station" style="width: 12%" filterBy="#{fare.endStation}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{fare.endStation.infraName}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Alighting Time" style="width: 12%" filterBy="#{fare.endTime}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm}">           
+                                                    <f:param id="deadline4" value="#{fare.endTime}"  />
+                                                </h:outputFormat>
+                                            </div>
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:tab>  
+                                <!-- Top Up Transactions-->  
+                                <p:tab title="Top Up Transactions" >
+                                    <p:dataTable id="table4" var="topup" value="#{cardManagedBean.topups}" style="margin-bottom:20px" rows="10"
+                                                 paginator="true" paginatorPosition="bottom"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30" emptyMessage="No record found" rowIndexVar="index"
+                                                 widgetVar="topupTransactionsTable" filteredValue="#{cardManagedBean.filteredTopUpTransactions}"
+                                                 >
+
+                                        <f:facet name="header">
+                                            <div align="right">
+                                                <h:panelGroup styleClass="md-inputfield">
+                                                    <h:outputText value="Search all fields: " style="font-size: 11pt" />
+                                                    <p:inputText id="globalFilter4" onkeyup="PF('topupTransactionsTable').filter()" style="width:120px"/>
+                                                    <i class="topbar-icon material-icons">&#xE8B6;</i>
+                                                </h:panelGroup>
+                                            </div>
+                                        </f:facet>
+
+                                        <p:column headerText="Transaction ID" style="width: 12%" filterBy="#{topup.transId}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{topup.transId}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Amount($)" style="width: 12%" filterBy="#{topup.amount}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{topup.amount}">
+                                                    <f:convertNumber pattern="#0.00" />
+                                                </h:outputText>
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Type" style="width: 12%" filterBy="#{topup.type}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputText value="#{topup.type}" />
+                                            </div>
+                                        </p:column>
+
+                                        <p:column headerText="Date" style="width: 12%" filterBy="#{topup.transDate}" filterStyle="display:none">
+                                            <div align="center" style='font-size: 11.5pt'>
+                                                <h:outputFormat value="{0, date, dd-MM-yyyy HH.mm}">           
+                                                    <f:param id="deadline5" value="#{topup.transDate}"  />
+                                                </h:outputFormat>
+                                            </div>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>  
+                            </p:tabView>
+                        </h:form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Update Purchase Request</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="0">
+                    <div align="center">
+                        <h:graphicImage value="resources/image/CIMRTBG.png" style="width: 16%"/>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="25" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="0">
+                    @Copyright CIMRT
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="CIMRT Internal Staff" collapsible="true" gutter="0">
+                    <p:menu style="font-size: 12pt;">                       
+                        <p:menuitem value="Back to Purchase Request" outcome="viewPurchaseRequest" />
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <h1>Select Asset Requests that are fulfilled</h1>
+
+                    <h:form>
+                        <p:messages id="messages" severity="info" showDetail="true"/>
+                        <h:panelGrid columns="3" cellpadding="5">
+
+                            <p:outputLabel for="purchaseRequestId" value="Request ID: " /> 
+                            <p:outputLabel id="purchaseRequestId" value="#{tenderManagedBean.purchaseRequestId}" />
+                            <p:spacer/>
+                                                               
+                           <p:outputLabel for="assetRequestType" value="Category: " /> 
+                           <h:outputLabel id="assetRequestType" value="#{tenderManagedBean.assetRequestType}" />
+                           <p:spacer/>
+                           
+                            <p:outputLabel for="assetName" value="Item Name: " />
+                            <h:outputLabel id="assetName" value="#{tenderManagedBean.assetName}" />
+                            <p:spacer/>
+                            
+                             <p:outputLabel for="qty" value="Quantity: " />
+                            <h:outputLabel id="qty" value="#{tenderManagedBean.qty}" />
+                            <p:spacer/>
+                            
+                            <p:outputLabel for="assetRequest" value="Asset Request: " />
+                            <p:selectCheckboxMenu id="assetRequest" required="true" value="#{tenderManagedBean.selectedAssetRequests}" label="Cities" multiple="true"
+                                                  filter="true" filterMatchMode="startsWith" panelStyle="width:250px" requiredMessage="Please select an asset request">
+                                <f:selectItems value="#{tenderManagedBean.assetRequestsList}" />
+                            </p:selectCheckboxMenu>
+                        <p:message for="assetRequest" /> <p:spacer/>
+                            
+                            
+                            <h:commandButton value="Post" action="#{tenderManagedBean.completePurchaseRequest}" />
+                        </h:panelGrid> 
+                    </h:form>
+
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

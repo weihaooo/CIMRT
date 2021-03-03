@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td valign="top" width='20%'>
+                    <div class="card-w-title">               
+                        <p:panelMenu>
+                            <p:submenu id="passenger" label="About CIMRT" expanded="true">
+                                <p:menuitem id="history" value="Our Identity" icon="ui-icon-favorite" outcome="/ourIdentity" />
+                                <p:menuitem id="seniorMgmt" value="Our Senior Management" icon="ui-icon-group" outcome="/seniorManagement"/>
+                                <p:menuitem id="announcements" value="Announcements" icon="ui-icon-speaker-notes " outcome="/announcements"/>
+                                <p:menuitem id="contact" value="Contact Us" icon="ui-icon-contacts" outcome="/contactUs"/>  
+                            </p:submenu>
+                        </p:panelMenu>
+                    </div>
+                </td>
+                <td valign="top" width="90%">
+                    <div class="card card-w-title">
+                        <h1 style="color:#003c95;"><b>Our Identity</b></h1> 
+                        <table width="90%">
+                            <tr>
+                                <td>
+                                    <b>Our Logo</b><br/><br/><br/>  
+                                    <div align="center"><p:graphicImage value="resources/images/cimrtLogo.png" width="50%"/></div><br/><br/>
+                                    The two bands is meant to symbolise the two main rail lines being built — the North-South and East-West Lines. Cutting across the circle at the centre, the bands portray the completeness of the system by linking the stations across the nation.
+                                    The "CIMRT" typeface is oriented towards the right, projecting CIMRT as a dynamic and forward looking company that strives relentlessly towards excellence in public transport. <br/><br/>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <b>Our Mission</b><br/><br/>
+                                    To be the people’s choice by delivering a world-class transport service and lifestyle experience that is safe, reliable and customer-centric.<br/><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Our Vision</b><br/><br/>
+                                    Moving Forwards Together<br/><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Our Background</b><br/><br/>
+                                    Coral Island Mass Rapid Transit Pte. Ltd. (CIMRT) is established in 2017, upon the decision of Coral Island’s Urban Redevelopment Authority (URA) and Land Transport Authority (LTA) to build a rail-based urban transport system. It is formed by the existing public transport service operators, who will be managing the day-to-day tasks of operating and maintaining the new MRT system. 
+                                    Presently, CIMRT take cares of two major train lines - North-South Line (NSL) and East-West Line (EWL). The NSL is 24 km long with 15 stations, while the EWL is 40 km long with 22 stations. These two train lines will serve to provide greater convenience to the 6 millions Coral Island's residents in their daily lives, with the support of the bus and taxi services. <br/><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Our 5-years Plan</b><br/><br/>
+                                    CIMRT aims to be a premier multi-modal land transport provider in the region within the next 5 years. We will place great emphasis on our core businesses - rail operations, maintenance and engineering, to provide a smooth and safe rail experience to our commuters.
+                                    We will also work on the development of our integrated businesses in retail, media and marketing, as well as properties and retail management. These focuses will complement our core businesses, enhancing the services that we are providing. Last but not least,
+                                    we are committed to sustainable development and corporate social responsibility as we believe in giving back to our community.
+                                </td>
+                            </tr>
+                        </table>      
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </ui:define>
+</ui:composition>

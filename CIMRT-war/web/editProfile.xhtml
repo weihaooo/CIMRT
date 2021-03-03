@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+    <f:view contentType="text/html">
+                <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Edit My Profile</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+
+                <p:layoutUnit position="center">
+                    <div id="page"><h1>Edit My Profile</h1></div>
+
+                    <h:form>
+                        <h:panelGrid columns="3" cellpadding="5">
+                            <p:outputLabel for="staffId" value="Staff ID: " />        
+                            <h:outputText id="staffId" value="#{sessionScope['staffId']}" />
+                            <p:message for="staffId" />
+
+                            <p:outputLabel for="phoneNumber" value="Phone Number: " />        
+                            <h:inputText id="phoneNumber" required="true" value="#{commonManagedBean.phoneNumber}" validatorMessage="Allowable length is minimum of '8'" requiredMessage="Value is required in this field">
+                            <f:validateLength minimum="8"/> 
+                            </h:inputText>
+                            <p:message for="phoneNumber" />
+
+                            <p:outputLabel for="emailAddress" value="Email: " />        
+                            <h:inputText id="emailAddress" required="true" value="#{commonManagedBean.emailAddress}" validatorMessage="Invalid email format" requiredMessage="Value is required in this field">
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </h:inputText>
+                            <p:message for="emailAddress" />
+
+                            <p:outputLabel for="address" value="Address: " />        
+                            <h:inputText id="address" value="#{commonManagedBean.address}" required="true" requiredMessage="Value is required in this field" />
+                            <p:message for="address" />
+
+                            <p:outputLabel for="maritalStatus" value="Marital Status: " />
+                            <p:selectOneMenu id="maritalStatus" value="#{commonManagedBean.maritalStatus}" style="width:125px" required="true" requiredMessage="Please select a marital status">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Single" itemValue="Single" />
+                                <f:selectItem itemLabel="Married" itemValue="Married" />
+                                <f:selectItem itemLabel="Divorced" itemValue="Divorced" />
+                                <f:selectItem itemLabel="Widowed" itemValue="Widowed" />
+                            </p:selectOneMenu>
+                            <p:message for="maritalStatus" />
+
+                            <p:outputLabel for="religion" value="Religion: " />
+                            <p:selectOneMenu id="religion" value="#{commonManagedBean.religion}" style="width:125px" required="true" requiredMessage="Please select a religion">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="Buddhism" itemValue="Buddhism" />
+                                <f:selectItem itemLabel="Christianity" itemValue="Christianity" />
+                                <f:selectItem itemLabel="Catholic" itemValue="Catholic" />
+                                <f:selectItem itemLabel="Islam" itemValue="Islam" />
+                                <f:selectItem itemLabel="Hinduism" itemValue="Hinduism" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                            </p:selectOneMenu>
+                            <p:message for="religion" />
+
+                            <p:outputLabel for="educationQualification" value="Education Qualification: " />
+                            <p:selectOneMenu id="educationQualification" value="#{commonManagedBean.educationQualification}" style="width:125px" required="true" requiredMessage="Please select an education qualification">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItem itemLabel="PhD" itemValue="PhD" />
+                                <f:selectItem itemLabel="Master's Degree" itemValue="Master's Degree" />
+                                <f:selectItem itemLabel="Bachelor's Degree" itemValue="Bachelor's Degree" />
+                                <f:selectItem itemLabel="Diploma" itemValue="Diploma" />
+                                <f:selectItem itemLabel="A Levels" itemValue="A Levels" />
+                                <f:selectItem itemLabel="O Levels" itemValue="O Levels" />
+                                <f:selectItem itemLabel="Others" itemValue="Others" />
+                            </p:selectOneMenu>
+                            <p:message for="educationQualification" />
+
+                            <br/>
+
+                            <h:commandButton value="Edit" action="#{commonManagedBean.editProfile}" style="width: 70pt"/>
+                        </h:panelGrid>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

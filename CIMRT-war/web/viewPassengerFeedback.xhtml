@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+         <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Workshop List</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                        <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+
+                    <h:form id="form" rendered="#{manpowerManagedBean.role eq 'Station Manager'}">
+                        <div id="list"><h1>Passenger Feedback for #{loginManagedBean.nodeCode}</h1></div>
+                        <p:growl severity="info,error" showDetail="true"/>
+                        <p:dataTable var="passengerFeedbackEntity" value="#{manpowerManagedBean.passengerFeedbackList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" emptyMessage="No Feedbacks Available"
+                                     >
+
+                            <p:column style="width:5px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Feedback ID" style="width:5%" filterBy="#{passengerFeedbackEntity.feedbackId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{passengerFeedbackEntity.feedbackId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Feedback Title" style="width:200px" filterBy="#{passengerFeedbackEntity.subject}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{passengerFeedbackEntity.subject}" /></div>
+                            </p:column>
+
+                            <p:rowExpansion>
+                                <h3>Full Details of Feedback</h3>
+                                <table style='margin-bottom: 10pt'>
+                                    <tr>
+                                        <td width="213pt">
+                                            <b><h:outputText value="Feedback ID" /></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.feedbackId}" /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Title"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.subject}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Description"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.description}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Submitter"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.submitter}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Contact No"/></b>
+                                        </td><td><h:outputText value="#{passengerFeedbackEntity.mobileNo}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Feedback Date"/></b>
+                                        </td>
+                                        <td><h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                                <f:param value="#{passengerFeedbackEntity.feedbackDateTime}" />
+                                            </h:outputFormat>
+                                        </td>
+                                    </tr>                                  
+                                 
+                                </table>
+                            </p:rowExpansion>
+
+                        </p:dataTable>
+                    </h:form>
+                    
+                    <h:form id="form2" rendered="#{manpowerManagedBean.role eq 'HR'}">
+                        <div id="list"><h1>Passenger's Feedback</h1></div>
+                        <p:growl severity="info,error" showDetail="true"/>
+                        <p:dataTable var="passengerFeedbackEntity" value="#{manpowerManagedBean.fullFeedbackList}" style="margin-bottom:20px" rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,20,30" emptyMessage="No Feedbacks Available"
+                                     >
+
+                            <p:column style="width:5px">
+                                <p:rowToggler />
+                            </p:column>
+
+                            <p:column headerText="Feedback ID" style="width:5%" filterBy="#{passengerFeedbackEntity.feedbackId}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{passengerFeedbackEntity.feedbackId}" /></div>
+                            </p:column>
+
+                            <p:column headerText="Feedback Title" style="width:200px" filterBy="#{passengerFeedbackEntity.subject}" filterStyle="display:none">
+                                <div align="center"><h:outputText value="#{passengerFeedbackEntity.subject}" /></div>
+                            </p:column>
+
+                            <p:rowExpansion>
+                                <h3>Full Details of Feedback</h3>
+                                <table style='margin-bottom: 10pt'>
+                                    <tr>
+                                        <td width="213pt">
+                                            <b><h:outputText value="Feedback ID" /></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.feedbackId}" /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Title"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.subject}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Description"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.description}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Submitter"/></b>
+                                        </td>
+                                        <td><h:outputText value="#{passengerFeedbackEntity.submitter}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Contact No"/></b>
+                                        </td><td><h:outputText value="#{passengerFeedbackEntity.mobileNo}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b><h:outputText value="Feedback Date"/></b>
+                                        </td>
+                                        <td><h:outputFormat value="{0, date, dd-MM-yyyy}" >
+                                                <f:param value="#{passengerFeedbackEntity.feedbackDateTime}" />
+                                            </h:outputFormat>
+                                        </td>
+                                    </tr>                                  
+                                 
+                                </table>
+                            </p:rowExpansion>
+
+                        </p:dataTable>
+                    </h:form>
+                    
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

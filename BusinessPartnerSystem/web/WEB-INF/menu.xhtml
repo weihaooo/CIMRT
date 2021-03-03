@@ -1,0 +1,97 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pu="http://primefaces.org/ultima">
+
+    <h:form id="menuform"> 
+        <div class="layout-menu #{guestPreferences.menuClass}">
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">
+                    <ui:fragment rendered="#{guestPreferences.profileMode == 'inline' and guestPreferences.menuLayout != 'menu-layout-static menu-layout-horizontal'}">
+                        <div class="profile">
+                            <div class="profile-image"></div>
+                            <a id="profile-options" href="#">
+                                <span class="profile-name">#{accountManagedBean.company}</span>
+                                <p:spacer/>
+                                <span class="profile-name">[#{sessionScope['partnerId']}]</span>
+                                <i class="material-icons">&#xE313;</i>
+                            </a>
+                        </div>
+
+                        <ul id="profile-menu" class="ultima-menu">
+                            <li role="menuitem">
+                                <a href="profile.xhtml" class="ripplelink">
+                                    <i class="material-icons">&#xE7FD;</i>
+                                    <span>Profile</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="viewMyNotifications.xhtml" class="ripplelink">
+                                    <i class="material-icons">&#xE7FD;</i>
+                                    <span>Notification</span>                   
+                                    <span class="topbar-badge animated rubberBand"><h:outputText value="(#{bpTenderManagedBean.notificationCount})" /></span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="privacy.xhtml" class="ripplelink">
+                                    <i class="material-icons">&#xE32A;</i>
+                                    <span>Privacy</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <h:commandLink action="#{accountManagedBean.doLogout}">
+                                    <i class="material-icons">&#xE8AC;</i>
+                                    <span>Logout</span>
+                                </h:commandLink>
+                            </li>
+                        </ul>
+                    </ui:fragment>
+
+                    <pu:menu widgetVar="me">
+                        <p:menuitem id="um_dashboard" value="Dashboard" icon="&#xE871;" outcome="home"/>
+                        <p:submenu label="Tenders" icon="&#xe85d;">
+                            <p:menuitem value="Tender Documents" icon="&#xe617;" outcome="tenderDocuments" />
+                            <p:menuitem value="Subscribe to Alerts" icon="&#xe064;" outcome="subscribeAlert" />
+                            <p:menuitem value="Terms &amp; Conditions" icon="&#xe624;" outcome="tenderNotice" />
+                        </p:submenu>
+                        <p:submenu id="um_hierarchy" label="Commercial Space" icon="&#xe0af;">
+                            <p:submenu id="leasing" label="Leasing Information" icon="&#xE8D2;">   
+                                <p:menuitem value="Leasing Record" icon="&#xe02f;" outcome="viewMyLeasing" />
+                                <p:menuitem value="Leasing Space" icon="&#xe8d1;" outcome="viewAvailableLeasingSpace" />
+                            </p:submenu>
+                            <p:submenu id="advertising" label="Advertising Information" icon="&#xe167;">
+                                <p:menuitem value="Advertisement Record" icon="&#xe42a;" outcome="viewMyAdvertising" />
+                                <p:menuitem value="Advertisement Space" icon="&#xe8ef;" outcome="viewAvailableAdvertisement" />
+                            </p:submenu>
+                        </p:submenu>
+                        <p:submenu id="procurement" label="Procurement" icon="&#xeb3f;">
+                            <p:menuitem value="Categories" icon="&#xe8f0;" outcome="categories" />
+                            <p:menuitem value="Delivery" icon="&#xe530;" outcome="viewMyDelivery" />
+                            <p:menuitem value="Transaction" icon="&#xe915;" outcome="viewMyTransactions" />
+                            <p:menuitem value="Bidding Guide" icon="&#xe865;" outcome="procurementInfo" />
+                        </p:submenu>
+                        <p:menuitem value="Payment" icon="&#xe8a1;" outcome="transaction" />
+                        <p:menuitem id="faq" value="FAQ" icon="&#xe8af;" outcome="faq"/>
+                        <p:submenu id="um_customization" label="Customize Menu" icon="&#xE8B8;">
+                            <p:submenu label="Menu Design">
+                                <p:menuitem id="custom1" value="Compact Size" icon="&#xE061;" actionListener="#{guestPreferences.setCompact(true)}" ajax="false"/>
+                                <p:menuitem id="custom2" value="Material Size" icon="&#xE062;" actionListener="#{guestPreferences.setCompact(false)}" ajax="false"/>
+                                <p:menuitem id="custom3" value="Static Menu" icon="&#xE5D2;" actionListener="#{guestPreferences.setMenuLayout('static')}" ajax="false"/>
+                                <p:menuitem id="custom4" value="Overlay Menu" icon="&#xE879;" actionListener="#{guestPreferences.setMenuLayout('overlay')}" ajax="false"/>
+                                <p:menuitem id="custom5" value="Light Menu" icon="&#xe3ac;" actionListener="#{guestPreferences.setLightMenu}" ajax="false"/>
+                                <p:menuitem id="custom6" value="Dark Menu" icon="&#xE892;" actionListener="#{guestPreferences.setDarkMenu}" ajax="false"/>
+                            </p:submenu>
+                            <p:submenu id="um_orientation" label="Menu Orientation">
+                                <p:menuitem id="um_ltr" value="LTR" icon="&#xE236;" actionListener="#{guestPreferences.setOrientationRTL(false)}" ajax="false" />
+                                <p:menuitem id="um_rtl" value="RTL" icon="&#xE237;" actionListener="#{guestPreferences.setOrientationRTL(true)}" ajax="false" />
+                            </p:submenu>
+                        </p:submenu>
+                    </pu:menu>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

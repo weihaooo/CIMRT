@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      template="./template/template.xhtml">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <link rel="stylesheet" type="text/css" href="resources/css/background.css"/>
+                <title>CIMRT ISS - Advertising Space Contract Process</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" closable="true" collapsible="true" gutter="-10">
+                    <div align="center">
+                        <h:link outcome="home" >
+                            <h:graphicImage value="resources/image/cimrtBanner.jpg" style="width:100%; height:auto "/>
+                        </h:link>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="33" style="text-align: center; font-family: sans-serif; font-size: 8pt;" gutter="-5">
+                    <h:graphicImage value="resources/image/cimrtFooter.jpg" style="width:100%; height:auto"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="222" header="My Workspace" collapsible="true" gutter="-1">
+                    <ui:include src="sideMenu.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <div id="list"><h1>Advertising Space Process</h1></div>
+
+                    <h:form id="form">
+                        <p:growl id="growl" severity="info,error" showDetail="true"/>
+                        <p:steps activeIndex="#{tenderManagedBean.menu}" styleClass="custom" readonly="false"  >
+                            <p:menuitem value="Tenancy Agreement"  action="#{tenderManagedBean.goIndex1(0)}" update="form,form1,form2,form3,form4"/>
+                            <p:menuitem value="Installation"  action="#{tenderManagedBean.goIndex1(1)}" update="form,form1,form2,form3,form4"/>
+                            <p:menuitem value="Removal"  action="#{tenderManagedBean.goIndex1(2)}" update="form,form1,form2,form3,form4"/>  
+                            <p:menuitem value="End of Contract"  action="#{tenderManagedBean.goIndex1(3)}" update="form,form1,form2,form3,form4"/>
+                        </p:steps>
+                    </h:form>
+
+                    <br/><br/>
+
+                    <h:form id="form1"  rendered="#{tenderManagedBean.index == 0 }">
+                        <div align="center">
+                            <hr width="85%"/>
+
+                            <br/>       
+                            <h:outputText value="Signing of Tenancy Agreement" style="font-weight:bold; font-size: 16pt" />
+                            <br/><br/>
+
+                            <p:outputLabel for="company" value="Company: " />             
+                            <h:outputText id="company" value="#{tenderManagedBean.advertisingContract.partner.company}" style="font-weight:bold"/>
+                            <br/><br/>
+
+                            <p:outputLabel for="advertisingContractId" value="Contract ID: " />             
+                            <h:outputText id="advertisingContractId" value="#{tenderManagedBean.advertisingContract.advertisingId}" style="font-weight:bold"/>
+                            <br/><br/>
+
+                            <p:outputLabel for="startDate" value="Contract Start Date: " />   
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="startDate" value="#{tenderManagedBean.advertisingContract.startDate}"  />
+                            </h:outputFormat> 
+                            <br/><br/>
+
+                            <p:outputLabel for="endDate" value="Contract End Date: " />   
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="endDate" value="#{tenderManagedBean.advertisingContract.endDate}"  />
+                            </h:outputFormat> 
+                            <br/><br/>
+
+                            <p:outputLabel for="reqDate" value="Appointment Date: " /> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                <f:param id="reqDate" value="#{tenderManagedBean.advertisingContract.signedDate}"  />
+                            </h:outputFormat>
+                            <br/><br/>
+
+                            <p:outputLabel for="reqDate1" value="Appointment Time: " /> 
+                            <h:outputFormat value="{0, date, HH:mm}" style="font-weight:bold">
+                                <f:param id="reqDate1" value="#{tenderManagedBean.advertisingContract.signedDate}"  />
+                            </h:outputFormat>
+                            <br/><br/>
+
+                            <h:graphicImage value="resources/image/completed.png" style="width: 12%" rendered="#{tenderManagedBean.advertisingContract.signingOfAgreement == true}" />
+
+                            <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent">
+                                <p:outputLabel for="Date" value="Change Appointment Date: " rendered="#{tenderManagedBean.canEdit == true}"/>
+                                <p:calendar required="true" id="Date" value="#{tenderManagedBean.signingDate}" mindate="#{infraAssetManagedBean.todayDate}" locale="de" navigator="true" pattern="dd/MM/yyyy HH:mm" yearRange="c-80:c+0" requiredMessage="Please select a date" rendered="#{tenderManagedBean.canEdit == true}"/>          
+                                <h:commandButton value="Update" action="#{tenderManagedBean.editSigningAC(tenderManagedBean.advertisingContract.advertisingId)}" style="width: 80px" rendered="#{tenderManagedBean.canEdit == true}"/>  
+                            </p:panelGrid>
+                            <br/>
+
+                            <h:commandButton value="Complete" action="#{tenderManagedBean.completedSigningAdvertContract(tenderManagedBean.advertisingContract.advertisingId)}" rendered="#{tenderManagedBean.menu == 0 and tenderManagedBean.advertisingContract.signingOfAgreement == false}" />                          
+                            <p:spacer width="10pt"/>
+                            <h:commandButton value="Edit Date" action="#{tenderManagedBean.editSigningAdvertContract()}" rendered="#{tenderManagedBean.menu == 0 and tenderManagedBean.advertisingContract.signingOfAgreement == false}"  />  
+
+
+                        </div>
+
+                        <br/>
+
+                        <hr width="85%"/>
+                    </h:form>       
+
+                    <h:form id="form2"  rendered="#{tenderManagedBean.index == 1 }">
+                        <div align="center">
+                            <hr width="85%"/>  
+                            <br/>
+                            <h:outputText value="Installation of Advertisement" style="font-weight:bold; font-size: 16pt" />
+                            <br/><br/>
+
+                            Please note that the Installation of Advertisement will be done on:
+
+                            <br/><br/>
+
+                            <p:outputLabel for="reqDate" value="Date: " /> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold; text-decoration: underline">
+                                <f:param id="reqDate" value="#{tenderManagedBean.advertisingContract.startDate}"  />
+                            </h:outputFormat>
+
+                            <br/><br/>
+                            <h:graphicImage value="resources/image/completed.png" style="width: 12%" rendered="#{(tenderManagedBean.advertisingContract.installation == true)}" />
+
+                            <h:commandButton value="Acknowledge" action="#{tenderManagedBean.completedInstallation(tenderManagedBean.advertisingContract.advertisingId)}" rendered="#{tenderManagedBean.menu == 1 and tenderManagedBean.advertisingContract.installation == false}" /> 
+                            <br/><br/>
+                            <hr width="85%"/>
+                        </div>
+                    </h:form>   
+
+                    <h:form id="form3"  rendered="#{tenderManagedBean.index == 2 }">
+                        <div align="center">
+                            <hr width="85%"/>
+
+                            <br/>
+
+                            <h:outputText value="Removal of Advertisement" style="font-weight:bold; font-size: 16pt" />
+                            <br/><br/>        
+                            The Removal of Advertisement will be done on:
+                            <br/><br/>
+
+                            <p:outputLabel for="reqDate" value="Date: " /> 
+                            <h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold; text-decoration: underline" >
+                                <f:param id="reqDate" value="#{tenderManagedBean.advertisingContract.endDate}"  />
+                            </h:outputFormat>
+                            <br/><br/>
+
+                            <h:graphicImage value="resources/image/completed.png" style="width: 12%" rendered="#{(tenderManagedBean.advertisingContract.removal == true)}" />
+
+                            <h:commandButton value="Acknowledge" action="#{tenderManagedBean.completedRemoval(tenderManagedBean.advertisingContract.advertisingId)}" rendered="#{tenderManagedBean.menu == 2 and tenderManagedBean.advertisingContract.removal == false}" /> 
+                            <br/><br/>
+                            <hr width="85%"/>
+                        </div>
+                    </h:form>       
+
+                    <h:form id="form4"  rendered="#{tenderManagedBean.index == 3 }">
+                        <div align="center">  
+                            <hr width="85%"/>
+                            <br/>
+
+                            <h:outputText value="End of Contract" style="font-weight:bold; font-size: 16pt" />
+
+                            <br/><br/>
+                            <div style="font-size: 13pt">
+                                The tenancy contract ID: <b><u>#{tenderManagedBean.advertisingContract.advertisingId}</u></b> with <b><u>#{tenderManagedBean.advertisingContract.partner.company}</u></b> <br/><br/> that started on <u><h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                        <f:param id="sd" value="#{tenderManagedBean.advertisingContract.startDate}"  />
+                                    </h:outputFormat></u> has ended at 
+                                <u><h:outputFormat value="{0, date, dd-MM-yyyy}" style="font-weight:bold">
+                                        <f:param id="ed" value="#{tenderManagedBean.advertisingContract.endDate}"  />
+                                    </h:outputFormat></u>
+                            </div>
+                            <br/>
+
+                            <h:graphicImage value="resources/image/completed.png" style="width: 12%"  />
+                            <br/><br/>
+                            <hr width="85%"/>
+                        </div> 
+                    </h:form>       
+
+
+
+                </p:layoutUnit>
+
+                <style type="text/css">
+                    .ui-steps .ui-steps-item {
+                        width: 25%;
+                    }
+
+                    .ui-state-highlight {
+                        text-shadow: none !important;
+                    }
+
+                    .ui-steps.custom {
+                        margin-bottom: 30px;
+                    }
+
+                    .ui-steps.custom .ui-steps-item .ui-menuitem-link {
+                        height: 10px;
+                        padding: 0 1em;
+                    }
+
+                    .ui-steps.custom .ui-steps-item .ui-steps-number {
+                        background-color: #0081c2;
+                        color: #FFFFFF;
+                        display: inline-block;
+                        width: 30px;
+                        border-radius: 10px;
+                        margin-top: -10px;
+                        margin-bottom: 10px;
+                    }
+
+                    .ui-steps.custom .ui-steps-item.ui-state-highlight .ui-steps-title {
+                        color: #555;
+                    }
+
+
+                </style>
+
+
+
+            </p:layout>
+        </h:body>
+    </f:view>
+
+
+</html>
